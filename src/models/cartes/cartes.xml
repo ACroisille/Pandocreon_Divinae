@@ -1,0 +1,1344 @@
+﻿<?xml version="1.0" standalone="yes"?>
+<pandocreon:carta-genius>
+	<pdf version="1.4"/>
+	<unit base="mm"/>
+	<back side="height"/>
+	<!-- polices de caracteres -->
+	<fonts>
+		<font id="CharlesworthPlain" outline="type1/charlesworth.pfa" metrics="type1/charlesworth.afm"/>
+		<font id="DauphinPlain" outline="type1/dauphin.pfa" metrics="type1/dauphin.afm"/>
+		<font id="FormalScript421BT-Regular" outline="type1/formal_script.pfa" metrics="type1/formal_script.afm"/>
+		<font id="PandocreonSymbol" outline="type1/pandocreon-symbol-0.2.0.pfa" metrics="type1/pandocreon-symbol-0.2.0.afm"/>
+	</fonts>
+	<images>
+		<!-- images de fond -->
+		<image id="fond_croyants" file="jpeg/fond_croyants.jpg" width="5.8cm" height="8.2cm"/>
+		<image id="fond_guides" file="jpeg/fond_guides.jpg" width="5.8cm" height="8.2cm"/>
+		<image id="fond_deusex" file="jpeg/fond_deusex.jpg" width="5.8cm" height="8.2cm"/>
+		<image id="fond_apocalypses" file="jpeg/fond_apocalypses.jpg" width="5.8cm" height="8.2cm"/>
+		<image id="fond_divinites" file="jpeg/fond_divinites.jpg" width="5.8cm" height="8.2cm"/>
+		<!-- origines -->
+		<image id="jour" file="jpeg/jour.jpg" width="1.5cm" height="1.5cm" mask="png/masque_origine.png"/>
+		<image id="nuit" file="jpeg/nuit.jpg" width="1.5cm" height="1.5cm" mask="png/masque_origine.png"/>
+		<image id="neant" file="jpeg/neant.jpg" width="1.5cm" height="1.5cm" mask="png/masque_origine.png"/>
+		<image id="aube" file="jpeg/aube.jpg" width="1.5cm" height="1.5cm" mask="png/masque_origine.png"/>
+		<image id="crepuscule" file="jpeg/crepuscule.jpg" width="1.5cm" height="1.5cm" mask="png/masque_origine.png"/>
+		<!-- dogmes -->
+		<image id="humain" file="jpeg/humain.jpg" width="7mm" height="7mm" mask="png/masque_dogmes.png"/>
+		<image id="nature" file="jpeg/nature.jpg" width="7mm" height="7mm" mask="png/masque_dogmes.png"/>
+		<image id="symboles" file="jpeg/symboles.jpg" width="7mm" height="7mm" mask="png/masque_dogmes.png"/>
+		<image id="mystique" file="jpeg/mystique.jpg" width="7mm" height="7mm" mask="png/masque_dogmes.png"/>
+		<image id="chaos" file="jpeg/chaos.jpg" width="7mm" height="7mm" mask="png/masque_dogmes.png"/>
+		<!-- nombre de croyants -->
+		<image id="nbr_un" file="jpeg/nbr_un.jpg" width="0.7cm" height="1.4cm" mask="png/masque_nbr.png"/>
+		<image id="nbr_deux" file="jpeg/nbr_deux.jpg" width="0.7cm" height="1.4cm" mask="png/masque_nbr.png"/>
+		<image id="nbr_trois" file="jpeg/nbr_trois.jpg" width="0.7cm" height="1.4cm" mask="png/masque_nbr.png"/>
+		<image id="nbr_quatre" file="jpeg/nbr_quatre.jpg" width="0.7cm" height="1.4cm" mask="png/masque_nbr.png"/>
+		<image id="nbr_cinq" file="jpeg/nbr_cinq.jpg" width="0.7cm" height="1.4cm" mask="png/masque_nbr.png"/>
+	</images>
+	<templates>
+		<!-- verso -->
+		<template id="verso">
+			<box x="0" y="0" width="6.3cm" height="8.8cm" fill-color="#000000"/>
+			<box x="0.5cm" y="0.5cm" width="5.3cm" height="7.8cm" fill-color="#803000"/>
+			<text font="CharlesworthPlain" size="14" color="#000000" align="center"
+			 x="0.25cm" y="0" width="11cm" height="14pt" rotation="55">
+				Pandocréon
+			</text>
+			<text font="FormalScript421BT-Regular" size="14" color="#000000" align="center"
+			 x="0.5cm" y="0.6cm" width="5.3cm" height="14pt">
+				Divinæ
+			</text>
+			<text font="FormalScript421BT-Regular" size="14" color="#000000" align="center"
+			 x="5.8cm" y="8.2cm" width="5.3cm" height="14pt" rotation="180">
+				Divinæ
+			</text>
+		</template>
+		<!-- verso special -->
+		<template id="verso_special">
+			<box x="0" y="0" width="6.3cm" height="8.8cm" fill-color="#000000"/>
+			<box x="0.5cm" y="0.5cm" width="5.3cm" height="7.8cm" fill-color="#f0c79a"/>
+			<text font="CharlesworthPlain" size="14" color="#000000" align="center"
+			 x="0.25cm" y="0" width="11cm" height="14pt" rotation="55">
+				Pandocréon
+			</text>
+			<text font="FormalScript421BT-Regular" size="14" color="#000000" align="center"
+			 x="0.5cm" y="0.6cm" width="5.3cm" height="14pt">
+				Divinæ
+			</text>
+			<text font="FormalScript421BT-Regular" size="14" color="#000000" align="center"
+			 x="5.8cm" y="8.2cm" width="5.3cm" height="14pt" rotation="180">
+				Divinæ
+			</text>
+		</template>
+		<!-- fond des cartes noir -->
+		<template id="fond">
+			<box x="0" y="0" width="6.3cm" height="8.8cm" fill-color="#000000"/>
+		</template>
+		<!-- cartes de croyants -->
+		<template id="carte-croyants" template="fond">
+			<image id="fond_croyants" x="0.25cm" y="0.3cm"/>
+			<text font="FormalScript421BT-Regular" size="18" color="#000000" align="center"
+			 x="9mm" y="7mm" width="5.4cm" height="18pt" rotation="90">
+				Croyants
+			</text>
+			<text font="FormalScript421BT-Regular" size="9" color="#000000" align="left"
+			 x="1.4cm" y="4.5cm" width="3.5cm" height="9pt">
+				Sacrifice :
+			</text>
+		</template>
+		<!-- cartes de guides spirituels -->
+		<template id="carte-guides" template="fond">
+			<image id="fond_guides" x="0.25cm" y="0.3cm"/>
+			<text font="FormalScript421BT-Regular" size="18" color="#000000" align="center"
+			 x="9mm" y="7mm" width="5.4cm" height="18pt" rotation="90">
+				Guide Spirituel
+			</text>
+			<text font="FormalScript421BT-Regular" size="9" color="#000000" align="left"
+			 x="1.4cm" y="4.5cm" width="3.5cm" height="9pt">
+				Sacrifice :
+			</text>
+		</template>
+		<!-- cartes deus ex -->
+		<template id="carte-deusex" template="fond">
+			<image id="fond_deusex" x="0.25cm" y="0.3cm"/>
+			<text font="FormalScript421BT-Regular" size="18" color="#000000" align="center"
+			 x="9mm" y="7mm" width="5.4cm" height="18pt" rotation="90">
+				Deus Ex
+			</text>
+			<text font="FormalScript421BT-Regular" size="9" color="#000000" align="left"
+			 x="1.4cm" y="4.5cm" width="3.5cm" height="9pt">
+				Sacrifice :
+			</text>
+		</template>
+		<!-- cartes apocalypses -->
+		<template id="carte-apocalypses" template="fond">
+			<image id="fond_apocalypses" x="0.25cm" y="0.3cm"/>
+			<text font="FormalScript421BT-Regular" size="18" color="#000000" align="center"
+			 x="9mm" y="7mm" width="5.4cm" height="18pt" rotation="90">
+				Apocalypse
+			</text>
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Apocalypse
+			</text>
+		</template>
+		<!-- cartes de divinites -->
+		<template id="carte-divinites" template="fond">
+			<image id="fond_divinites" x="0.25cm" y="0.3cm"/>
+			<text font="FormalScript421BT-Regular" size="18" color="#000000" align="center"
+			 x="5.5cm" y="1.15cm" width="4cm" height="18pt" rotation="180">
+				Divinité
+			</text>
+			<text font="FormalScript421BT-Regular" size="9" color="#000000" align="left"
+			 x="3.85cm" y="2cm" width="3.5cm" height="9pt" rotation="90">
+				Capacité :
+			</text>
+		</template>
+		<!-- origines -->
+		<template id="origine-jour">
+			<image id="jour" x="4.2cm" y="6.7cm"/>
+		</template>
+		<template id="origine-nuit">
+			<image id="nuit" x="4.2cm" y="6.7cm"/>
+		</template>
+		<template id="origine-neant">
+			<image id="neant" x="4.2cm" y="6.7cm"/>
+		</template>
+		<template id="origine-divinites-jour">
+			<image id="jour" x="1.95cm" y="6.7cm" rotation="90"/>
+		</template>
+		<template id="origine-divinites-nuit">
+			<image id="nuit" x="1.95cm" y="6.7cm" rotation="90"/>
+		</template>
+		<template id="origine-divinites-aube">
+			<image id="aube" x="1.95cm" y="6.7cm" rotation="90"/>
+		</template>
+		<template id="origine-divinites-crepuscule">
+			<image id="crepuscule" x="1.95cm" y="6.7cm" rotation="90"/>
+		</template>
+		<!-- dogmes -->
+		<template id="dogmes-nature_humain_mystique">
+			<image id="nature" x="7mm" y="7.4cm"/>
+			<image id="humain" x="4.85mm" y="6.5cm"/>
+			<image id="mystique" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-nature_humain_symboles">
+			<image id="nature" x="7mm" y="7.4cm"/>
+			<image id="humain" x="4.85mm" y="6.5cm"/>
+			<image id="symboles" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-nature_humain_chaos">
+			<image id="nature" x="7mm" y="7.4cm"/>
+			<image id="humain" x="4.85mm" y="6.5cm"/>
+			<image id="chaos" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-nature_mystique_symboles">
+			<image id="nature" x="7mm" y="7.4cm"/>
+			<image id="mystique" x="4.85mm" y="6.5cm"/>
+			<image id="symboles" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-nature_mystique_chaos">
+			<image id="nature" x="7mm" y="7.4cm"/>
+			<image id="mystique" x="4.85mm" y="6.5cm"/>
+			<image id="chaos" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-nature_symboles_chaos">
+			<image id="nature" x="7mm" y="7.4cm"/>
+			<image id="symboles" x="4.85mm" y="6.5cm"/>
+			<image id="chaos" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-humain_mystique_symboles">
+			<image id="humain" x="7mm" y="7.4cm"/>
+			<image id="mystique" x="4.85mm" y="6.5cm"/>
+			<image id="symboles" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-humain_mystique_chaos">
+			<image id="humain" x="7mm" y="7.4cm"/>
+			<image id="mystique" x="4.85mm" y="6.5cm"/>
+			<image id="chaos" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-humain_symboles_chaos">
+			<image id="humain" x="7mm" y="7.4cm"/>
+			<image id="symboles" x="4.85mm" y="6.5cm"/>
+			<image id="chaos" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-mystique_symboles_chaos">
+			<image id="mystique" x="7mm" y="7.4cm"/>
+			<image id="symboles" x="4.85mm" y="6.5cm"/>
+			<image id="chaos" x="1.6cm" y="76.15mm"/>
+		</template>
+		<template id="dogmes-nature_humain">
+			<image id="humain" x="7mm" y="7.4cm"/>
+			<image id="nature" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-nature_mystique">
+			<image id="mystique" x="7mm" y="7.4cm"/>
+			<image id="nature" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-nature_symboles">
+			<image id="symboles" x="7mm" y="7.4cm"/>
+			<image id="nature" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-nature_chaos">
+			<image id="chaos" x="7mm" y="7.4cm"/>
+			<image id="nature" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-humain_mystique">
+			<image id="mystique" x="7mm" y="7.4cm"/>
+			<image id="humain" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-humain_symboles">
+			<image id="symboles" x="7mm" y="7.4cm"/>
+			<image id="humain" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-humain_chaos">
+			<image id="chaos" x="7mm" y="7.4cm"/>
+			<image id="humain" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-mystique_symboles">
+			<image id="symboles" x="7mm" y="7.4cm"/>
+			<image id="mystique" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-mystique_chaos">
+			<image id="chaos" x="7mm" y="7.4cm"/>
+			<image id="mystique" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-symboles_chaos">
+			<image id="chaos" x="7mm" y="7.4cm"/>
+			<image id="symboles" x="4.85mm" y="6.5cm"/>
+		</template>
+		<template id="dogmes-divinites-nature_humain_mystique">
+			<image id="mystique" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="humain" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="nature" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-nature_humain_symboles">
+			<image id="symboles" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="humain" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="nature" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-nature_humain_chaos">
+			<image id="chaos" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="humain" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="nature" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-nature_mystique_symboles">
+			<image id="symboles" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="mystique" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="nature" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-nature_mystique_chaos">
+			<image id="chaos" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="mystique" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="nature" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-humain_mystique_symboles">
+			<image id="symboles" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="mystique" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="humain" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-humain_mystique_chaos">
+			<image id="chaos" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="mystique" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="humain" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-humain_symboles_chaos">
+			<image id="chaos" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="symboles" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="humain" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+		<template id="dogmes-divinites-mystique_symboles_chaos">
+			<image id="mystique" x="1.4cm" y="2.75cm" rotation="90"/>
+			<image id="symboles" x="1.4cm" y="1.75cm" rotation="90"/>
+			<image id="chaos" x="1.4cm" y="0.75cm" rotation="90"/>
+		</template>
+	</templates>
+	<deck>
+		<paper type="a4" margin="10mm"/>
+		<hidden-ditch odd="#000000" even="#000000"/>
+		<cardsize width="6.3cm" height="8.8cm"/>
+		<!-- CROYANTS -->
+		<!-- moines -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_humain_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Moines
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Jour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- moines -->
+		<card template="carte-croyants, origine-jour, dogmes-humain_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Moines
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Jour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- moines -->
+		<card template="carte-croyants, origine-jour, dogmes-mystique_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Moines
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Jour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- moines -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Moines
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Jour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- moines -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Moines
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Jour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- travailleurs -->
+		<card template="carte-croyants, origine-jour, dogmes-humain_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Travailleurs
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Empêche une Divinité possédant le Dogme Nature ou Mystique de sacrifier une de ses cartes de Croyants durant ce tour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- travailleurs -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_humain_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Travailleurs
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Empêche une Divinité possédant le Dogme Chaos ou Mystique de sacrifier un de ses Guides Spirituels durant ce tour.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- travailleurs -->
+		<card template="carte-croyants, origine-jour, dogmes-humain_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Travailleurs
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Vous piochez deux cartes au hasard dans la main d'une autre Divinité.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- ermite -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Ermite
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Impose le sacrifice d'un Croyant d'un autre joueur, qui choisit la carte. La capacité spéciale du sacrifice est jouée.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- ermite -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Ermite
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Impose le sacrifice d'un Croyant d'un autre joueur, qui choisit la carte. La capacité spéciale du sacrifice est jouée.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- intégristes -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_humain_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Intégristes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Impose le sacrifice d'un Guide Spirituel d'un autre joueur, qui choisit la carte. La capacité spéciale du sacrifice est jouée.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- guerriers saints -->
+		<card template="carte-croyants, origine-jour, dogmes-nature_mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Guerriers Saints
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Un Guide Spirituel revient dans la main de sa Divinité. Ses Croyants reviennent au centre de la table.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- diplomates -->
+		<card template="carte-croyants, origine-jour, dogmes-humain_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Diplomates
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Relancez le dé de Cosmogonie. Le tour se finit normalement sous la nouvelle influence.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- demons -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_humain_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Démons
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Nuit.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- demons -->
+		<card template="carte-croyants, origine-nuit, dogmes-humain_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Démons
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Nuit.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- demons -->
+		<card template="carte-croyants, origine-nuit, dogmes-mystique_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Démons
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Nuit.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- demons -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Démons
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Nuit.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- demons -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Démons
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Nuit.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- alchimistes -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Alchimistes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Empêche une Divinité possédant le Dogme Humain ou Mystique de sacrifier une de ses cartes de Croyants durant ce tour de jeu.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- alchimistes -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Alchimistes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Empêche une Divinité possédant le Dogme Humain ou Symboles de sacrifier un de ses Guides Spirituels durant ce tour de jeu.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- alchimistes -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Alchimistes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Vous piochez deux cartes au hasard dans la main d'une autre Divinité.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- vampire -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_humain_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Vampire
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Impose le sacrifice d'un Croyant d'un autre joueur. Celui-ci choisit le sacrifié. La capacité spéciale du sacrifice est jouée.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- vampire -->
+		<card template="carte-croyants, origine-nuit, dogmes-humain_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Vampire
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Impose le sacrifice d'un Croyant d'un autre joueur. Celui-ci choisit le sacrifié. La capacité spéciale du sacrifice est jouée.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- lycanthropes -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_humain_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Lycanthropes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Retirez tous les Croyants attachés à l'un des Guides Spirituels d'une autre Divinité. Les Croyants reviennent au milieu de la table, le Guide Spirituel est défaussé.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- pillards -->
+		<card template="carte-croyants, origine-nuit, dogmes-nature_mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Pillards
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Récupérez les points d'Action d'une Divinité n'ayant pas encore joué durant ce tour. Les points d'Action gardent leur Origine. La Divinité perd ses points.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- illusionnistes -->
+		<card template="carte-croyants, origine-nuit, dogmes-humain_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Illusionnistes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Vous bénéficiez de la capacité spéciale de sacrifice d'une carte de Croyants appartenant à une autre Divinité. La carte en question reste en jeu.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- esprits elementaires -->
+		<card template="carte-croyants, origine-neant, dogmes-nature_humain_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Esprits Elémentaires
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Néant.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- esprits elementaires -->
+		<card template="carte-croyants, origine-neant, dogmes-humain_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Esprits Elémentaires
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Néant.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- esprits elementaires -->
+		<card template="carte-croyants, origine-neant, dogmes-mystique_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Esprits Elémentaires
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Néant.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- esprits elementaires -->
+		<card template="carte-croyants, origine-neant, dogmes-nature_mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Esprits Elémentaires
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Néant.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- esprits elementaires -->
+		<card template="carte-croyants, origine-neant, dogmes-nature_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Esprits Elémentaires
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Donne un point d'Action d'Origine Néant.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- alienes -->
+		<card template="carte-croyants, origine-neant, dogmes-humain_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Aliénés
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Empêche une Divinité possédant le Dogme Nature ou Mystique de sacrifier une de ses cartes de Croyants durant ce tour de jeu.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- alienes -->
+		<card template="carte-croyants, origine-neant, dogmes-nature_humain_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Aliénés
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Empêche une Divinité possédant le Dogme Mystique ou Chaos de sacrifier un de ses Guides Spirituels durant ce tour de jeu.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- alienes -->
+		<card template="carte-croyants, origine-neant, dogmes-humain_mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Aliénés
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Vous piochez deux cartes au hasard dans la main d'une autre Divinité.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- revenant -->
+		<card template="carte-croyants, origine-neant, dogmes-nature_humain_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Revenant
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Lancez le dé de Cosmogonie. Le tour se fini normalement, mais sous cette nouvelle influence.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- revolutionnaires -->
+		<card template="carte-croyants, origine-neant, dogmes-humain_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Révolutionnaires
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Imposez le sacrifice d'une carte de Croyants à autant de Divinités que vous le voulez. Chaque Divinité choisit la carte à sacrifier. Les capacités spéciales sont jouées.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- nihillistes -->
+		<card template="carte-croyants, origine-neant, dogmes-mystique_symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Nihillistes
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Jusqu'à la fin du tour, plus aucune Divinité ne reçoit de points d'Action.
+			</text>
+			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- GUIDES SPIRITUELS -->
+		<!-- martyr -->
+		<card template="carte-guides, origine-jour, dogmes-nature_humain" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Martyr
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Equivalent à la pose d'une carte Apocalypse.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- martyr -->
+		<card template="carte-guides, origine-nuit, dogmes-humain_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Martyr
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Equivalent à la pose d'une carte Apocalypse.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- martyr -->
+		<card template="carte-guides, origine-neant, dogmes-nature_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Martyr
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Equivalent à la pose d'une carte Apocalypse.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-jour, dogmes-humain_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-nuit, dogmes-nature_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-neant, dogmes-nature_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-jour, dogmes-nature_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-nuit, dogmes-mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-neant, dogmes-symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-jour, dogmes-mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- clerc -->
+		<card template="carte-guides, origine-nuit, dogmes-nature_humain" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Clerc
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Fait gagner un nombre de points d'Action égal au nombre de cartes de Croyants rattachées. L'Origine des points d'Action est au choix du joueur.
+			</text>
+			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- shaman -->
+		<card template="carte-guides, origine-nuit, dogmes-nature_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Shaman
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Sacrifie tous les Croyants d'Origine Néant d'une Divinité ayant le Dogme Humain. Les capacités spéciales sont jouées normalement.
+			</text>
+			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- anarchiste -->
+		<card template="carte-guides, origine-neant, dogmes-humain_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Anarchiste
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Sacrifie un Guide Spirituel, si lui ou sa Divinité ne croit pas au Dogme Chaos. Les capacités spéciales sont jouées normalement.
+			</text>
+			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- paladin -->
+		<card template="carte-guides, origine-jour, dogmes-humain_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Paladin
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Tous les Croyants, d'Origine Nuit ou Néant et ayant le Dogme Nature, actuellement sur la table sont défaussés. Les capacités spéciales ne sont pas jouées.
+			</text>
+			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- ascete -->
+		<card template="carte-guides, origine-nuit, dogmes-humain_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Ascète
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Sacrifie deux cartes Croyants d'une Divinité ayant le Dogme Humain ou Symboles. Les capacités spéciales sont jouées normalement.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- devin -->
+		<card template="carte-guides, origine-neant, dogmes-nature_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Devin
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Oblige une Divinité ayant le Dogme Nature ou Mystique à sacrifier l'un de ses Guides Spirituels.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- exorciste -->
+		<card template="carte-guides, origine-jour, dogmes-mystique_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Exorciste
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Une Divinité d'Origine Nuit ou ayant les Dogmes Mystique et Chaos reprend dans sa main l'un de ses Guides Spirituels. Les Croyants qui y étaient attachés sont défaussés.
+			</text>
+			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- sorcier -->
+		<card template="carte-guides, origine-nuit, dogmes-mystique_symboles" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Sorcier
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Echangez l'un de vos Guides Spirituels avec un d'une autre Divinité. Vous choisissez les deux guides Spirituels en question. Les Croyants restent attachés aux mêmes cartes.
+			</text>
+			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- tyran -->
+		<card template="carte-guides, origine-neant, dogmes-symboles_chaos" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Tyran
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Défausse tous les Croyants actuellement au centre de la table.
+			</text>
+			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- messie -->
+		<card template="carte-guides, origine-jour, dogmes-humain_mystique" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Messie
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Le joueur pose le dé de Cosmogonie sur la face qu'il désire et commence un nouveau tour de jeu.
+			</text>
+			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
+		</card>
+		<!-- DEUS EX -->
+		<!-- colere divine -->
+		<card template="carte-deusex, origine-jour" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Colère Divine
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Détruit une carte Guide Spirituel d'Origine Nuit ou Néant, dont la capacité spéciale n'a pas effet. Les Croyants attachés reviennent au centre de la table.
+			</text>
+		</card>
+		<!-- colere divine -->
+		<card template="carte-deusex, origine-nuit" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Colère Divine
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Détruit une carte Guide Spirituel d'Origine Jour ou Néant, dont la capacité spéciale n'a pas effet. Les Croyants attachés reviennent au centre de la table.
+			</text>
+		</card>
+		<!-- stase -->
+		<card template="carte-deusex, origine-jour" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Stase
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Protège un Guide Spirituel et ses Croyants jusqu'à ce que cette carte soit annulée ou jusqu'à la prochaine tentative d'Apocalypse.
+			</text>
+		</card>
+		<!-- ordre celeste -->
+		<card template="carte-deusex, origine-jour" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Ordre Céleste
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Vous récupérez un des Guides Spirituels posés devant une autre Divinité et le placez devant vous avec les Croyants qui y sont attachés.
+			</text>
+		</card>
+		<!-- fourberie -->
+		<card template="carte-deusex, origine-nuit" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Fourberie
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Sacrifiez deux cartes Croyants d'une autre Divinité. Les capacités spéciales ne sont pas jouées.
+			</text>
+		</card>
+		<!-- diversion -->
+		<card template="carte-deusex, origine-nuit" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Diversion
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Prenez trois cartes dans la main d'un autre joueur et incluez-les à votre main.
+			</text>
+		</card>
+		<!-- concentration mystique -->
+		<card template="carte-deusex, origine-neant" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Concentration Mystique
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Vous récupérez un des Guides Spirituels posés devant une autre Divinité et le placez devant vous avec les Croyants qui y sont attachés.
+			</text>
+		</card>
+		<!-- trou noir -->
+		<card template="carte-deusex, origine-neant" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Trou Noir
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Aucun autre joueur ne gagne de points d'Action durant ce tour.
+			</text>
+		</card>
+		<!-- phoenix -->
+		<card template="carte-deusex, origine-neant" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Ph½nix
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Permet de bénéficier de la capacité spéciale de l'un de vos Croyants ou Guides Spirituels sans sacrifier la carte.
+			</text>
+		</card>
+		<!-- influence jour -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Influence Jour
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Annule la capacité spéciale d'une carte d'Action d'Origine Nuit ou Néant.
+			</text>
+		</card>
+		<!-- influence nuit -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Influence Nuit
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Annule la capacité spéciale d'une carte d'Action d'Origine Jour ou Néant.
+			</text>
+		</card>
+		<!-- influence neant -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Influence Néant
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Annule la capacité spéciale d'une carte d'Action d'Origine Jour ou Nuit.
+			</text>
+		</card>
+		<!-- influence nulle -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Influence Nulle
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Annule la capacité spéciale d'une autre carte d'Action.
+			</text>
+		</card>
+		<!-- influence nulle -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Influence Nulle
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Annule la capacité spéciale d'une autre carte d'Action.
+			</text>
+		</card>
+		<!-- transe -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Transe
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Permet de récupérer les effets bénéfiques d'une carte d'Action posée par une autre Divinité. S'il s'agit d'une carte Croyants ou Guide Spirituel, vous posez la carte devant vous.
+			</text>
+		</card>
+		<!-- miroir -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Miroir
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Retourne les effets d'une carte d'Action sur la Divinité qui l'a posée.
+			</text>
+		</card>
+		<!-- bouleversement -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Bouleversement
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
+				Relancez le dé de Cosmogonie. Le tour de jeu se terminera normalement, mais sous la nouvelle influence.
+			</text>
+		</card>
+		<!-- inquisition -->
+		<card template="carte-deusex" back="verso">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
+				Inquisition
+			</text>
+			<text font="DauphinPlain" size="9" color="#000000" align="left"
+			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm" adapt="yes">
+				Choisissez un des Guides Spirituels d'un autre joueur, et l'un des vôtres. Lancez le dé de Cosmogonie. Sur Jour, le Guide adverse est sacrifié, sur Nuit le vôtre est sacrifié, sur Néant rien ne se passe. Les capacités spéciales sont jouées.  La partie continue avec la nouvelle Cosmogonie.
+			</text>
+		</card>
+		<!-- APOCALYPSES -->
+		<card template="carte-apocalypses, origine-jour" back="verso"/>
+		<card template="carte-apocalypses, origine-nuit" back="verso"/>
+		<card template="carte-apocalypses, origine-neant" back="verso"/>
+		<card template="carte-apocalypses" back="verso"/>
+		<card template="carte-apocalypses" back="verso"/>
+		<!-- DIVINITES -->
+		<!-- brewalen -->
+		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_mystique" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Brewalen
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.25cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Premier enfant du Jour, Brewalen cherche à représenter une certaine image de l'harmonie, et tente de mettre en place un statu quo entre les Divinités.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut empêcher l'utilisation d'une carte Apocalypse. La carte est défaussée.
+			</text>
+		</card>
+		<!-- drinded -->
+		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_symboles" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Drinded
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Défenseur des hommes, quelles que soient leurs croyances, Drinded protège les chefs religieux
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut empêcher le sacrifice d'un des Guides Spirituels de n'importe quel joueur.
+			</text>
+		</card>
+		<!-- yarstur -->
+		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-mystique_symboles_chaos" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Yarstur
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Dernier pur du jour, Yarstur combat le Néant sous toutes ses formes.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Néant.
+			</text>
+		</card>
+		<!-- killinstred -->
+		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_chaos" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Killinstred
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Divinité machiavélique et manipulatrice, Killinstred cherche à influencer et contrôler ses ennemis.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut obliger un joueur à poser une carte Apocalypse s'il en possède une.
+			</text>
+		</card>
+		<!-- llewella -->
+		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_chaos" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Llewella
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Divinité machiavélique et manipulatrice, Killinstred cherche à influencer et contrôler ses ennemis.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut obliger un joueur à poser une carte Apocalypse s'il en possède une.
+			</text>
+		</card>
+		<!-- pui-tara -->
+		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_symboles" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Pui-Tara
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Pui-Tara est la Divinité sur laquelle l'influence de la Nuit s'est faite la plus forte.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Jour.
+			</text>
+		</card>
+		<!-- gwenghelen -->
+		<card template="carte-divinites, origine-divinites-aube, dogmes-divinites-humain_mystique_symboles" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Gwenghelen
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Première Divinité placée sous l'influence du Néant, Gwenghelen est celle qui en a reçu le plus de puissance.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Récupère autant de points d'Action supplémentaires d'Origine Néant que le nombre de Guides Spirituels que la Divinité possède.
+			</text>
+		</card>
+		<!-- shingva -->
+		<card template="carte-divinites, origine-divinites-aube, dogmes-divinites-humain_mystique_chaos" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Shingva
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Perverse et retorse, Shingva est une Divinité que toutes les autres détestent.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut imposer le sacrifice d'un Guide Spirituel ayant le Dogme Symboles ou Nature.
+			</text>
+		</card>
+		<!-- gorpa -->
+		<card template="carte-divinites, origine-divinites-crepuscule, dogmes-divinites-humain_symboles_chaos" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Gorpa
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Divinité joueuse et espiègle, Gorpa aime gêner ses cons½urs dans leur recherche de puissance.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut récupérer les points d'Action d'une autre Divinité en plus des siens. L'autre Divinité ne reçoit aucun point d'Action ce tour-ci.
+			</text>
+		</card>
+		<!-- romtec -->
+		<card template="carte-divinites, origine-divinites-crepuscule, dogmes-divinites-nature_humain_chaos" back="verso_special">
+			<text font="DauphinPlain" size="16" color="#000000" align="center"
+			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
+				Romtec
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="3.6cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Romtec est une Divinité individualiste, pour qui chaque être vivant doit garder son libre arbitre.
+			</text>
+			<text font="DauphinPlain" size="8" color="#000000" align="left"
+			 x="5.35cm" y="2cm" width="5.25cm" height="1.25cm" rotation="90">
+				Peut empêcher un joueur de créer un Guide Spirituel. La carte est défaussée.
+			</text>
+		</card>
+	</deck>
+</pandocreon:carta-genius>
