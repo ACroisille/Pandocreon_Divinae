@@ -1,7 +1,7 @@
 package models.cartes;
 
 import controller.Capacite;
-import models.Joueur;
+import models.joueur.Joueur;
 
 public class Deus_Ex extends Carte{
 
@@ -14,7 +14,7 @@ public class Deus_Ex extends Carte{
 	public String toString() {
 		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.nom).append(" ").append(this.capaciteDesc).append(" ").append(this.origine);
+		buf.append("DEUS EX : ").append(this.nom).append(" ").append(this.capaciteDesc).append(" ").append(this.origine);
 		return buf.toString();
 	}
 }

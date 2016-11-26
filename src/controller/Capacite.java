@@ -1,6 +1,6 @@
 package controller;
 
-import models.Joueur;
+import models.joueur.Joueur;
 
 public interface Capacite {
 	public void capacite(Joueur j);

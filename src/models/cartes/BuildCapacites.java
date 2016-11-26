@@ -3,7 +3,7 @@ package models.cartes;
 import java.util.HashMap;
 
 import controller.Capacite;
-import models.Joueur;
+import models.joueur.Joueur;
 
 public abstract class BuildCapacites {
 	

@@ -92,7 +92,7 @@ public abstract class BuildCartes {
 					case ConstanteCarte.DIVINITE : 
 						//System.out.println("Type Divinite");
 						origine = pickOrigine(templates[1].replaceAll(" ", ""));
-						dogmes = pickDogmes(templates[2].split("-")[1]);
+						dogmes = pickDogmes(templates[2].split("-")[2]);
 						Divinite divinite = new Divinite(nomCarte, capaciteDesc, carteDesc, origine, dogmes);
 						deck.add(divinite);
 						//System.out.println(divinite);
@@ -151,6 +151,7 @@ public abstract class BuildCartes {
 		case ConstanteCarte.DIVINITE_NUIT : return Origine.NUIT;
 		case ConstanteCarte.DIVINITE_AUBE : return Origine.AUBE;
 		case ConstanteCarte.DIVINITE_NEANT : return Origine.NEANT;
+		case ConstanteCarte.DIVINITE_CREPUSCULE : return Origine.CREPUSCULE;
 		default : return null;
 		}
 	}

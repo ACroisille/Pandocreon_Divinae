@@ -3,7 +3,7 @@ package models.cartes;
 import java.util.Set;
 
 import controller.Capacite;
-import models.Joueur;
+import models.joueur.Joueur;
 
 public class Croyant extends Religion{
 	
@@ -18,7 +18,7 @@ public class Croyant extends Religion{
 	public String toString() {
 		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.nom).append(" ").append(this.capaciteDesc).append(" ").append(this.origine).append(" ").append(this.sesDogmes.toString());
+		buf.append("CROYANT : ").append(this.nom).append(" ").append(this.capaciteDesc).append(" ").append(this.origine).append(" ").append(this.sesDogmes.toString());
 		return buf.toString();
 	}
 

@@ -25,4 +25,7 @@ public interface ConstanteCarte {
 	public static final String SYMBOLES = "symboles";
 	public static final String MYSTIQUE = "mystique";
 	public static final String CHAOS = "chaos";
+	
+	public static final String BARRE = "\n--------------------\n";
+	public static final String PETITEBARRE = "\n------\n";
 }
