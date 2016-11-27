@@ -10,14 +10,12 @@ public class JoueurVirtuel extends Joueur{
 	}
 	
 	@Override
-	public void jouer() {
-		// TODO Auto-generated method stub
-		super.jouer();
+	public boolean jouer() {
+		return false;
 	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
 		buf.append("\nJoueur Virtuel : ").append(numJoueur).append("\n");
 		buf.append(super.toString());

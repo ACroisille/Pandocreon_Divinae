@@ -11,10 +11,10 @@ import models.cartes.Divinite;
 
 public class Gestionnaire_cartes_partie {
 	
-	private Queue<Carte> pioche;
-	private List<Carte> defausse;
-	private List<Carte> table;
-	private Queue<Divinite> divinitesRestantes;
+	private static Queue<Carte> pioche;
+	private static List<Carte> defausse;
+	private static List<Carte> table;
+	private static Queue<Divinite> divinitesRestantes;
 	
 	public Gestionnaire_cartes_partie(List<Carte> deck,Queue<Divinite> divinitesRestantes){
 		this.pioche = new LinkedList<Carte>(deck);
@@ -22,6 +22,8 @@ public class Gestionnaire_cartes_partie {
 		this.table = new ArrayList<Carte>();
 		this.divinitesRestantes = divinitesRestantes;
 	}
+	
+	
 	
 	@Override
 	public String toString() {

@@ -17,7 +17,7 @@ public class Divinite extends Carte{
 	public String toString() {
 		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
-		buf.append(this.nom).append(" ").append(carteDesc).append(" ").append(this.capaciteDesc).append(" ").append(this.origine).append(" ").append(this.sesDogmes.toString());
+		buf.append(this.nom).append("\n").append(carteDesc).append("\n").append(this.capaciteDesc).append("\n Origine : ").append(this.origine).append("\n Dogmes : ").append(this.sesDogmes.toString());
 		return buf.toString();
 	}
 }

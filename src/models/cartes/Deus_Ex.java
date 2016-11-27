@@ -14,7 +14,7 @@ public class Deus_Ex extends Carte{
 	public String toString() {
 		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
-		buf.append("DEUS EX : ").append(this.nom).append(" ").append(this.capaciteDesc).append(" ").append(this.origine);
+		buf.append("DEUS EX : ").append(this.nom).append("\n").append(this.capaciteDesc).append("\n Origine : ").append(this.origine);
 		return buf.toString();
 	}
 }

@@ -15,11 +15,13 @@ public abstract class Carte{
 		this.nom = nom;
 		this.capaciteDesc = capaciteDesc;
 		this.origine = origine;
-		this.capacite = capacite;
 		this.capaciteUsed = false;
 	}
 	
-	public void setCapacite(Capacite c){
+	public void utiliserCapacite(){};
+	
+	
+	public void setCapacite(Capacite capacite){
 		this.capacite = capacite;
 	}
 	

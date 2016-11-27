@@ -11,6 +11,7 @@ import java.util.Set;
 import controller.Gestionnaire_cartes_partie;
 import models.cartes.Carte;
 import models.cartes.Divinite;
+import models.cartes.Origine;
 import models.joueur.Joueur;
 
 
@@ -29,13 +30,63 @@ public class Partie {
 		
 		//Distribution des divinites aux joueurs
 		this.distributionCartes(deck, divinites);
-		/*
+		
 		System.out.println(gcp.toString());
+		/*
 		Iterator<Joueur> it = joueurs.iterator();
 		while(it.hasNext()){
 			System.out.println(((Joueur)it.next()).toString());
 		}
 		*/
+		this.jouerPartie(true);
+	}
+	
+	/**
+	 * Lance une partie
+	 * Cette méthode contient la boucle principal
+	 */
+	public void jouerPartie(boolean jouer){
+		while(jouer){
+			jouer = this.jouerTour();
+		}
+		System.out.println("Fin de partie");
+	}
+	
+	private boolean jouerTour(){
+		//Lancer du dés de cosmogonie
+		//TODO implémenter le dé de Cosmogonie. 
+		distribuerPointsAction(null);
+		
+		Iterator it = joueurs.iterator();
+		boolean next;
+		while(it.hasNext()){
+			next = ((Joueur)it.next()).jouer();
+			//Si la méthode jouer renvois faux et qu'il y a moins de 4 joueurs dans la partie, fin de la partie
+			if(!next && joueurs.size()<4) return false;
+			//Si la méthode jouer renvois faux et qu'il y a au moins 4 joueurs dans la partie, 
+			else if(!next && joueurs.size()>=4){
+				//élimine un joueur et reset le tours.
+				
+				return true;
+			}
+		}
+		//Le tour de jeu s'est bien déroulé. Le premier joueur est placé à la fin de la liste de joueurs.
+		
+		return true;
+	}
+	
+	private void distribuerPointsAction(Origine o){
+		Iterator it = joueurs.iterator();
+		while(it.hasNext()){
+			((Joueur)it.next()).attribuerPointsAction(o);
+		}
+	}
+	
+	/**
+	 * Place le premier joueur à la fin de la liste de joueur. 
+	 */
+	private void toTheEnd(){
+		
 	}
 	
 	private void distributionCartes(ArrayList<Carte> deck, Queue<Divinite> divinites){

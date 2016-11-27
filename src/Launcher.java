@@ -30,7 +30,7 @@ public class Launcher {
 		System.out.println("Chargement des cartes...");
 		ArrayList<Carte> deck = BuildCartes.getCartes();
 		System.out.println("Chargement des joueurs...");
-		Set<Joueur> joueurs =  Launcher.setJoueurs("Antoine", 3);
+		Set<Joueur> joueurs =  Launcher.setJoueurs("Antoine", 2);
 		System.out.println("Lancement d'une partie...");
 		new Partie(joueurs, deck);
 		
