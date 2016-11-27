@@ -54,8 +54,8 @@ public class Partie {
 	
 	private boolean jouerTour(){
 		//Lancer du dés de cosmogonie
-		//TODO implémenter le dé de Cosmogonie. 
-		distribuerPointsAction(null);
+		
+		distribuerPointsAction(De_Cosmogonie.lancerDe());
 		
 		Iterator it = joueurs.iterator();
 		boolean next;
@@ -71,7 +71,7 @@ public class Partie {
 			}
 		}
 		//Le tour de jeu s'est bien déroulé. Le premier joueur est placé à la fin de la liste de joueurs.
-		
+		this.toTheEnd();
 		return true;
 	}
 	

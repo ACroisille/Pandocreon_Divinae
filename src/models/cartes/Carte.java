@@ -25,4 +25,7 @@ public abstract class Carte{
 		this.capacite = capacite;
 	}
 	
+	public Origine getOrigine() {
+		return origine;
+	}
 }

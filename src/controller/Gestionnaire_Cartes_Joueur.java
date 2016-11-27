@@ -60,6 +60,9 @@ public class Gestionnaire_Cartes_Joueur {
 		//TODO Implémentation
 	}
 	
+	public Divinite getDivinite() {
+		return divinite;
+	}
 	
 	@Override
 	public String toString() {

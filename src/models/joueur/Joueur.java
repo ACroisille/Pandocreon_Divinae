@@ -17,6 +17,9 @@ public abstract class Joueur {
 
 	public Joueur(){
 		this.pointsAction = new HashMap<Origine,Integer>();
+		this.pointsAction.put(Origine.JOUR, 0);
+		this.pointsAction.put(Origine.NUIT, 0);
+		this.pointsAction.put(Origine.NEANT, 0);
 	}
 	
 	/**
@@ -64,7 +67,37 @@ public abstract class Joueur {
 	 * @param origine L'Origine tiré par le dé de cosmogonie. 
 	 */
 	public void attribuerPointsAction(Origine origine){
-		//TODO Implèmenter la distribution des points d'action en fonction de la divinitée de chacun des joueurs
+		switch(this.gcj.getDivinite().getOrigine()){
+		case JOUR : 
+			if(origine.equals(Origine.JOUR)){
+				incrementerPointAction(origine);
+				incrementerPointAction(origine);
+			}
+			break;
+		case NUIT :
+			if(origine.equals(Origine.NUIT)){
+				incrementerPointAction(origine);
+				incrementerPointAction(origine);
+			}
+			break;
+		case AUBE :
+			if(origine.equals(Origine.JOUR)){
+				incrementerPointAction(origine);
+			}
+			if(origine.equals(Origine.NUIT)){
+				incrementerPointAction(origine);
+			}
+			break;
+		case CREPUSCULE :
+			if(origine.equals(Origine.NUIT)){
+				incrementerPointAction(origine);
+			}
+			if(origine.equals(Origine.NUIT)){
+				incrementerPointAction(origine);
+			}
+			break;
+		default : break;
+		}
 	}
 	
 	/**
@@ -72,7 +105,7 @@ public abstract class Joueur {
 	 * @param origine L'Origine. 
 	 */
 	public void incrementerPointAction(Origine origine){
-		//TODO Ajoute 1 point d'action dans la HashMap en fonction 
+		pointsAction.replace(origine, pointsAction.get(origine) + 1);
 	}
 	
 	public void attachGestionnaire_Cartes_Joueur(List<Carte> main, Divinite divinite){
