@@ -1,4 +1,4 @@
-package models.cartes;
+package controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import models.cartes.Apocalypse;
+import models.cartes.Carte;
+import models.cartes.ConstanteCarte;
+import models.cartes.Croyant;
+import models.cartes.Deus_Ex;
+import models.cartes.Divinite;
+import models.cartes.Dogme;
+import models.cartes.Guide_Spirituel;
+import models.cartes.Origine;
 
 public abstract class BuildCartes {
 	

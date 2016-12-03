@@ -9,10 +9,12 @@ import java.util.Queue;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
+import controller.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;
 import models.cartes.Origine;
 import models.joueur.Joueur;
+import models.joueur.JoueurReel;
 
 
 public class Partie {
@@ -32,11 +34,16 @@ public class Partie {
 		this.distributionCartes(deck, divinites);
 		
 		System.out.println(gcp.toString());
+	
+		//DEBUG
 		/*
+		JoueurReel jr = null;
 		Iterator<Joueur> it = joueurs.iterator();
 		while(it.hasNext()){
-			System.out.println(((Joueur)it.next()).toString());
+			Joueur j = (Joueur) it.next();
+			if(j instanceof JoueurReel) jr = (JoueurReel)j;
 		}
+		this.debug(jr);
 		*/
 		this.jouerPartie(true);
 	}
@@ -61,6 +68,7 @@ public class Partie {
 		boolean next;
 		while(it.hasNext()){
 			next = ((Joueur)it.next()).jouer();
+			Gestionnaire_cartes_partie.joinTable();
 			//Si la méthode jouer renvois faux et qu'il y a moins de 4 joueurs dans la partie, fin de la partie
 			if(!next && joueurs.size()<4) return false;
 			//Si la méthode jouer renvois faux et qu'il y a au moins 4 joueurs dans la partie, 
@@ -110,5 +118,9 @@ public class Partie {
 		return divinites;
 	}
 	
+	private void debug(JoueurReel jr){
+		System.out.println(jr.toString());
+		System.out.println();
+	}
 	
 }

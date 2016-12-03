@@ -1,6 +1,6 @@
 package models.joueur;
 
-
+import controller.Gestionnaire_cartes_partie;
 
 public class JoueurReel extends Joueur{
 	
@@ -13,7 +13,12 @@ public class JoueurReel extends Joueur{
 	
 	@Override
 	public boolean jouer() {
+		System.out.println("VOS CARTES : ");
 		System.out.println(super.gcj.toString());
+		System.out.println("CARTES AU MILIEU : ");
+		System.out.println(Gestionnaire_cartes_partie.afficherCartesPartie());
+		
+		
 		return false;
 	}
 	

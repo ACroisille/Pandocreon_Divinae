@@ -14,6 +14,14 @@ public class Croyant extends Religion{
 		guide = null;
 	}
 
+	public void setGuide(Guide_Spirituel guide) {
+		this.guide = guide;
+	}
+	
+	public Guide_Spirituel getGuide() {
+		return guide;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

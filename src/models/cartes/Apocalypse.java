@@ -5,17 +5,10 @@ import models.joueur.Joueur;
 
 public class Apocalypse extends Carte{
 	
-	private static Capacite capacite = new Capacite() {
-		@Override
-		public void capacite(Joueur j) {
-			// TODO Auto-generated method stub
-			
-		}
-	};
-	
 	public Apocalypse(Origine origine){
 		super(ConstanteCarte.APOCALYPSE,"",origine);
 	}
+	
 	
 	@Override
 	public String toString() {

@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import controller.BuildCartes;
 import models.Partie;
-import models.cartes.BuildCartes;
 import models.cartes.Carte;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;

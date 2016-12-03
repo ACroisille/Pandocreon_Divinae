@@ -6,9 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import controller.Gestionnaire_Cartes_Joueur;
+import controller.Gestionnaire_cartes_partie;
+import controller.NoTypeException;
+import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
+import models.cartes.Croyant;
+import models.cartes.Deus_Ex;
 import models.cartes.Divinite;
+import models.cartes.Guide_Spirituel;
 import models.cartes.Origine;
 
 public abstract class Joueur {
@@ -23,7 +29,7 @@ public abstract class Joueur {
 	}
 	
 	/**
-	 * Permet au joueur de jouer
+	 * Permet au joueur de jouer tant que ses points d'action le lui permettent.
 	 * @return Renvois faux si une carte APOCALYPSE a été joué sinon renvois vrai.
 	 */
 	public boolean jouer(){
@@ -32,34 +38,99 @@ public abstract class Joueur {
 	
 	/**
 	 * Permet au joueur de jouer une carte de sa main.
-	 * @param indice L'indice de la carte dans sa main.
-	 * @return Vrai si la carte a éffectivement été joué. Faux sinon. 
+	 * @param carte La carte que le joueur souhaite jouer.
+	 * @return La carte joué ou null.
+	 * @throws NoTypeException 
 	 */
-	public boolean jouerCarte(int indice){
-		return false;
+	public Carte jouerCarteMain(Carte carte) throws NoTypeException{
+		if(gcj.isJouable(carte, this.pointsAction) || carte.getOrigine().equals(null)){
+			//Intention de jouer la carte
+			this.payerCoutCarte(carte);
+			gcj.intentionJouerCarte(carte);//La carte passe dans la pilePose et un listener est déclenché. 
+			if(carte instanceof Croyant){
+				//Rien à faire pour le moment
+				System.out.println("Une carte Croyant a été ajouté à la pile de Croyants");
+			}
+			else if(carte instanceof Guide_Spirituel){
+				System.out.println("Une carte Guide Spirituel a été posé, il rammène les croyants à lui");
+			}
+			else if(carte instanceof Deus_Ex){
+				//Utilise la capacité de la carte
+				System.out.println("Une carte DeusEx a été posé, elle est sacrifié");
+			}
+			else if(carte instanceof Apocalypse){
+				//Active une apocalypse
+				System.out.println("Une carte Apocalypse a été posé");
+			}
+			else throw new NoTypeException("La carte est de type DIVINITE ou est NULL.");
+			//La carte a été jouer
+			gcj.transfertCarteJouer(carte);
+			return carte;
+		}
+		System.err.println("Vous ne pouvez pas jouer cette carte !");
+		return null;
 	}
 	
 	/**
-	 * Permet au joueur de sacrifier une des cartes qui se trouvent devant lui.
+	 * Permet au joueur de sacrifier une des cartes qui se trouvant sur le champs de bataille.
 	 * @param indice L'indice de la carte devant lui.
+	 * @throws NoTypeException 
 	 */
-	public void sacrifierCarte(int indice){
+	public void sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
+		gcj.intentionJouerCarte(carte);
+		if(carte instanceof Croyant){
+			 System.out.println("Sacrifice d'une carte croyant.");
+			 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
+			 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
+				 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
+			 }
+		}
+		else if(carte instanceof Guide_Spirituel){
+			System.out.println("Sacrifice d'une carte Guide Spirituel.");
+			//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
+			for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
+				gcj.remettreSurChampsDeBataille(((Guide_Spirituel)carte).getSesCroyants().get(i));
+			}
+		}
+		else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
+		gcj.transfertCarteJouer(carte);
+	}
+	
+	/**
+	 * Permet au joueur d'utiliser une carte sans origine ou sa divinité.
+	 * @param carte
+	 */
+	public void enReponse(Carte carte){
 		
 	}
 	
 	/**
 	 * Permet au joueur d'utiliser la capacité de sa divinité. 
 	 */
-	public void activerCapaciteDivinite(){
+	public void activerCapaciteDivinite(Carte carte){
 		
 	}
 	
 	/**
-	 * Permet au joueur de savoir quels cartes il peut jouer en fonction de ses points d'action. 
-	 * @return Une sous liste de main. 
+	 * Retire des points d'action au joueur en fonction de la carte qu'il veut jouer.
+	 * @param carte
 	 */
-	public List<Carte> cartesJouables(){
-		return null;
+	private void payerCoutCarte(Carte carte){
+		if(carte.getOrigine().equals(Origine.NEANT) && pointsAction.get(Origine.NEANT) == 0){
+			 if(this.pointsAction.get(Origine.JOUR) == this.pointsAction.get(Origine.NUIT)){
+				 this.decrementerPointsAction(Origine.JOUR);
+				 this.decrementerPointsAction(Origine.NUIT);
+			 }
+			 else if(this.pointsAction.get(Origine.JOUR) > this.pointsAction.get(Origine.NUIT)){
+				 this.decrementerPointsAction(Origine.JOUR);
+				 this.decrementerPointsAction(Origine.JOUR);
+			 }
+			 else if(this.pointsAction.get(Origine.JOUR) < this.pointsAction.get(Origine.NUIT)){
+				 this.decrementerPointsAction(Origine.NUIT);
+				 this.decrementerPointsAction(Origine.NUIT);
+			 }
+		}
+		else if(!carte.getOrigine().equals(null)) this.decrementerPointsAction(carte.getOrigine());
 	}
 	
 	/**
@@ -106,6 +177,10 @@ public abstract class Joueur {
 	 */
 	public void incrementerPointAction(Origine origine){
 		pointsAction.replace(origine, pointsAction.get(origine) + 1);
+	}
+	
+	public void decrementerPointsAction(Origine origine){
+		pointsAction.replace(origine, pointsAction.get(origine) - 1);
 	}
 	
 	public void attachGestionnaire_Cartes_Joueur(List<Carte> main, Divinite divinite){

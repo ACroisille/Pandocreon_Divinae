@@ -1,8 +1,8 @@
-package models.cartes;
+package controller;
 
 import java.util.HashMap;
+import java.util.Set;
 
-import controller.Capacite;
 import models.joueur.Joueur;
 
 public abstract class BuildCapacites {
@@ -12,9 +12,10 @@ public abstract class BuildCapacites {
 	public static void loadCapacites(){
 		capacites = new HashMap<String,Capacite>();
 		
-		capacites.put("ajouterPointJoueur", new Capacite() {
+		capacites.put("cap", new Capacite() {
+			
 			@Override
-			public void capacite(Joueur j) {
+			public void capacite(Set<Joueur> joueurs) {
 				// TODO Auto-generated method stub
 				
 			}

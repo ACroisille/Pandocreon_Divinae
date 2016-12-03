@@ -24,6 +24,9 @@ public abstract class Carte{
 	public void setCapacite(Capacite capacite){
 		this.capacite = capacite;
 	}
+	public Capacite getCapacite() {
+		return capacite;
+	}
 	
 	public Origine getOrigine() {
 		return origine;
