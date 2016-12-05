@@ -58,6 +58,9 @@ public class Gestionnaire_cartes_partie {
 		return pioche.poll();
 	}
 	
+	public static List<Carte> getDefausse() {
+		return defausse;
+	}
 	
 	public static String afficherCartesPartie(){
 		StringBuffer buf = new StringBuffer();

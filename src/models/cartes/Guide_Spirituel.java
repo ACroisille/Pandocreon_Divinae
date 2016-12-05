@@ -24,13 +24,13 @@ public class Guide_Spirituel extends Religion{
 	 * Pour l'instant on ne laisse pas le choix au joueur.
 	 * @return La liste de croyants que le guide rammène à lui. 
 	 */
-	public List<Croyant> ammenerCroyants(){
+	public List<Carte> ammenerCroyants(){
 		//TODO Donner la possibilitée au joueur de choisir dans la liste de croyant.
-		List<Croyant> croyants = new ArrayList<Croyant>(this.croyantsDisponible().subList(0, this.nombre));
+		List<Carte> croyants = new ArrayList<Carte>(this.croyantsDisponible().subList(0, this.nombre));
 		for(int i=0;i<croyants.size();i++){
-			croyants.get(i).setGuide(this);
+			((Croyant)croyants.get(i)).setGuide(this);
+			this.sesCroyants.add((Croyant)croyants.get(i));
 		}
-		this.sesCroyants.addAll(croyants);
 		return croyants;
 	}
 	
@@ -38,19 +38,19 @@ public class Guide_Spirituel extends Religion{
 	 * Permet d'obtenir la liste des croyants qu'un guide peut rammener à lui.
 	 * @return La liste de croyant.
 	 */
-	public List<Croyant> croyantsDisponible(){
-		List<Croyant> dispo = new ArrayList<Croyant>();
+	public List<Carte> croyantsDisponible(){
+		List<Carte> dispo = new ArrayList<Carte>();
 		for(int i=0;i<Gestionnaire_cartes_partie.getTable().size();i++){
-			Iterator itCroyant = Gestionnaire_cartes_partie.getTable().get(i).sesDogmes.iterator();
+			Iterator<Dogme> itCroyant = Gestionnaire_cartes_partie.getTable().get(i).sesDogmes.iterator();
 			boolean possible = false;
 			while(itCroyant.hasNext()){
 				Dogme dogme = (Dogme)itCroyant.next();
-				Iterator itGuide = this.sesDogmes.iterator();
+				Iterator<Dogme> itGuide = this.sesDogmes.iterator();
 				while(itGuide.hasNext()){
 					if(dogme.equals((Dogme)itGuide.next())) possible = true;
 				}
 			}
-			dispo.add(Gestionnaire_cartes_partie.getTable().get(i));
+			if(possible) dispo.add(Gestionnaire_cartes_partie.getTable().get(i));
 		}
 		return dispo;
 	}

@@ -16,7 +16,6 @@ import models.cartes.Origine;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
 
-
 public class Partie {
 	
 	private Set<Joueur> joueurs;
@@ -60,8 +59,7 @@ public class Partie {
 	}
 	
 	private boolean jouerTour(){
-		//Lancer du dés de cosmogonie
-		
+		//Lancer du dés de cosmogonie 
 		distribuerPointsAction(De_Cosmogonie.lancerDe());
 		
 		Iterator it = joueurs.iterator();
@@ -101,7 +99,7 @@ public class Partie {
 		Iterator it = joueurs.iterator();
 		while(it.hasNext()){
 			//Chaque joueur démarre avec 7 cartes
-			List<Carte> main =  new ArrayList<Carte>(deck.subList(0, 6));
+			List<Carte> main =  new ArrayList<Carte>(deck.subList(0, 7));
 			deck.removeAll(main);
 			((Joueur)it.next()).attachGestionnaire_Cartes_Joueur(main, divinites.poll());
 		}

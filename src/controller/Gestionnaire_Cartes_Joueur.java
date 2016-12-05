@@ -24,8 +24,7 @@ public class Gestionnaire_Cartes_Joueur {
 	
 	private Joueur joueur;
 	private List<Carte> main;
-	private List<Guide_Spirituel> guides;
-	private List<Croyant> croyants;
+	private List<Carte> champsDeBataille;
 	private Divinite divinite;
 	private Carte pilePose=null,pileSacrifice=null; //Ajouter listener dessus
 	
@@ -33,8 +32,7 @@ public class Gestionnaire_Cartes_Joueur {
 		this.joueur = joueur;
 		this.main = main;
 		this.divinite = divinite;
-		this.guides = new ArrayList<Guide_Spirituel>();
-		this.croyants = new ArrayList<Croyant>();
+		this.champsDeBataille = new ArrayList<Carte>();
 	}
 	
 	/**
@@ -42,8 +40,8 @@ public class Gestionnaire_Cartes_Joueur {
 	 * @param guide
 	 * @param croyants
 	 */
-	public void transfertCroyants(Guide_Spirituel guide,List<Croyant> croyants){
-		this.croyants.addAll(croyants);
+	public void transfertCroyants(Guide_Spirituel guide,List<Carte> croyants){
+		this.champsDeBataille.addAll(croyants);
 		for(int i=0;i<croyants.size();i++){
 			Gestionnaire_cartes_partie.removeTable(croyants.get(i));
 		}
@@ -61,17 +59,9 @@ public class Gestionnaire_Cartes_Joueur {
 	}
 	
 	public void defausserChampsDeBataille(Carte carte){
-		if(carte instanceof Croyant){
-			if(this.croyants.contains((Croyant)carte)){
-				croyants.remove((Croyant)carte);
-				Gestionnaire_cartes_partie.addDefausse(carte);
-			}
-		}
-		else if (carte instanceof Guide_Spirituel){
-			if(this.guides.contains((Guide_Spirituel)carte)){
-				guides.remove((Guide_Spirituel)carte);
-				Gestionnaire_cartes_partie.addDefausse(carte);
-			}
+		if(this.champsDeBataille.contains(carte)){
+			champsDeBataille.remove(carte);
+			Gestionnaire_cartes_partie.addDefausse(carte);
 		}
 	}
 	
@@ -86,7 +76,7 @@ public class Gestionnaire_Cartes_Joueur {
 	 * Remplis la main du joueur à 7 cartes. 
 	 */
 	public void remplirMain(){
-		for(int i = this.main.size()-1;i<SIZE_MAX;i++){
+		for(int i = this.main.size()-1;i<SIZE_MAX-1;i++){
 			this.piocherCarte();
 		}
 	}
@@ -106,12 +96,8 @@ public class Gestionnaire_Cartes_Joueur {
 			}
 			else throw new NoTypeException("La carte n'a pas de TYPE ou est NULL.");
 		}
-		else if(croyants.contains(carte)){
-			croyants.remove(carte);
-			this.pileSacrifice = carte;
-		}
-		else if(guides.contains(carte)){
-			guides.remove(carte);
+		else if(champsDeBataille.contains(carte)){
+			champsDeBataille.remove(carte);
 			this.pileSacrifice = carte;
 		}
 		else System.err.println("Le joueur ne possède pas la carte spécifié !");
@@ -131,7 +117,7 @@ public class Gestionnaire_Cartes_Joueur {
 			}
 			else if(carte instanceof Guide_Spirituel){
 				//On ajoute la carte au champs de bataille.
-				this.guides.add((Guide_Spirituel) this.pilePose);
+				this.champsDeBataille.add(this.pilePose);
 				//Le guide rassemble les croyants. 
 				this.transfertCroyants((Guide_Spirituel) carte, ((Guide_Spirituel)carte).ammenerCroyants());
 			}
@@ -144,9 +130,12 @@ public class Gestionnaire_Cartes_Joueur {
 		else throw new NoTypeException("Il n'y a pas de carte dans la pile.");
 	}
 	
-	public void remettreSurChampsDeBataille(Croyant carte){
-		this.croyants.remove(carte);
-		Gestionnaire_cartes_partie.addDefausse(carte);
+	public void remettreSurChampsDeBataille(Croyant carte) throws NoTypeException{
+		if(carte instanceof Croyant){
+			this.champsDeBataille.remove(carte);
+			Gestionnaire_cartes_partie.addDefausse(carte);
+		}
+		else throw new NoTypeException("La carte n'est pas une carte croyant !");
 	}
 	
 	
@@ -154,10 +143,10 @@ public class Gestionnaire_Cartes_Joueur {
 	 * Permet au joueur de savoir quels cartes il peut jouer en fonction de ses points d'action. 
 	 * @return Une sous liste de main. 
 	 */
-	public List<Carte> cartesJouables(Map<Origine,Integer> pointsAction){
+	public List<Carte> cartesJouables(Map<Origine,Integer> pointsAction,List<Carte> list){
 		List<Carte> jouables = new ArrayList<Carte>();
-		for(int i=0;i<main.size();i++){
-			if(isJouable(main.get(i), pointsAction)) jouables.add(main.get(i));
+		for(int i=0;i<list.size();i++){
+			if(isJouable(list.get(i), pointsAction)) jouables.add(list.get(i));
 		}
 		return jouables;
 	}
@@ -170,7 +159,7 @@ public class Gestionnaire_Cartes_Joueur {
 	 */
 	public boolean isJouable(Carte carte, Map<Origine,Integer> pointsAction){
 		//Si la carte est d'origine 
-		if(carte.getOrigine().equals(null)) return true;
+		if(carte.getOrigine() == null) return true;
 		else if(carte.getOrigine().equals(Origine.NEANT) && pointsAction.get(Origine.NEANT) == 0){
 			if((pointsAction.get(Origine.JOUR) + pointsAction.get(Origine.NUIT)) > 2) return true;
 			else return false;
@@ -183,14 +172,21 @@ public class Gestionnaire_Cartes_Joueur {
 		return divinite;
 	}
 	
+	public List<Carte> getChampsDeBataille() {
+		return this.champsDeBataille;
+	}
+	
+	public List<Carte> getMain() {
+		return main;
+	}
+	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
 		buf.append(this.diviniteToString());
 		buf.append(this.mainToString());
-		buf.append(this.guidesToString());
-		buf.append(this.croyantsToString());
+		buf.append(this.champsDeBatailleToString());
+		//buf.append(this.croyantsToString());
 		return buf.toString();
 	}
 	
@@ -213,17 +209,29 @@ public class Gestionnaire_Cartes_Joueur {
 		return buf.toString();
 	}
 	
-	public String guidesToString(){
+	public String cartesJouablesToString(){
+		StringBuffer buf = new StringBuffer();
+		buf.append("\nCartes jouables de votre main : ").append(ConstanteCarte.BARRE);
+		int count = 1;
+		Iterator<Carte> it = this.cartesJouables(this.joueur.getPointsAction(), this.main).iterator();
+		while(it.hasNext()){
+			buf.append(count).append(" - ").append(((Carte)it.next()).toString()).append(ConstanteCarte.PETITEBARRE);
+			count++;
+		}
+		return buf.toString();
+	}
+	
+	public String champsDeBatailleToString(){
 		StringBuffer buf = new StringBuffer();
 		buf.append("\nCartes Guide Spirituel devant vous : ").append(ConstanteCarte.BARRE);
 		int count = 1;
-		Iterator<Guide_Spirituel> it = guides.iterator();
+		Iterator<Carte> it = champsDeBataille.iterator();
 		while(it.hasNext()){
 			buf.append(count).append(" - ").append(((Carte)it.next()).toString()).append(ConstanteCarte.PETITEBARRE);
 		}
 		return buf.toString();
 	}
-	
+	/*
 	public String croyantsToString(){
 		StringBuffer buf = new StringBuffer();
 		buf.append("\nCartes Croyant devant vous : ").append(ConstanteCarte.BARRE);
@@ -234,5 +242,5 @@ public class Gestionnaire_Cartes_Joueur {
 		}
 		return buf.toString();
 	}
-	
+	*/
 }

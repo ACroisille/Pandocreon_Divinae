@@ -76,24 +76,30 @@ public abstract class Joueur {
 	 * @param indice L'indice de la carte devant lui.
 	 * @throws NoTypeException 
 	 */
-	public void sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
-		gcj.intentionJouerCarte(carte);
-		if(carte instanceof Croyant){
-			 System.out.println("Sacrifice d'une carte croyant.");
-			 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
-			 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
-				 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
-			 }
-		}
-		else if(carte instanceof Guide_Spirituel){
-			System.out.println("Sacrifice d'une carte Guide Spirituel.");
-			//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
-			for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
-				gcj.remettreSurChampsDeBataille(((Guide_Spirituel)carte).getSesCroyants().get(i));
+	public Carte sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
+		if(gcj.isJouable(carte, this.pointsAction)){
+			this.payerCoutCarte(carte);
+			gcj.intentionJouerCarte(carte);
+			if(carte instanceof Croyant){
+				 System.out.println("Sacrifice d'une carte croyant.");
+				 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
+				 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
+					 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
+				 }
 			}
+			else if(carte instanceof Guide_Spirituel){
+				System.out.println("Sacrifice d'une carte Guide Spirituel.");
+				//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
+				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
+					gcj.remettreSurChampsDeBataille(((Guide_Spirituel)carte).getSesCroyants().get(i));
+				}
+			}
+			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
+			gcj.transfertCarteJouer(carte);
+			return carte;
 		}
-		else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
-		gcj.transfertCarteJouer(carte);
+		System.err.println("Vous ne pouvez pas jouer cette carte !");
+		return null;
 	}
 	
 	/**
@@ -138,33 +144,35 @@ public abstract class Joueur {
 	 * @param origine L'Origine tiré par le dé de cosmogonie. 
 	 */
 	public void attribuerPointsAction(Origine origine){
+		System.out.println("Origine : " + origine);
+		System.out.println("Origine divinité : " + this.gcj.getDivinite().getOrigine());
 		switch(this.gcj.getDivinite().getOrigine()){
 		case JOUR : 
 			if(origine.equals(Origine.JOUR)){
-				incrementerPointAction(origine);
-				incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
 			}
 			break;
 		case NUIT :
 			if(origine.equals(Origine.NUIT)){
-				incrementerPointAction(origine);
-				incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
 			}
 			break;
 		case AUBE :
 			if(origine.equals(Origine.JOUR)){
-				incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
 			}
 			if(origine.equals(Origine.NUIT)){
-				incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
 			}
 			break;
 		case CREPUSCULE :
 			if(origine.equals(Origine.NUIT)){
-				incrementerPointAction(origine);
+				this.incrementerPointAction(origine);
 			}
-			if(origine.equals(Origine.NUIT)){
-				incrementerPointAction(origine);
+			if(origine.equals(Origine.NEANT)){
+				this.incrementerPointAction(origine);
 			}
 			break;
 		default : break;
@@ -176,6 +184,7 @@ public abstract class Joueur {
 	 * @param origine L'Origine. 
 	 */
 	public void incrementerPointAction(Origine origine){
+		System.out.println("Incrémentation Point d'action : " + origine);
 		pointsAction.replace(origine, pointsAction.get(origine) + 1);
 	}
 	
@@ -189,6 +198,10 @@ public abstract class Joueur {
 	
 	public Gestionnaire_Cartes_Joueur getGestionnaire_Cartes_Joueur(){
 		return this.gcj;
+	}
+	
+	public Map<Origine, Integer> getPointsAction() {
+		return pointsAction;
 	}
 	
 	@Override
