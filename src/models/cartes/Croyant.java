@@ -14,6 +14,9 @@ public class Croyant extends Religion{
 		guide = null;
 	}
 
+	public int getPointsPriere(){
+		return super.nombre;
+	}
 	public void setGuide(Guide_Spirituel guide) {
 		this.guide = guide;
 	}

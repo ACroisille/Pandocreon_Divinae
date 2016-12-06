@@ -32,18 +32,6 @@ public class Partie {
 		//Distribution des divinites aux joueurs
 		this.distributionCartes(deck, divinites);
 		
-		System.out.println(gcp.toString());
-	
-		//DEBUG
-		/*
-		JoueurReel jr = null;
-		Iterator<Joueur> it = joueurs.iterator();
-		while(it.hasNext()){
-			Joueur j = (Joueur) it.next();
-			if(j instanceof JoueurReel) jr = (JoueurReel)j;
-		}
-		this.debug(jr);
-		*/
 		this.jouerPartie(true);
 	}
 	
@@ -61,19 +49,29 @@ public class Partie {
 	private boolean jouerTour(){
 		//Lancer du dés de cosmogonie 
 		distribuerPointsAction(De_Cosmogonie.lancerDe());
-		
-		Iterator it = joueurs.iterator();
+		System.out.println("Distribution des points d'action.");
+		Iterator<Joueur> it = joueurs.iterator();
 		boolean next;
 		while(it.hasNext()){
-			next = ((Joueur)it.next()).jouer();
+			next = it.next().jouer();
 			Gestionnaire_cartes_partie.joinTable();
 			//Si la méthode jouer renvois faux et qu'il y a moins de 4 joueurs dans la partie, fin de la partie
-			if(!next && joueurs.size()<4) return false;
+			if(!next && joueurs.size()<4){
+				//Le joueur ayant le plus de points de prière remporte la partie.
+				Joueur joueurMax = this.getJoueurMax();
+				if(joueurMax != null){
+					System.out.println(joueurMax.toString() + " emporte la partie !");
+					return false;
+				}else System.out.println("Joueurs à égalité, la partie continue !");
+			}
 			//Si la méthode jouer renvois faux et qu'il y a au moins 4 joueurs dans la partie, 
 			else if(!next && joueurs.size()>=4){
 				//élimine un joueur et reset le tours.
-				
-				return true;
+				Joueur joueurMin = this.getJoueurMin();
+				if(joueurMin != null){
+					System.out.println(joueurMin.toString() + " est éliminé de la partie !");
+					return true;
+				}else System.out.println("Joueurs à égalité, personne n'est éliminé, la partie continue !");
 			}
 		}
 		//Le tour de jeu s'est bien déroulé. Le premier joueur est placé à la fin de la liste de joueurs.
@@ -81,10 +79,12 @@ public class Partie {
 		return true;
 	}
 	
+	
+	
 	private void distribuerPointsAction(Origine o){
-		Iterator it = joueurs.iterator();
+		Iterator<Joueur> it = joueurs.iterator();
 		while(it.hasNext()){
-			((Joueur)it.next()).attribuerPointsAction(o);
+			(it.next()).attribuerPointsAction(o);
 		}
 	}
 	
@@ -92,16 +92,19 @@ public class Partie {
 	 * Place le premier joueur à la fin de la liste de joueur. 
 	 */
 	private void toTheEnd(){
-		
+		Iterator<Joueur> it = joueurs.iterator();
+		Joueur j = it.next();
+		joueurs.remove(j);
+		joueurs.add(j);
 	}
 	
 	private void distributionCartes(ArrayList<Carte> deck, Queue<Divinite> divinites){
-		Iterator it = joueurs.iterator();
+		Iterator<Joueur> it = joueurs.iterator();
 		while(it.hasNext()){
 			//Chaque joueur démarre avec 7 cartes
 			List<Carte> main =  new ArrayList<Carte>(deck.subList(0, 7));
 			deck.removeAll(main);
-			((Joueur)it.next()).attachGestionnaire_Cartes_Joueur(main, divinites.poll());
+			(it.next()).attachGestionnaire_Cartes_Joueur(main, divinites.poll());
 		}
 		this.gcp = new Gestionnaire_cartes_partie(deck, divinites);
 	}
@@ -116,9 +119,52 @@ public class Partie {
 		return divinites;
 	}
 	
-	private void debug(JoueurReel jr){
-		System.out.println(jr.toString());
-		System.out.println();
+	/**
+	 * Permet d'obtenir le joueur ayant le plus de points de prière de la partie.
+	 * @return le joueur ayant le plus de points de prière, null si égalité.
+	 */
+	private Joueur getJoueurMax(){
+		int max=0;
+		Joueur joueurMax = null;
+		Iterator<Joueur> it = joueurs.iterator();
+		Joueur j = null;
+		while(it.hasNext()){
+			j = it.next();
+			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() > max){
+				joueurMax = j;
+				max = j.getGestionnaire_Cartes_Joueur().compterPointsPriere();
+			}
+		}
+		it = joueurs.iterator();
+		while(it.hasNext()){
+			j = it.next();
+			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() == max && !j.equals(joueurMax)) return null;
+		}
+		return joueurMax;
+	}
+	
+	/**
+	 * Permet d'obtenir le joueur ayant le moins de points de prière de la partie.
+	 * @return le joueur ayant le moins de points de prière, null si égalité.
+	 */
+	private Joueur getJoueurMin(){
+		int min=10000;
+		Joueur joueurMin = null;
+		Iterator<Joueur> it = joueurs.iterator();
+		Joueur j = null;
+		while(it.hasNext()){
+			j = it.next();
+			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() < min){
+				joueurMin = j;
+				min = j.getGestionnaire_Cartes_Joueur().compterPointsPriere();
+			}
+		}
+		it = joueurs.iterator();
+		while(it.hasNext()){
+			j = it.next();
+			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() == min && !j.equals(joueurMin)) return null;
+		}
+		return joueurMin;
 	}
 	
 }

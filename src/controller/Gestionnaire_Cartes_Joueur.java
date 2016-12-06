@@ -168,6 +168,18 @@ public class Gestionnaire_Cartes_Joueur {
 		else return false;
 	}
 	
+	/**
+	 * Compte le nombre de points de prières d'un joueur.
+	 * @return Son nombre de points de prières. 
+	 */
+	public int compterPointsPriere(){
+		int totale = 0;
+		for(int i=0;i<this.champsDeBataille.size();i++){
+			if(this.champsDeBataille.get(i) instanceof Croyant) totale += ((Croyant)this.champsDeBataille.get(i)).getPointsPriere();
+		}
+		return totale;
+	}
+	
 	public Divinite getDivinite() {
 		return divinite;
 	}
@@ -209,11 +221,11 @@ public class Gestionnaire_Cartes_Joueur {
 		return buf.toString();
 	}
 	
-	public String cartesJouablesToString(){
+	public String cartesJouablesToString(List<Carte> cartes){
 		StringBuffer buf = new StringBuffer();
-		buf.append("\nCartes jouables de votre main : ").append(ConstanteCarte.BARRE);
+		buf.append(ConstanteCarte.BARRE);
 		int count = 1;
-		Iterator<Carte> it = this.cartesJouables(this.joueur.getPointsAction(), this.main).iterator();
+		Iterator<Carte> it = cartes.iterator();
 		while(it.hasNext()){
 			buf.append(count).append(" - ").append(((Carte)it.next()).toString()).append(ConstanteCarte.PETITEBARRE);
 			count++;
@@ -223,11 +235,11 @@ public class Gestionnaire_Cartes_Joueur {
 	
 	public String champsDeBatailleToString(){
 		StringBuffer buf = new StringBuffer();
-		buf.append("\nCartes Guide Spirituel devant vous : ").append(ConstanteCarte.BARRE);
+		buf.append("\nCartes sur le champs de bataille : ").append(ConstanteCarte.BARRE);
 		int count = 1;
 		Iterator<Carte> it = champsDeBataille.iterator();
 		while(it.hasNext()){
-			buf.append(count).append(" - ").append(((Carte)it.next()).toString()).append(ConstanteCarte.PETITEBARRE);
+			buf.append(count).append(" - ").append((it.next()).toString()).append(ConstanteCarte.PETITEBARRE);
 		}
 		return buf.toString();
 	}

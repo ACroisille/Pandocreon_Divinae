@@ -144,8 +144,8 @@ public abstract class Joueur {
 	 * @param origine L'Origine tiré par le dé de cosmogonie. 
 	 */
 	public void attribuerPointsAction(Origine origine){
-		System.out.println("Origine : " + origine);
-		System.out.println("Origine divinité : " + this.gcj.getDivinite().getOrigine());
+		//System.out.println("Origine : " + origine);
+		//System.out.println("Origine divinité : " + this.gcj.getDivinite().getOrigine());
 		switch(this.gcj.getDivinite().getOrigine()){
 		case JOUR : 
 			if(origine.equals(Origine.JOUR)){
@@ -184,7 +184,7 @@ public abstract class Joueur {
 	 * @param origine L'Origine. 
 	 */
 	public void incrementerPointAction(Origine origine){
-		System.out.println("Incrémentation Point d'action : " + origine);
+		//System.out.println("Incrémentation Point d'action : " + origine);
 		pointsAction.replace(origine, pointsAction.get(origine) + 1);
 	}
 	
@@ -206,10 +206,9 @@ public abstract class Joueur {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
 		buf.append("Points d'action : ").append(pointsAction.toString()).append(ConstanteCarte.BARRE);
-		buf.append(gcj.toString()).append("\n");
+		//buf.append(gcj.toString()).append("\n");
 		return buf.toString();
 	}
 }

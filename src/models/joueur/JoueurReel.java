@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import controller.Gestionnaire_cartes_partie;
 import controller.NoTypeException;
+import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.Croyant;
 import models.cartes.Guide_Spirituel;
@@ -23,70 +24,71 @@ public class JoueurReel extends Joueur{
 	public boolean jouer() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println(this.toString());
+		System.out.println(super.gcj.toString());
 		//Phase de défausse 
-		/*this.phaseDefausse(scan);
-		System.out.println(this.toString());
+		//this.phaseDefausse(scan);
 		//Remplir main
 		this.phaseCompleterMain(scan);
-		System.out.println(this.toString());*/
-		
 		//Jouer carte action
-		System.out.println(super.gcj.cartesJouablesToString());
-		this.phaseJouerCarteMain(scan);
-		System.out.println(this.toString());
 		System.out.println(Gestionnaire_cartes_partie.afficherCartesPartie());
+		if(!this.phaseJouerCarteMain(scan)) return false;
 		
 		//sacrifier carte du champs de bataille.
+		System.out.println(super.gcj.champsDeBatailleToString());
 		this.phaseSacrificeCarteChampsDeBataille(scan);
 		
 		return true;
 	}
 	
 	public void phaseDefausse(Scanner scan){
-		System.out.println("Souhaitez vous vous défausser d'une partie ou la totalité de votre main ? (y/n)");
-		if(this.yesOrNo(scan)){
-			List<Carte> defausse = new ArrayList<Carte>();
-			Carte carte = null;
-			do{
-				carte = cardPeeker(super.gcj.getMain(), scan);
-				if(carte != null){
-					if(!defausse.contains(carte)) defausse.add(carte);
-				}
-			}while(carte != null);
-			super.gcj.defausserMain(defausse);
-		}	
+		System.out.println("Souhaitez vous vous défausser d'une partie ou la totalité de votre main ?");
+		List<Carte> defausse = new ArrayList<Carte>();
+		Carte carte = null;
+		do{
+			carte = cardPeeker(super.gcj.getMain(), scan);
+			if(carte != null){
+				if(!defausse.contains(carte)) defausse.add(carte);
+			}
+		}while(carte != null);
+		super.gcj.defausserMain(defausse);	
 	}
 	
 	public void phaseCompleterMain(Scanner scan){
-		System.out.println("Souhaitez vous completer votre main ?");
+		System.out.println("Souhaitez vous completer votre main ? (y/n)");
 		if(this.yesOrNo(scan)) super.gcj.remplirMain();
 	}
 	
-	public void phaseJouerCarteMain(Scanner scan){
+	public boolean phaseJouerCarteMain(Scanner scan){
 		System.out.println("Souhaitez vous jouer une carte de votre main ?");
 		Carte carte = null;
 		do{
+			System.out.println("Cartes jouables dans votre main : ");
+			System.out.println(super.gcj.cartesJouablesToString(super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain())));
 			carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()), scan);
 			if(carte != null){
 				//La carte est joué
 				try {
 					super.jouerCarteMain(carte);
+					if(carte instanceof Apocalypse) return false;
 				} catch (NoTypeException e) {
 					e.printStackTrace();
 				}
 			}
 		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0);
+		return true;
 	}
 
 	public void phaseSacrificeCarteChampsDeBataille(Scanner scan){
+		System.out.println("Souhaitez vous sacrifier une carte du champs de bataille ?");
 		Carte carte = null;		
 		do{
-			System.out.println("Souhaitez vous sacrifier une carte ?");
+			System.out.println("Cartes sacrifiables sur le champs de bataille : ");
+			System.out.println(super.gcj.cartesJouablesToString(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille())));
 			carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille()), scan);
 			if(carte != null){
 				//La carte est joué
 				try {
-					super.jouerCarteMain(carte);
+					super.sacrifierCarteChampsDeBataille(carte);
 				} catch (NoTypeException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

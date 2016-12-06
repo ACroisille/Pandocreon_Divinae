@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import models.cartes.Carte;
+import models.cartes.ConstanteCarte;
 import models.cartes.Croyant;
 import models.cartes.Divinite;
 
@@ -64,20 +65,19 @@ public class Gestionnaire_cartes_partie {
 	
 	public static String afficherCartesPartie(){
 		StringBuffer buf = new StringBuffer();
-		buf.append("\nNombre de cartes dans la pioche : ").append(Gestionnaire_cartes_partie.pioche.size()).append("\n");
-		buf.append("Nombre de cartes dans la defausse : ").append(Gestionnaire_cartes_partie.defausse.size()).append("\n\n");
-		buf.append("Cartes au centre de la table : \n");
+		//buf.append("\nNombre de cartes dans la pioche : ").append(Gestionnaire_cartes_partie.pioche.size()).append("\n");
+		//buf.append("Nombre de cartes dans la defausse : ").append(Gestionnaire_cartes_partie.defausse.size()).append("\n\n");
+		buf.append("Cartes au centre de la table : \n").append(ConstanteCarte.BARRE);
 		for(int i=0;i<Gestionnaire_cartes_partie.table.size();i++){
-			buf.append(Gestionnaire_cartes_partie.table.get(i).toString()).append("\n");
+			buf.append(Gestionnaire_cartes_partie.table.get(i).toString()).append("\n").append(ConstanteCarte.PETITEBARRE).append("\n").append(ConstanteCarte.PETITEBARRE);
 		}
 		return buf.toString();
 	}
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
-		buf.append("\nNombre de cartes dans la pioche : ").append(this.pioche.size()).append("\n");
-		buf.append("Nombre de cartes dans la defausse : ").append(this.defausse.size()).append("\n\n");
+		//buf.append("\nNombre de cartes dans la pioche : ").append(this.pioche.size()).append("\n");
+		//buf.append("Nombre de cartes dans la defausse : ").append(this.defausse.size()).append("\n\n");
 		buf.append("Cartes au centre de la table : \n");
 		for(int i=0;i<this.table.size();i++){
 			buf.append(this.table.get(i).toString()).append("\n");

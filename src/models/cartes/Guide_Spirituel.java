@@ -25,8 +25,13 @@ public class Guide_Spirituel extends Religion{
 	 * @return La liste de croyants que le guide rammène à lui. 
 	 */
 	public List<Carte> ammenerCroyants(){
-		//TODO Donner la possibilitée au joueur de choisir dans la liste de croyant.
-		List<Carte> croyants = new ArrayList<Carte>(this.croyantsDisponible().subList(0, this.nombre));
+		//Donner la possibilitée au joueur de choisir dans la liste de croyant.
+		List<Carte> croyants = null;
+		if(this.croyantsDisponible().size() >= super.nombre){
+			//S'il y a assez de croyants disponibles
+			croyants = new ArrayList<Carte>(this.croyantsDisponible().subList(0, this.nombre));
+		}else croyants = new ArrayList<Carte>(this.croyantsDisponible());
+		
 		for(int i=0;i<croyants.size();i++){
 			((Croyant)croyants.get(i)).setGuide(this);
 			this.sesCroyants.add((Croyant)croyants.get(i));

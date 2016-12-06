@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import controller.BuildCartes;
@@ -13,10 +14,11 @@ import models.joueur.JoueurVirtuel;
 public class Launcher {
 
 	public static Set<Joueur> setJoueurs(String nomJoueurReel,Integer nombreJoueursVirtuels){
-		Set<Joueur> joueurs = new HashSet<Joueur>();
+		Set<Joueur> joueurs = new LinkedHashSet<Joueur>();
 		if(!nomJoueurReel.equals(null)){
 			joueurs.add(new JoueurReel(nomJoueurReel));
 		}
+		joueurs.add(new JoueurReel("joueur2"));
 		/*
 		for(int i=0;i<nombreJoueursVirtuels;i++){
 			joueurs.add(new JoueurVirtuel(i+1));

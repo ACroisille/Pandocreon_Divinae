@@ -13,8 +13,8 @@ public class De_Cosmogonie {
 		return de;
 	}
 	public static Origine lancerDe(){
-		return Origine.values()[(int)(Math.random()*Origine.values().length)];
-		
+		Origine[] o = {Origine.JOUR,Origine.NUIT,Origine.NEANT}; 
+		return o[(int)(Math.random()*o.length)];
 	}
 	
 
