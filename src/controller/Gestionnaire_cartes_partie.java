@@ -20,11 +20,11 @@ public class Gestionnaire_cartes_partie {
 	private static Queue<Divinite> divinitesRestantes;
 	
 	public Gestionnaire_cartes_partie(List<Carte> deck,Queue<Divinite> divinitesRestantes){
-		this.pioche = new LinkedList<Carte>(deck);
-		this.defausse = new ArrayList<Carte>();
-		this.table = new ArrayList<Croyant>();
-		this.pileTable = new ArrayList<Croyant>();
-		this.divinitesRestantes = divinitesRestantes;
+		Gestionnaire_cartes_partie.pioche = new LinkedList<Carte>(deck);
+		Gestionnaire_cartes_partie.defausse = new ArrayList<Carte>();
+		Gestionnaire_cartes_partie.table = new ArrayList<Croyant>();
+		Gestionnaire_cartes_partie.pileTable = new ArrayList<Croyant>();
+		Gestionnaire_cartes_partie.divinitesRestantes = divinitesRestantes;
 	}
 	
 	public static void addDefausse(Carte carte){

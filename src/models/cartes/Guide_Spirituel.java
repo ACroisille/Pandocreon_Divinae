@@ -40,6 +40,12 @@ public class Guide_Spirituel extends Religion{
 	}
 	
 	/**
+	 * Si le guide est défausser ou revient dans le main de son propriétaire alors les croyants sont libèrés.
+	 */
+	public void libererCroyants(){
+		this.sesCroyants.clear();
+	}
+	/**
 	 * Permet d'obtenir la liste des croyants qu'un guide peut rammener à lui.
 	 * @return La liste de croyant.
 	 */

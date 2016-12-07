@@ -27,6 +27,8 @@ public class Gestionnaire_Cartes_Joueur {
 	private List<Carte> champsDeBataille;
 	private Divinite divinite;
 	private Carte pilePose=null,pileSacrifice=null; //Ajouter listener dessus
+	private Boolean sacrificeCroyant = true, sacrificeGuide = true;
+	
 	
 	public Gestionnaire_Cartes_Joueur(Joueur joueur, List<Carte> main,Divinite divinite){
 		this.joueur = joueur;
@@ -60,7 +62,7 @@ public class Gestionnaire_Cartes_Joueur {
 	
 	public void defausserChampsDeBataille(Carte carte){
 		if(this.champsDeBataille.contains(carte)){
-			champsDeBataille.remove(carte);
+			this.champsDeBataille.remove(carte);
 			Gestionnaire_cartes_partie.addDefausse(carte);
 		}
 	}
@@ -79,6 +81,17 @@ public class Gestionnaire_Cartes_Joueur {
 		for(int i = this.main.size()-1;i<SIZE_MAX-1;i++){
 			this.piocherCarte();
 		}
+	}
+	
+	/**
+	 * Donne une carte (au hasard).
+	 * @return Carte
+	 */
+	public Carte donnerCarte(){
+		if(main.size()>0){
+			return main.remove(0);
+		}
+		else return null;
 	}
 	
 	/** 
@@ -130,14 +143,31 @@ public class Gestionnaire_Cartes_Joueur {
 		else throw new NoTypeException("Il n'y a pas de carte dans la pile.");
 	}
 	
+	/**
+	 * Remet un croyant au centre de la table s'il n'est plus guidé par un guide.
+	 * @param carte La carte croyant à remettre au centre de la table.
+	 * @throws NoTypeException
+	 */
 	public void remettreSurChampsDeBataille(Croyant carte) throws NoTypeException{
 		if(carte instanceof Croyant){
+			((Croyant)carte).setGuide(null);
 			this.champsDeBataille.remove(carte);
-			Gestionnaire_cartes_partie.addDefausse(carte);
+			Gestionnaire_cartes_partie.addTable(carte);
 		}
 		else throw new NoTypeException("La carte n'est pas une carte croyant !");
 	}
-	
+	/**
+	 * Si un guide spirituel n'a plus de croyants il est défaussé
+	 * @param carte Le guide spirituel
+	 */
+	public void defausserGuideSpirituel(Guide_Spirituel carte) {
+		if(carte instanceof Guide_Spirituel){
+			if(carte.getSesCroyants().size() == 1){
+				((Guide_Spirituel)carte).libererCroyants();
+				this.defausserChampsDeBataille(carte);
+			 }
+		}
+	}
 	
 	/**
 	 * Permet au joueur de savoir quels cartes il peut jouer en fonction de ses points d'action. 
@@ -165,9 +195,17 @@ public class Gestionnaire_Cartes_Joueur {
 			else return false;
 		}
 		else if(pointsAction.get(carte.getOrigine()) > 0) return true;
-		else return false;
+		else{
+			System.err.println("Impossible de jouer la carte pour une raison inconnue");
+			return false;
+		}
 	}
 	
+	public boolean isSacrifiable(Carte carte){
+		if(carte instanceof Croyant && this.sacrificeCroyant.equals(false)) return false;
+		else if(carte instanceof Guide_Spirituel && this.sacrificeGuide.equals(false)) return false;
+		else return true;
+	}
 	/**
 	 * Compte le nombre de points de prières d'un joueur.
 	 * @return Son nombre de points de prières. 
@@ -187,9 +225,58 @@ public class Gestionnaire_Cartes_Joueur {
 	public List<Carte> getChampsDeBataille() {
 		return this.champsDeBataille;
 	}
+	public List<Carte> getCroyantsChampsDeBataille(){
+		List<Carte> array = new ArrayList<Carte>();
+		for(int i=0;i<this.champsDeBataille.size();i++){
+			if(this.champsDeBataille.get(i) instanceof Croyant) array.add(this.champsDeBataille.get(i));
+		}
+		return array;
+	}
+	public List<Carte> getGuidesChampsDeBataille(){
+		List<Carte> array = new ArrayList<Carte>();
+		for(int i=0;i<this.champsDeBataille.size();i++){
+			if(this.champsDeBataille.get(i) instanceof Guide_Spirituel) array.add(this.champsDeBataille.get(i));
+		}
+		return array;
+	}
 	
+	public void addMain(Carte carte){
+		if(this.champsDeBataille.contains(carte)){
+			if(carte instanceof Croyant){
+				//Si le croyant est le dernier de son guide. Son guide est défausser
+				this.defausserGuideSpirituel(((Croyant)carte).getGuide());
+			}
+			else if(carte instanceof Guide_Spirituel){
+				//Les croyants du guide sont remis sur le champs de bataille
+				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
+					try {
+						this.remettreSurChampsDeBataille(((Guide_Spirituel)carte).getSesCroyants().get(i));
+					} catch (NoTypeException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			//La carte est retiré du champs de bataille
+			this.champsDeBataille.remove(carte);
+		}
+		this.main.add(carte);
+	}
 	public List<Carte> getMain() {
-		return main;
+		return this.main;
+	}
+	
+	public Boolean getSacrificeCroyant() {
+		return this.sacrificeCroyant;
+	}
+	public Boolean getSacrificeGuide() {
+		return this.sacrificeGuide;
+	}
+	public void setSacrificeCroyant(Boolean sacrificeCroyant) {
+		this.sacrificeCroyant = sacrificeCroyant;
+	}
+	
+	public void setSacrificeGuide(Boolean sacrificeGuide) {
+		this.sacrificeGuide = sacrificeGuide;
 	}
 	
 	@Override

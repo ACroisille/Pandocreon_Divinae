@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import controller.Gestionnaire_Cartes_Joueur;
 import controller.Gestionnaire_cartes_partie;
@@ -43,7 +44,7 @@ public abstract class Joueur {
 	 * @throws NoTypeException 
 	 */
 	public Carte jouerCarteMain(Carte carte) throws NoTypeException{
-		if(gcj.isJouable(carte, this.pointsAction) || carte.getOrigine().equals(null)){
+		if(gcj.isJouable(carte, this.pointsAction)){
 			//Intention de jouer la carte
 			this.payerCoutCarte(carte);
 			gcj.intentionJouerCarte(carte);//La carte passe dans la pilePose et un listener est déclenché. 
@@ -77,12 +78,13 @@ public abstract class Joueur {
 	 * @throws NoTypeException 
 	 */
 	public Carte sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
-		if(gcj.isJouable(carte, this.pointsAction)){
-			this.payerCoutCarte(carte);
+		if(gcj.isJouable(carte, this.pointsAction) && gcj.isSacrifiable(carte)){
+			//La carte est mise dans la pile de sacrifice
 			gcj.intentionJouerCarte(carte);
 			if(carte instanceof Croyant){
 				 System.out.println("Sacrifice d'une carte croyant.");
 				 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
+				 
 				 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
 					 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
 				 }
@@ -95,6 +97,7 @@ public abstract class Joueur {
 				}
 			}
 			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
+			this.payerCoutCarte(carte);
 			gcj.transfertCarteJouer(carte);
 			return carte;
 		}
@@ -115,6 +118,19 @@ public abstract class Joueur {
 	 */
 	public void activerCapaciteDivinite(Carte carte){
 		
+	}
+	
+	public Carte cardPeeker(List<Carte> cartes){
+		return null;
+	}
+	
+	/**
+	 * Permet au joueur de cibler un autre joueur.
+	 * @param joueurs
+	 * @return Le joueur ciblé
+	 */
+	public Joueur joueurPeeker(Set<Joueur> joueurs){
+		return null;
 	}
 	
 	/**

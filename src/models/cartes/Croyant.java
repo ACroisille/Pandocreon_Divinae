@@ -17,8 +17,13 @@ public class Croyant extends Religion{
 	public int getPointsPriere(){
 		return super.nombre;
 	}
+	
 	public void setGuide(Guide_Spirituel guide) {
 		this.guide = guide;
+	}
+	
+	public Set<Dogme> getDogmes(){
+		return super.sesDogmes;
 	}
 	
 	public Guide_Spirituel getGuide() {

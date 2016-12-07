@@ -13,6 +13,10 @@ public class Divinite extends Carte{
 		this.sesDogmes = sesDogmes;
 	}
 	
+	public Set<Dogme> getSesDogmes() {
+		return sesDogmes;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

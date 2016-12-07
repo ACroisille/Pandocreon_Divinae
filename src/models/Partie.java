@@ -18,11 +18,11 @@ import models.joueur.JoueurReel;
 
 public class Partie {
 	
-	private Set<Joueur> joueurs;
+	private static Set<Joueur> joueurs;
 	private Gestionnaire_cartes_partie gcp = null;
 	
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
-		this.joueurs = joueurs;
+		Partie.joueurs = joueurs;
 		
 		Collections.shuffle(deck);
 		//Récupèration des divinitées dans la paquet de carte.
@@ -76,6 +76,7 @@ public class Partie {
 		}
 		//Le tour de jeu s'est bien déroulé. Le premier joueur est placé à la fin de la liste de joueurs.
 		this.toTheEnd();
+		this.clearSacrifice();
 		return true;
 	}
 	
@@ -165,6 +166,23 @@ public class Partie {
 			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() == min && !j.equals(joueurMin)) return null;
 		}
 		return joueurMin;
+	}
+	
+	/**
+	 * Remet à true les booleans pour permettre aux joueurs de pouvoir à nouveau sacrifier des cartes.
+	 */
+	public void clearSacrifice(){
+		Iterator<Joueur> it = Partie.joueurs.iterator();
+		Joueur j = null;
+		while(it.hasNext()){
+			j = it.next();
+			j.getGestionnaire_Cartes_Joueur().setSacrificeCroyant(true);
+			j.getGestionnaire_Cartes_Joueur().setSacrificeGuide(true);
+		}
+	}
+	
+	public static Set<Joueur> getJoueurs() {
+		return joueurs;
 	}
 	
 }
