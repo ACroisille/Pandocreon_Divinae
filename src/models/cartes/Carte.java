@@ -11,10 +11,11 @@ public abstract class Carte{
 	protected boolean capaciteUsed;
 	protected Capacite capacite;
 	
-	public Carte(String nom,String capaciteDesc,Origine origine){
+	public Carte(String nom,String capaciteDesc,Origine origine, Capacite capacite){
 		this.nom = nom;
 		this.capaciteDesc = capaciteDesc;
 		this.origine = origine;
+		this.capacite = capacite;
 		this.capaciteUsed = false;
 	}
 	

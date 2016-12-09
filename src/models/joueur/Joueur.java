@@ -2,6 +2,8 @@ package models.joueur;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,7 +23,8 @@ import models.cartes.Origine;
 public abstract class Joueur {
 	protected Map<Origine,Integer> pointsAction;
 	protected Gestionnaire_Cartes_Joueur gcj = null;
-
+	protected boolean incrementerPointsAction = true;
+	
 	public Joueur(){
 		this.pointsAction = new HashMap<Origine,Integer>();
 		this.pointsAction.put(Origine.JOUR, 0);
@@ -84,17 +87,17 @@ public abstract class Joueur {
 			if(carte instanceof Croyant){
 				 System.out.println("Sacrifice d'une carte croyant.");
 				 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
-				 
 				 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
 					 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
 				 }
+				 
 			}
 			else if(carte instanceof Guide_Spirituel){
 				System.out.println("Sacrifice d'une carte Guide Spirituel.");
 				//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
-				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
-					gcj.remettreSurChampsDeBataille(((Guide_Spirituel)carte).getSesCroyants().get(i));
-				}
+				gcj.defausserChampsDeBataille(carte);
+				
+				
 			}
 			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
 			this.payerCoutCarte(carte);
@@ -133,26 +136,32 @@ public abstract class Joueur {
 		return null;
 	}
 	
+	public Origine originePeeker(){
+		return null;
+	}
+	
 	/**
 	 * Retire des points d'action au joueur en fonction de la carte qu'il veut jouer.
 	 * @param carte
 	 */
 	private void payerCoutCarte(Carte carte){
-		if(carte.getOrigine().equals(Origine.NEANT) && pointsAction.get(Origine.NEANT) == 0){
-			 if(this.pointsAction.get(Origine.JOUR) == this.pointsAction.get(Origine.NUIT)){
-				 this.decrementerPointsAction(Origine.JOUR);
-				 this.decrementerPointsAction(Origine.NUIT);
-			 }
-			 else if(this.pointsAction.get(Origine.JOUR) > this.pointsAction.get(Origine.NUIT)){
-				 this.decrementerPointsAction(Origine.JOUR);
-				 this.decrementerPointsAction(Origine.JOUR);
-			 }
-			 else if(this.pointsAction.get(Origine.JOUR) < this.pointsAction.get(Origine.NUIT)){
-				 this.decrementerPointsAction(Origine.NUIT);
-				 this.decrementerPointsAction(Origine.NUIT);
-			 }
+		if(carte.getOrigine() != null){
+			if(carte.getOrigine().equals(Origine.NEANT) && pointsAction.get(Origine.NEANT) == 0){
+				 if(this.pointsAction.get(Origine.JOUR) == this.pointsAction.get(Origine.NUIT)){
+					 this.decrementerPointsAction(Origine.JOUR);
+					 this.decrementerPointsAction(Origine.NUIT);
+				 }
+				 else if(this.pointsAction.get(Origine.JOUR) > this.pointsAction.get(Origine.NUIT)){
+					 this.decrementerPointsAction(Origine.JOUR);
+					 this.decrementerPointsAction(Origine.JOUR);
+				 }
+				 else if(this.pointsAction.get(Origine.JOUR) < this.pointsAction.get(Origine.NUIT)){
+					 this.decrementerPointsAction(Origine.NUIT);
+					 this.decrementerPointsAction(Origine.NUIT);
+				 }
+			}
+			else this.decrementerPointsAction(carte.getOrigine());
 		}
-		else if(!carte.getOrigine().equals(null)) this.decrementerPointsAction(carte.getOrigine());
 	}
 	
 	/**
@@ -201,11 +210,15 @@ public abstract class Joueur {
 	 */
 	public void incrementerPointAction(Origine origine){
 		//System.out.println("Incrémentation Point d'action : " + origine);
-		pointsAction.replace(origine, pointsAction.get(origine) + 1);
+		if(incrementerPointsAction) pointsAction.replace(origine, pointsAction.get(origine) + 1);
 	}
 	
 	public void decrementerPointsAction(Origine origine){
 		pointsAction.replace(origine, pointsAction.get(origine) - 1);
+	}
+	
+	public void setIncrementerPointsAction(boolean incrementerPointsAction) {
+		this.incrementerPointsAction = incrementerPointsAction;
 	}
 	
 	public void attachGestionnaire_Cartes_Joueur(List<Carte> main, Divinite divinite){

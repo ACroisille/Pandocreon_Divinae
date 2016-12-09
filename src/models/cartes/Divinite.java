@@ -2,12 +2,14 @@ package models.cartes;
 
 import java.util.Set;
 
+import controller.Capacite;
+
 public class Divinite extends Carte{
 	private String carteDesc;
 	private Set<Dogme> sesDogmes;
 	
-	public Divinite(String nom, String carteDesc,String capaciteDesc, Origine origine,Set<Dogme> sesDogmes) {
-		super(nom, capaciteDesc, origine);
+	public Divinite(String nom, String carteDesc,String capaciteDesc, Origine origine,Set<Dogme> sesDogmes,Capacite capacite) {
+		super(nom, capaciteDesc, origine,capacite);
 		// TODO Auto-generated constructor stub
 		this.carteDesc = carteDesc;
 		this.sesDogmes = sesDogmes;

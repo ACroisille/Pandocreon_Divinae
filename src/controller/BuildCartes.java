@@ -3,7 +3,9 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -30,6 +32,8 @@ public abstract class BuildCartes {
 	
 	public static ArrayList<Carte> getCartes(){		
 		ArrayList<Carte> deck = new ArrayList<Carte>();
+		System.out.println("Chargement des capacites...");
+		Map<String,Capacite> capacites = BuildCapacites.loadCapacites();
 		Document document = getXMLDocument();
 		
 		Element racine = document.getDocumentElement();
@@ -40,6 +44,7 @@ public abstract class BuildCartes {
 			if(deckNodes.item(i).getNodeType() == Node.ELEMENT_NODE && deckNodes.item(i).getNodeName().equals("card")){
 				Node card = deckNodes.item(i);
 				String template = card.getAttributes().getNamedItem("template").getTextContent();
+				String capaciteKey = card.getAttributes().getNamedItem("capacite").getTextContent();
 				
 				NodeList cardNodes = card.getChildNodes();
 				//Pour chaque elements
@@ -72,7 +77,7 @@ public abstract class BuildCartes {
 						origine = pickOrigine(templates[1].replaceAll(" ", ""));
 						nombre = pickNombre(id);
 						dogmes = pickDogmes(templates[2].split("-")[1]);
-						Croyant c = new Croyant(nomCarte,capaciteDesc,origine,nombre,dogmes);
+						Croyant c = new Croyant(nomCarte,capaciteDesc,origine,nombre,dogmes,capacites.get(capaciteKey));
 						deck.add(c);
 						//System.out.println(c);
 						break;
@@ -81,14 +86,14 @@ public abstract class BuildCartes {
 						origine = pickOrigine(templates[1].replaceAll(" ", ""));
 						nombre = pickNombre(id);
 						dogmes = pickDogmes(templates[2].split("-")[1]);
-						Guide_Spirituel g = new Guide_Spirituel(nomCarte,capaciteDesc,origine,nombre,dogmes);
+						Guide_Spirituel g = new Guide_Spirituel(nomCarte,capaciteDesc,origine,nombre,dogmes,capacites.get(capaciteKey));
 						deck.add(g);
 						//System.out.println(g);
 						break;
 					case ConstanteCarte.DEUSEX : 
 						//System.out.println("Type Deus Ex");
 						if(templates.length>1) origine = pickOrigine(templates[1].replaceAll(" ", ""));
-						Deus_Ex d = new Deus_Ex(nomCarte, capaciteDesc, origine);
+						Deus_Ex d = new Deus_Ex(nomCarte, capaciteDesc, origine,capacites.get(capaciteKey));
 						deck.add(d);
 						//System.out.println(d);
 						break;
@@ -103,7 +108,7 @@ public abstract class BuildCartes {
 						//System.out.println("Type Divinite");
 						origine = pickOrigine(templates[1].replaceAll(" ", ""));
 						dogmes = pickDogmes(templates[2].split("-")[2]);
-						Divinite divinite = new Divinite(nomCarte, capaciteDesc, carteDesc, origine, dogmes);
+						Divinite divinite = new Divinite(nomCarte, capaciteDesc, carteDesc, origine, dogmes,capacites.get(capaciteKey));
 						deck.add(divinite);
 						//System.out.println(divinite);
 						break;

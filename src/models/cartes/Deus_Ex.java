@@ -5,8 +5,8 @@ import models.joueur.Joueur;
 
 public class Deus_Ex extends Carte{
 
-	public Deus_Ex(String nom,String capaciteDesc,Origine origine) {
-		super(nom,capaciteDesc,origine);
+	public Deus_Ex(String nom,String capaciteDesc,Origine origine,Capacite capacite) {
+		super(nom,capaciteDesc,origine,capacite);
 		// TODO Auto-generated constructor stub
 	}
 

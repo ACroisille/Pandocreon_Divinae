@@ -60,11 +60,9 @@ public class Gestionnaire_Cartes_Joueur {
 		}
 	}
 	
-	public void defausserChampsDeBataille(Carte carte){
-		if(this.champsDeBataille.contains(carte)){
-			this.champsDeBataille.remove(carte);
-			Gestionnaire_cartes_partie.addDefausse(carte);
-		}
+	public void defausserMain(Carte carte){
+		this.main.remove(carte);
+		Gestionnaire_cartes_partie.addDefausse(carte);
 	}
 	
 	/**
@@ -143,31 +141,7 @@ public class Gestionnaire_Cartes_Joueur {
 		else throw new NoTypeException("Il n'y a pas de carte dans la pile.");
 	}
 	
-	/**
-	 * Remet un croyant au centre de la table s'il n'est plus guidé par un guide.
-	 * @param carte La carte croyant à remettre au centre de la table.
-	 * @throws NoTypeException
-	 */
-	public void remettreSurChampsDeBataille(Croyant carte) throws NoTypeException{
-		if(carte instanceof Croyant){
-			((Croyant)carte).setGuide(null);
-			this.champsDeBataille.remove(carte);
-			Gestionnaire_cartes_partie.addTable(carte);
-		}
-		else throw new NoTypeException("La carte n'est pas une carte croyant !");
-	}
-	/**
-	 * Si un guide spirituel n'a plus de croyants il est défaussé
-	 * @param carte Le guide spirituel
-	 */
-	public void defausserGuideSpirituel(Guide_Spirituel carte) {
-		if(carte instanceof Guide_Spirituel){
-			if(carte.getSesCroyants().size() == 1){
-				((Guide_Spirituel)carte).libererCroyants();
-				this.defausserChampsDeBataille(carte);
-			 }
-		}
-	}
+	
 	
 	/**
 	 * Permet au joueur de savoir quels cartes il peut jouer en fonction de ses points d'action. 
@@ -196,7 +170,7 @@ public class Gestionnaire_Cartes_Joueur {
 		}
 		else if(pointsAction.get(carte.getOrigine()) > 0) return true;
 		else{
-			System.err.println("Impossible de jouer la carte pour une raison inconnue");
+			//System.err.println("Impossible de jouer la carte pour une raison inconnue");
 			return false;
 		}
 	}
@@ -242,25 +216,53 @@ public class Gestionnaire_Cartes_Joueur {
 	
 	public void addMain(Carte carte){
 		if(this.champsDeBataille.contains(carte)){
-			if(carte instanceof Croyant){
-				//Si le croyant est le dernier de son guide. Son guide est défausser
-				this.defausserGuideSpirituel(((Croyant)carte).getGuide());
-			}
-			else if(carte instanceof Guide_Spirituel){
-				//Les croyants du guide sont remis sur le champs de bataille
-				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
-					try {
-						this.remettreSurChampsDeBataille(((Guide_Spirituel)carte).getSesCroyants().get(i));
-					} catch (NoTypeException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+			this.gererDependances(carte);
 			//La carte est retiré du champs de bataille
 			this.champsDeBataille.remove(carte);
 		}
 		this.main.add(carte);
 	}
+	
+	public void defausserChampsDeBataille(Carte carte){
+		this.gererDependances(carte);
+		this.champsDeBataille.remove(carte);
+		Gestionnaire_cartes_partie.addDefausse(carte);
+	}
+	
+	/**
+	 * Gere les dépendances entre croyants et guides 
+	 * @param carte
+	 */
+	public void gererDependances(Carte carte){
+		if(carte instanceof Guide_Spirituel){
+			//Defausse le guide et remet ses croyants sur la table
+			for(int i=0; i < ((Guide_Spirituel)carte).getSesCroyants().size();i++){
+					this.remettreSurTable((Croyant)((Guide_Spirituel)carte).getSesCroyants().get(i));
+			}
+			//Les croyants sont dissociés du guide
+			((Guide_Spirituel)carte).libererCroyants();
+		}
+		else if(carte instanceof Croyant){
+			//Defausse le croyant, si il était le dernier son guide est défausser
+			if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
+				//Le croyant est le dernier, le guide est donc défaussé
+				this.champsDeBataille.remove(((Croyant)carte).getGuide());
+				//Même s'il ne reste qu'un seul croyant rattacher au guide, il faut le libèrer.
+				((Croyant)carte).getGuide().libererCroyants();
+			}
+		}
+	}
+	
+	/**
+	 * Remet un croyant au centre de la table.
+	 * @param carte La carte croyant à remettre au centre de la table.
+	 * @throws NoTypeException
+	 */
+	public void remettreSurTable(Croyant carte){
+		this.champsDeBataille.remove(carte);
+		Gestionnaire_cartes_partie.addTable(carte);
+	}
+	
 	public List<Carte> getMain() {
 		return this.main;
 	}

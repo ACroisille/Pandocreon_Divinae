@@ -76,7 +76,7 @@ public class Partie {
 		}
 		//Le tour de jeu s'est bien déroulé. Le premier joueur est placé à la fin de la liste de joueurs.
 		this.toTheEnd();
-		this.clearSacrifice();
+		this.clear();
 		return true;
 	}
 	
@@ -171,11 +171,12 @@ public class Partie {
 	/**
 	 * Remet à true les booleans pour permettre aux joueurs de pouvoir à nouveau sacrifier des cartes.
 	 */
-	public void clearSacrifice(){
+	public void clear(){
 		Iterator<Joueur> it = Partie.joueurs.iterator();
 		Joueur j = null;
 		while(it.hasNext()){
 			j = it.next();
+			j.setIncrementerPointsAction(true);
 			j.getGestionnaire_Cartes_Joueur().setSacrificeCroyant(true);
 			j.getGestionnaire_Cartes_Joueur().setSacrificeGuide(true);
 		}

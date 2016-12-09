@@ -12,8 +12,8 @@ public class Guide_Spirituel extends Religion{
 	private ArrayList<Croyant> sesCroyants;
 	
 	public Guide_Spirituel(String nom, String capaciteDesc, Origine origine, Integer nombre,
-			Set<Dogme> sesDogmes) {
-		super(nom, capaciteDesc, origine, nombre, sesDogmes);
+			Set<Dogme> sesDogmes,Capacite capacite) {
+		super(nom, capaciteDesc, origine, nombre, sesDogmes,capacite);
 		// TODO Auto-generated constructor stub
 		sesCroyants = new ArrayList<Croyant>();
 	}
@@ -43,7 +43,10 @@ public class Guide_Spirituel extends Religion{
 	 * Si le guide est défausser ou revient dans le main de son propriétaire alors les croyants sont libèrés.
 	 */
 	public void libererCroyants(){
-		this.sesCroyants.clear();
+		for(int i=0;i<this.sesCroyants.size();i++){
+			this.sesCroyants.get(i).setGuide(null);
+			this.sesCroyants.remove(i);
+		}
 	}
 	/**
 	 * Permet d'obtenir la liste des croyants qu'un guide peut rammener à lui.
@@ -74,7 +77,8 @@ public class Guide_Spirituel extends Religion{
 	public String toString() {
 		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
-		buf.append("GUIDE : ").append(this.nom).append("\n").append(this.capaciteDesc).append("\n Origine : ").append(this.origine).append("\n Dogmes").append(this.sesDogmes.toString());
+		buf.append("GUIDE : ").append(this.nom).append("\n").append("Nombre de croyants pouvant êtres ralliés : ");
+		buf.append(super.nombre).append("\n").append(this.capaciteDesc).append("\n Origine : ").append(this.origine).append("\n Dogmes").append(this.sesDogmes.toString());
 		return buf.toString();
 	}
 
