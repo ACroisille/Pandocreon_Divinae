@@ -1,10 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
 
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
@@ -51,11 +51,22 @@ public class Gestionnaire_cartes_partie {
 		return Gestionnaire_cartes_partie.table;
 	}
 	
+	public static Queue<Carte> getPioche() {
+		return pioche;
+	}
+	
 	public static void removeTable(Carte carte){
 		Gestionnaire_cartes_partie.table.remove(carte);
 	}
 	
 	public static Carte piocherCarte(){
+		if(pioche.peek() == null){
+			//On reremplis la pioche à partir de la defausse
+			//Mélange de la defausse
+			Collections.shuffle(defausse);
+			pioche.addAll(defausse);
+			defausse.clear();
+		}
 		return pioche.poll();
 	}
 	
@@ -73,6 +84,7 @@ public class Gestionnaire_cartes_partie {
 		}
 		return buf.toString();
 	}
+	
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();

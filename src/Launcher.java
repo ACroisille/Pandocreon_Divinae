@@ -9,20 +9,21 @@ import models.cartes.Carte;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
 import models.joueur.JoueurVirtuel;
+import models.joueur.StrategyNormal;
 
 
 public class Launcher {
 
 	public static Set<Joueur> setJoueurs(String nomJoueurReel,Integer nombreJoueursVirtuels){
 		Set<Joueur> joueurs = new LinkedHashSet<Joueur>();
-		if(!nomJoueurReel.equals(null)){
+		if(nomJoueurReel != null){
 			joueurs.add(new JoueurReel(nomJoueurReel));
 		}
-		joueurs.add(new JoueurReel("joueur2"));
-		/*
+		//joueurs.add(new JoueurReel("joueur2"));
+	
 		for(int i=0;i<nombreJoueursVirtuels;i++){
-			joueurs.add(new JoueurVirtuel(i+1));
-		}*/
+			joueurs.add(new JoueurVirtuel(i+1,new StrategyNormal()));
+		}
 		return joueurs;
 	}
 	
@@ -33,7 +34,7 @@ public class Launcher {
 		System.out.println("Chargement des cartes...");
 		ArrayList<Carte> deck = BuildCartes.getCartes();
 		System.out.println("Chargement des joueurs...");
-		Set<Joueur> joueurs =  Launcher.setJoueurs("Antoine", 2);
+		Set<Joueur> joueurs =  Launcher.setJoueurs(null, 4);
 		System.out.println("Lancement d'une partie...");
 		new Partie(joueurs, deck);
 		

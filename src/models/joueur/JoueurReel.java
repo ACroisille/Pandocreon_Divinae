@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
-import controller.NoTypeException;
+import exceptions.NoTypeException;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.Croyant;
@@ -54,7 +54,6 @@ public class JoueurReel extends Joueur{
 				super.getGestionnaire_Cartes_Joueur().defausserMain(carte);
 			}
 		}while(carte != null);
-		
 	}
 	
 	public void phaseCompleterMain(){
@@ -93,7 +92,6 @@ public class JoueurReel extends Joueur{
 				try {
 					super.sacrifierCarteChampsDeBataille(carte);
 				} catch (NoTypeException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

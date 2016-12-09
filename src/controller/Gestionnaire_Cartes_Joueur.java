@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
+import exceptions.NoTypeException;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
@@ -54,8 +55,8 @@ public class Gestionnaire_Cartes_Joueur {
 	 * Ajoute la liste de carte au Gestionnaire Carte Partie
 	 */
 	public void defausserMain(List<Carte> defausse){
-		this.main.removeAll(defausse);
 		for(int i = 0; i < defausse.size(); i++){
+			this.main.remove(defausse.get(i));
 			Gestionnaire_cartes_partie.addDefausse(defausse.get(i));
 		}
 	}
@@ -100,15 +101,18 @@ public class Gestionnaire_Cartes_Joueur {
 		if(main.contains(carte)){
 			main.remove(carte);
 			if(carte instanceof Croyant || carte instanceof Guide_Spirituel){
+				System.out.println("Une carte"+carte.getClass().getName()+" a été ajouté à la pile de pose.");
 				this.pilePose = carte;
 			}
 			else if(carte instanceof Deus_Ex || carte instanceof Apocalypse){
+				System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice");
 				this.pileSacrifice = carte;
 			}
 			else throw new NoTypeException("La carte n'a pas de TYPE ou est NULL.");
 		}
 		else if(champsDeBataille.contains(carte)){
 			champsDeBataille.remove(carte);
+			System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice");
 			this.pileSacrifice = carte;
 		}
 		else System.err.println("Le joueur ne possède pas la carte spécifié !");
@@ -140,8 +144,6 @@ public class Gestionnaire_Cartes_Joueur {
 		}		
 		else throw new NoTypeException("Il n'y a pas de carte dans la pile.");
 	}
-	
-	
 	
 	/**
 	 * Permet au joueur de savoir quels cartes il peut jouer en fonction de ses points d'action. 

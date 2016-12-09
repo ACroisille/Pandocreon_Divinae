@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import exceptions.NoTypeException;
 import models.De_Cosmogonie;
 import models.Partie;
 import models.cartes.Apocalypse;

@@ -10,7 +10,7 @@ import java.util.Set;
 
 import controller.Gestionnaire_Cartes_Joueur;
 import controller.Gestionnaire_cartes_partie;
-import controller.NoTypeException;
+import exceptions.NoTypeException;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
@@ -61,17 +61,20 @@ public abstract class Joueur {
 			else if(carte instanceof Deus_Ex){
 				//Utilise la capacité de la carte
 				System.out.println("Une carte DeusEx a été posé, elle est sacrifié");
+				carte.getCapacite().capacite(carte, this);
 			}
 			else if(carte instanceof Apocalypse){
 				//Active une apocalypse
-				System.out.println("Une carte Apocalypse a été posé");
+				System.err.println("APOCALYPSE");
+				carte.getCapacite().capacite(carte, this);
 			}
 			else throw new NoTypeException("La carte est de type DIVINITE ou est NULL.");
 			//La carte a été jouer
 			gcj.transfertCarteJouer(carte);
 			return carte;
 		}
-		System.err.println("Vous ne pouvez pas jouer cette carte !");
+		
+		//System.err.println("Vous ne pouvez pas jouer cette carte !");
 		return null;
 	}
 	
@@ -90,17 +93,17 @@ public abstract class Joueur {
 				 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
 					 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
 				 }
-				 
 			}
 			else if(carte instanceof Guide_Spirituel){
 				System.out.println("Sacrifice d'une carte Guide Spirituel.");
 				//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
 				gcj.defausserChampsDeBataille(carte);
-				
-				
 			}
 			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
 			this.payerCoutCarte(carte);
+			//La capacité est activé
+			carte.getCapacite().capacite(carte, this);
+			
 			gcj.transfertCarteJouer(carte);
 			return carte;
 		}

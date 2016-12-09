@@ -15,4 +15,8 @@ public abstract class Religion extends Carte{
 		this.sesDogmes = sesDogmes;
 	}
 	
+	public Integer getNombre() {
+		return nombre;
+	}
+	
 }

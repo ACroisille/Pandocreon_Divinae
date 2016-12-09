@@ -9,7 +9,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
-import controller.NoTypeException;
+import exceptions.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;
 import models.cartes.Origine;
@@ -20,7 +20,7 @@ public class Partie {
 	
 	private static Set<Joueur> joueurs;
 	private Gestionnaire_cartes_partie gcp = null;
-	
+	private int numeroTour;
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
 		Partie.joueurs = joueurs;
 		
@@ -31,7 +31,7 @@ public class Partie {
 		
 		//Distribution des divinites aux joueurs
 		this.distributionCartes(deck, divinites);
-		
+		this.numeroTour = 0;
 		this.jouerPartie(true);
 	}
 	
@@ -42,11 +42,13 @@ public class Partie {
 	public void jouerPartie(boolean jouer){
 		while(jouer){
 			jouer = this.jouerTour();
+			numeroTour += 1;
 		}
 		System.out.println("Fin de partie");
 	}
 	
 	private boolean jouerTour(){
+		System.out.println("Tour " + numeroTour);
 		//Lancer du dés de cosmogonie 
 		distribuerPointsAction(De_Cosmogonie.lancerDe());
 		System.out.println("Distribution des points d'action.");
@@ -58,18 +60,19 @@ public class Partie {
 			//Si la méthode jouer renvois faux et qu'il y a moins de 4 joueurs dans la partie, fin de la partie
 			if(!next && joueurs.size()<4){
 				//Le joueur ayant le plus de points de prière remporte la partie.
-				Joueur joueurMax = this.getJoueurMax();
+				Joueur joueurMax = Partie.getJoueurMax();
 				if(joueurMax != null){
-					System.out.println(joueurMax.toString() + " emporte la partie !");
+					System.err.println(joueurMax.toString() + " emporte la partie !");
 					return false;
 				}else System.out.println("Joueurs à égalité, la partie continue !");
 			}
 			//Si la méthode jouer renvois faux et qu'il y a au moins 4 joueurs dans la partie, 
 			else if(!next && joueurs.size()>=4){
 				//élimine un joueur et reset le tours.
-				Joueur joueurMin = this.getJoueurMin();
+				Joueur joueurMin = Partie.getJoueurMin();
 				if(joueurMin != null){
-					System.out.println(joueurMin.toString() + " est éliminé de la partie !");
+					System.err.println(joueurMin.toString() + " est éliminé de la partie !");
+					Partie.joueurs.remove(joueurMin);
 					return true;
 				}else System.out.println("Joueurs à égalité, personne n'est éliminé, la partie continue !");
 			}
@@ -124,7 +127,7 @@ public class Partie {
 	 * Permet d'obtenir le joueur ayant le plus de points de prière de la partie.
 	 * @return le joueur ayant le plus de points de prière, null si égalité.
 	 */
-	private Joueur getJoueurMax(){
+	public static Joueur getJoueurMax(){
 		int max=0;
 		Joueur joueurMax = null;
 		Iterator<Joueur> it = joueurs.iterator();
@@ -148,7 +151,7 @@ public class Partie {
 	 * Permet d'obtenir le joueur ayant le moins de points de prière de la partie.
 	 * @return le joueur ayant le moins de points de prière, null si égalité.
 	 */
-	private Joueur getJoueurMin(){
+	public static Joueur getJoueurMin(){
 		int min=10000;
 		Joueur joueurMin = null;
 		Iterator<Joueur> it = joueurs.iterator();
