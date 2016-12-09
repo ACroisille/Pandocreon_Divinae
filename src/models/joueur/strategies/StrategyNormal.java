@@ -1,4 +1,4 @@
-package models.joueur;
+package models.joueur.strategies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import models.cartes.Carte;
 import models.cartes.Croyant;
 import models.cartes.Deus_Ex;
 import models.cartes.Guide_Spirituel;
+import models.joueur.Joueur;
 
 public class StrategyNormal implements Strategy{
 	
@@ -26,7 +27,7 @@ public class StrategyNormal implements Strategy{
 		//Jouer carte action
 		if(!this.phaseJouerCarteMain(joueur)) return false;
 		
-		System.out.println(joueur.gcj.champsDeBatailleToString());
+		System.out.println(joueur.getGestionnaire_Cartes_Joueur().champsDeBatailleToString());
 		
 		//sacrifier carte du champs de bataille.
 		if(!this.phaseSacrificeCarteChampsDeBataille(joueur)) return false;
@@ -35,23 +36,23 @@ public class StrategyNormal implements Strategy{
 	
 	public void phaseDefausse(Joueur joueur){
 		//Retire de sa main toutes les cartes qu'il ne peut pas jouer
-		List<Carte> nePasDefausse = joueur.gcj.cartesJouables(joueur.pointsAction, joueur.gcj.getMain());
+		List<Carte> nePasDefausse = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
 		List<Carte> defausse = new ArrayList<Carte>();
-		for(int i=0;i<joueur.gcj.getMain().size();i++){
-			if(!nePasDefausse.contains(joueur.gcj.getMain().get(i))) defausse.add(joueur.gcj.getMain().get(i));
+		for(int i=0;i<joueur.getGestionnaire_Cartes_Joueur().getMain().size();i++){
+			if(!nePasDefausse.contains(joueur.getGestionnaire_Cartes_Joueur().getMain().get(i))) defausse.add(joueur.getGestionnaire_Cartes_Joueur().getMain().get(i));
 		}
 		System.out.println("DEFAUSSE : " + defausse.size());
-		joueur.gcj.defausserMain(defausse);
+		joueur.getGestionnaire_Cartes_Joueur().defausserMain(defausse);
 	}
 	
 	public void phaseCompleterMain(Joueur joueur){
-		if(joueur.gcj.getMain().size() < 7) joueur.gcj.remplirMain();
-		System.out.println("MAIN : " + joueur.gcj.getMain().size());
+		if(joueur.getGestionnaire_Cartes_Joueur().getMain().size() < 7) joueur.getGestionnaire_Cartes_Joueur().remplirMain();
+		System.out.println("MAIN : " + joueur.getGestionnaire_Cartes_Joueur().getMain().size());
 		System.out.println("PIOCHE : " + Gestionnaire_cartes_partie.getPioche().size());
 	}
 	
 	public boolean phaseJouerCarteMain(Joueur joueur){
-		List<Carte> cartesJouables = joueur.gcj.cartesJouables(joueur.pointsAction, joueur.gcj.getMain());
+		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
 		Carte picked = null;
 		do{
 			picked = this.selectionCarteMain(joueur, cartesJouables);
@@ -67,14 +68,14 @@ public class StrategyNormal implements Strategy{
 					if(picked instanceof Deus_Ex) picked = null;
 				}
 			}
-			cartesJouables = joueur.gcj.cartesJouables(joueur.pointsAction, joueur.gcj.getMain());
+			cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
 		}while(cartesJouables.size() > 0 && picked != null);
 		return true;
 	}
 	
 	public boolean phaseSacrificeCarteChampsDeBataille(Joueur joueur){
 		//Un joueur virtuel ne sacrifie qu'une seul carte par tour
-		List<Carte> cartesJouables = joueur.gcj.cartesJouables(joueur.pointsAction, joueur.gcj.getCroyantsChampsDeBataille());
+		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 		if(cartesJouables.size() > 0){
 			try {
 				joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
@@ -82,8 +83,8 @@ public class StrategyNormal implements Strategy{
 				e.printStackTrace();
 			}
 		}
-		else if(joueur.gcj.cartesJouables(joueur.pointsAction, joueur.gcj.getGuidesChampsDeBataille()).size() > 0){
-			cartesJouables = joueur.gcj.cartesJouables(joueur.pointsAction, joueur.gcj.getGuidesChampsDeBataille());
+		else if(joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille()).size() > 0){
+			cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
 			try {
 				joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
 			} catch (NoTypeException e) {

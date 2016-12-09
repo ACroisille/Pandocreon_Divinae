@@ -9,7 +9,7 @@ import models.cartes.Carte;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
 import models.joueur.JoueurVirtuel;
-import models.joueur.StrategyNormal;
+import models.joueur.strategies.StrategyNormal;
 
 
 public class Launcher {

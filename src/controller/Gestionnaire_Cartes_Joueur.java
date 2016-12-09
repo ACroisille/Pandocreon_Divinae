@@ -16,7 +16,7 @@ import models.cartes.Croyant;
 import models.cartes.Deus_Ex;
 import models.cartes.Divinite;
 import models.cartes.Guide_Spirituel;
-import models.cartes.Origine;
+import models.enums.Origine;
 import models.joueur.Joueur;
 
 public class Gestionnaire_Cartes_Joueur {

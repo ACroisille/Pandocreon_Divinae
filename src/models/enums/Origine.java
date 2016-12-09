@@ -1,4 +1,4 @@
-package models.cartes;
+package models.enums;
 
 public enum Origine {
 	JOUR("Jour"),

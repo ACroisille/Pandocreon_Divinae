@@ -7,6 +7,8 @@ import java.util.Set;
 
 import controller.Capacite;
 import controller.Gestionnaire_cartes_partie;
+import models.enums.Dogme;
+import models.enums.Origine;
 
 public class Guide_Spirituel extends Religion{
 	private ArrayList<Croyant> sesCroyants;

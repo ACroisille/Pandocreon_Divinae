@@ -1,6 +1,7 @@
 package models.cartes;
 
 import controller.Capacite;
+import models.enums.Origine;
 
 public abstract class Carte{
 	

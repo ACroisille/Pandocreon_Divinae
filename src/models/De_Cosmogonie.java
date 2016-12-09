@@ -1,6 +1,6 @@
 package models;
 
-import models.cartes.Origine;
+import models.enums.Origine;
 
 public class De_Cosmogonie {
 

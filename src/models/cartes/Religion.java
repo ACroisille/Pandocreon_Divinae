@@ -3,6 +3,8 @@ package models.cartes;
 import java.util.Set;
 
 import controller.Capacite;
+import models.enums.Dogme;
+import models.enums.Origine;
 
 public abstract class Religion extends Carte{
 	

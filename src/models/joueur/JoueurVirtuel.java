@@ -7,7 +7,8 @@ import java.util.Set;
 
 import models.De_Cosmogonie;
 import models.cartes.Carte;
-import models.cartes.Origine;
+import models.enums.Origine;
+import models.joueur.strategies.Strategy;
 
 public class JoueurVirtuel extends Joueur{
 	

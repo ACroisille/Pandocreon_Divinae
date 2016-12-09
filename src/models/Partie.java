@@ -12,7 +12,7 @@ import controller.Gestionnaire_cartes_partie;
 import exceptions.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;
-import models.cartes.Origine;
+import models.enums.Origine;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
 

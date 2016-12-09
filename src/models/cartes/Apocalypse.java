@@ -1,6 +1,7 @@
 package models.cartes;
 
 import controller.Capacite;
+import models.enums.Origine;
 import models.joueur.Joueur;
 
 public class Apocalypse extends Carte{
