@@ -8,6 +8,7 @@ import java.util.Set;
 import models.De_Cosmogonie;
 import models.cartes.Carte;
 import models.enums.Origine;
+import models.enums.Retour;
 import models.joueur.strategies.Strategy;
 
 public class JoueurVirtuel extends Joueur{
@@ -22,7 +23,7 @@ public class JoueurVirtuel extends Joueur{
 	}
 	
 	@Override
-	public boolean jouer() {
+	public Retour jouer() {
 		return this.strategy.jouer(this);
 	}
 	

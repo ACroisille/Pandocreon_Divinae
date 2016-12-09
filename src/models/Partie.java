@@ -13,6 +13,7 @@ import exceptions.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;
 import models.enums.Origine;
+import models.enums.Retour;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
 
@@ -53,12 +54,12 @@ public class Partie {
 		distribuerPointsAction(De_Cosmogonie.lancerDe());
 		System.out.println("Distribution des points d'action.");
 		Iterator<Joueur> it = joueurs.iterator();
-		boolean next;
+		Retour next;
 		while(it.hasNext()){
 			next = it.next().jouer();
 			Gestionnaire_cartes_partie.joinTable();
 			//Si la méthode jouer renvois faux et qu'il y a moins de 4 joueurs dans la partie, fin de la partie
-			if(!next && joueurs.size()<4){
+			if(next.equals(Retour.APOCALYPSE) && joueurs.size()<4){
 				//Le joueur ayant le plus de points de prière remporte la partie.
 				Joueur joueurMax = Partie.getJoueurMax();
 				if(joueurMax != null){
@@ -67,14 +68,19 @@ public class Partie {
 				}else System.out.println("Joueurs à égalité, la partie continue !");
 			}
 			//Si la méthode jouer renvois faux et qu'il y a au moins 4 joueurs dans la partie, 
-			else if(!next && joueurs.size()>=4){
+			else if(next.equals(Retour.APOCALYPSE) && joueurs.size()>=4){
 				//élimine un joueur et reset le tours.
 				Joueur joueurMin = Partie.getJoueurMin();
 				if(joueurMin != null){
 					System.err.println(joueurMin.toString() + " est éliminé de la partie !");
 					Partie.joueurs.remove(joueurMin);
+					this.clear();
 					return true;
 				}else System.out.println("Joueurs à égalité, personne n'est éliminé, la partie continue !");
+			}
+			else if(next.equals(Retour.STOPTOUR)){
+				this.clear();
+				return true;
 			}
 		}
 		//Le tour de jeu s'est bien déroulé. Le premier joueur est placé à la fin de la liste de joueurs.

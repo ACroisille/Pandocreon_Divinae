@@ -19,6 +19,7 @@ import models.cartes.Croyant;
 import models.cartes.Guide_Spirituel;
 import models.enums.Dogme;
 import models.enums.Origine;
+import models.enums.Retour;
 import models.joueur.Joueur;
 
 public abstract class BuildCapacites {
@@ -31,23 +32,33 @@ public abstract class BuildCapacites {
 		capacites.put("osef", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				System.err.println("Not implemented yet !");
+				return Retour.CONTINUE;
+			}
+		});
+		
+		capacites.put("apocalypse", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				return Retour.APOCALYPSE;
 			}
 		});
 		
 		capacites.put("incrementerOrigine", new Capacite(){
-					//Donne au joueur un point d'action de même origine que la carte
-					@Override
-					public void capacite(Carte carte, Joueur user) {
-						user.incrementerPointAction(carte.getOrigine());
-					}
-				});
+			//Donne au joueur un point d'action de même origine que la carte
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				user.incrementerPointAction(carte.getOrigine());
+				return Retour.CONTINUE;
+			}
+		});
 		 
 		capacites.put("empecherSacrificeCroyant", new Capacite() {
 			//Empèche un joueur possèdant une divinité dont un dogme est différent de la carte de sacrifié un croyant pendant ce tours.
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				//Restreindre la liste de joueurs
 				Iterator<Joueur> it = joueurs.iterator();
@@ -65,13 +76,14 @@ public abstract class BuildCapacites {
 				}
 				Joueur cible = user.joueurPeeker(joueurs);
 				if(cible != null) cible.getGestionnaire_Cartes_Joueur().setSacrificeCroyant(false);
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("empecherSacrificeGuide", new Capacite() {
 			//Empèche un joueur possèdant une divinité dont un dogme est différent de la carte de sacrifié un guide pendant ce tours.
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				//Restreindre la liste de joueurs
 				Iterator<Joueur> it = joueurs.iterator();
@@ -89,14 +101,14 @@ public abstract class BuildCapacites {
 				}
 				Joueur cible = user.joueurPeeker(joueurs);
 				if(cible != null) cible.getGestionnaire_Cartes_Joueur().setSacrificeGuide(false);
-				
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("piocherCartes", new Capacite() {
 			//Permet au joueur de piocher deux cartes au hasard dans la main d'un autre joueur.
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
 				if(cible != null){
@@ -106,13 +118,14 @@ public abstract class BuildCapacites {
 						if(c != null) user.getGestionnaire_Cartes_Joueur().addMain(carte);
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("obligerSacrificeCroyant", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
 				//La cible doit sacrifier un croyant
@@ -127,13 +140,14 @@ public abstract class BuildCapacites {
 						}
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("obligerSacrificeGuide", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				//Pour le sacrifice de Devin
 				if(carte instanceof Guide_Spirituel){
@@ -159,13 +173,14 @@ public abstract class BuildCapacites {
 						}
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("faireRevenirGuideMain", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
 				//La cible doit sacrifier un croyant
@@ -176,12 +191,13 @@ public abstract class BuildCapacites {
 						cible.getGestionnaire_Cartes_Joueur().addMain(carteAFaireRevenir);
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("relancerDe", new Capacite() {
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Origine o = De_Cosmogonie.lancerDe();
 				Set<Joueur> joueurs = new HashSet<Joueur>();
 				joueurs.addAll(Partie.getJoueurs());
@@ -189,13 +205,14 @@ public abstract class BuildCapacites {
 				while(it.hasNext()){
 					it.next().attribuerPointsAction(o);
 				}
+				return Retour.STOPTOUR;
 			}
 		});
 		
 		capacites.put("defausserGuide", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
 				//La cible doit sacrifier un croyant
@@ -206,41 +223,45 @@ public abstract class BuildCapacites {
 						cible.getGestionnaire_Cartes_Joueur().defausserChampsDeBataille(carteaDefausser);;
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 	
 		capacites.put("volerPointsAction", new Capacite() {
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
 				user.getPointsAction().replace(Origine.JOUR, user.getPointsAction().get(Origine.JOUR) + cible.getPointsAction().get(Origine.JOUR));
 				user.getPointsAction().replace(Origine.NUIT, user.getPointsAction().get(Origine.NUIT) + cible.getPointsAction().get(Origine.NUIT));
 				user.getPointsAction().replace(Origine.NEANT, user.getPointsAction().get(Origine.NEANT) + cible.getPointsAction().get(Origine.NEANT));
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("activerCapaciteCroyant", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
+				Retour ret = Retour.CONTINUE;
 				//La cible doit sacrifier un croyant
 				Carte carteaActiver = null;
 				if(cible != null){
 					carteaActiver = cible.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					if(carteaActiver != null){
-						carteaActiver.getCapacite().capacite(carteaActiver, user);
+						ret = carteaActiver.getCapacite().capacite(carteaActiver, user);
 					}
 				}
+				return ret;
 			}
 		});
 			
 		capacites.put("obligerSacrificeCroyantAll", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				
 				Set<Joueur> joueursSelect = new LinkedHashSet<Joueur>();
@@ -266,46 +287,49 @@ public abstract class BuildCapacites {
 						}
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("empecherIncrementationPointsActionAll", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = new HashSet<Joueur>();
 				joueurs.addAll(Partie.getJoueurs());
 				Iterator<Joueur> it = joueurs.iterator();
 				while(it.hasNext()){
 					it.next().setIncrementerPointsAction(false);
 				}
+				return Retour.CONTINUE;
 			}
 		});
 			
 		capacites.put("martyr", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
-				//TODO trouver solution
-				System.out.println("Apocalypse now !");
+			public Retour capacite(Carte carte, Joueur user) {
+				System.err.println("Apocalypse now !");
+				return Retour.APOCALYPSE;
 			}
 		});
 		
 		capacites.put("clerc", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				Origine o = user.originePeeker();
 				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
 					user.incrementerPointAction(o);
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("ascete", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				//Réduire aux joueurs ayant le dogme humain ou symbole
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Iterator<Joueur> it = joueurs.iterator();
@@ -325,48 +349,53 @@ public abstract class BuildCapacites {
 						e.printStackTrace();
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("exorciste", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				System.err.println("Exorciste : non implémenté");
+				return Retour.CONTINUE;
 			}
 		});
 		
 		capacites.put("sorcier", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
-				System.err.println("Sorcier : non implémenté");				
+			public Retour capacite(Carte carte, Joueur user) {
+				System.err.println("Sorcier : non implémenté");		
+				return Retour.CONTINUE;
 			}
 		});
 	
 		capacites.put("tyran", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				for(int i=0;i<Gestionnaire_cartes_partie.getTable().size();i++){
 					if(Gestionnaire_cartes_partie.getTable().get(i).getDogmes().contains(Dogme.MYSTIQUE)){
 						Gestionnaire_cartes_partie.removeTable(carte);
 						Gestionnaire_cartes_partie.addDefausse(carte);
 					}
 				}
+				return Retour.CONTINUE;
 			}
 		});
 	
 		capacites.put("messie", new Capacite() {
 			
 			@Override
-			public void capacite(Carte carte, Joueur user) {
+			public Retour capacite(Carte carte, Joueur user) {
 				//TODO trouver solution pour finir tour 
 				Origine o = user.originePeeker();
 				Iterator<Joueur> it = Partie.getJoueurs().iterator();
 				while(it.hasNext()){
 					it.next().attribuerPointsAction(o);
 				}
+				return Retour.CONTINUE;
 			}
 		});
 	

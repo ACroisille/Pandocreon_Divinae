@@ -100,7 +100,7 @@ public abstract class BuildCartes {
 					case ConstanteCarte.APOCALYPSE : 
 						//System.out.println("Type Apocalypse");
 						if(templates.length>1) origine = pickOrigine(templates[1].replaceAll(" ", ""));
-						Apocalypse a = new Apocalypse(origine);
+						Apocalypse a = new Apocalypse(origine,capacites.get(capaciteKey));
 						deck.add(a);
 						//System.out.println(a);
 						break;

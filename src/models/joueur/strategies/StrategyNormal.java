@@ -11,6 +11,7 @@ import models.cartes.Carte;
 import models.cartes.Croyant;
 import models.cartes.Deus_Ex;
 import models.cartes.Guide_Spirituel;
+import models.enums.Retour;
 import models.joueur.Joueur;
 
 public class StrategyNormal implements Strategy{
@@ -18,20 +19,23 @@ public class StrategyNormal implements Strategy{
 	
 	
 	@Override
-	public boolean jouer(Joueur joueur) {
+	public Retour jouer(Joueur joueur) {
 		System.err.println(joueur.toString());
+		Retour ret = Retour.CONTINUE;
 		//Phase de défausse 
 		this.phaseDefausse(joueur);
 		//Remplir main
 		this.phaseCompleterMain(joueur);
 		//Jouer carte action
-		if(!this.phaseJouerCarteMain(joueur)) return false;
+		ret = this.phaseJouerCarteMain(joueur);
+		if(!ret.equals(Retour.CONTINUE)) return ret;
 		
 		System.out.println(joueur.getGestionnaire_Cartes_Joueur().champsDeBatailleToString());
 		
 		//sacrifier carte du champs de bataille.
-		if(!this.phaseSacrificeCarteChampsDeBataille(joueur)) return false;
-		return true;
+		ret = this.phaseSacrificeCarteChampsDeBataille(joueur);
+		if(!ret.equals(Retour.CONTINUE)) return ret;
+		return ret;
 	}
 	
 	public void phaseDefausse(Joueur joueur){
@@ -51,34 +55,33 @@ public class StrategyNormal implements Strategy{
 		System.out.println("PIOCHE : " + Gestionnaire_cartes_partie.getPioche().size());
 	}
 	
-	public boolean phaseJouerCarteMain(Joueur joueur){
+	public Retour phaseJouerCarteMain(Joueur joueur){
 		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
 		Carte picked = null;
+		Retour ret = Retour.CONTINUE;
 		do{
 			picked = this.selectionCarteMain(joueur, cartesJouables);
 			if(picked != null){
-				if(picked instanceof Apocalypse) return false;
-				else{
-					try {
-						joueur.jouerCarteMain(picked);
-					} catch (NoTypeException e) {
-						e.printStackTrace();
-					}
-					//Pour ne jouer qu'un seul deus ex par tour
-					if(picked instanceof Deus_Ex) picked = null;
+				try {
+					ret = joueur.jouerCarteMain(picked);
+				} catch (NoTypeException e) {
+					e.printStackTrace();
 				}
+				//Pour ne jouer qu'un seul deus ex par tour
+				if(picked instanceof Deus_Ex) picked = null;
 			}
 			cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
-		}while(cartesJouables.size() > 0 && picked != null);
-		return true;
+		}while(cartesJouables.size() > 0 && picked != null && ret.equals(Retour.CONTINUE) );
+		return ret;
 	}
 	
-	public boolean phaseSacrificeCarteChampsDeBataille(Joueur joueur){
+	public Retour phaseSacrificeCarteChampsDeBataille(Joueur joueur){
 		//Un joueur virtuel ne sacrifie qu'une seul carte par tour
 		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
+		Retour ret = Retour.CONTINUE;
 		if(cartesJouables.size() > 0){
 			try {
-				joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
+				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
 			} catch (NoTypeException e) {
 				e.printStackTrace();
 			}
@@ -86,12 +89,12 @@ public class StrategyNormal implements Strategy{
 		else if(joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille()).size() > 0){
 			cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
 			try {
-				joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
+				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
 			} catch (NoTypeException e) {
 				e.printStackTrace();
 			}
 		}
-		return true;
+		return ret;
 	}
 	
 	

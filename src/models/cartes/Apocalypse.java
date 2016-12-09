@@ -6,8 +6,8 @@ import models.joueur.Joueur;
 
 public class Apocalypse extends Carte{
 	
-	public Apocalypse(Origine origine){
-		super(ConstanteCarte.APOCALYPSE,"",origine,null);
+	public Apocalypse(Origine origine,Capacite capacite){
+		super(ConstanteCarte.APOCALYPSE,"",origine,capacite);
 	}
 	
 	

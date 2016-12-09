@@ -1184,11 +1184,11 @@
 			</text>
 		</card>
 		<!-- APOCALYPSES -->
-		<card template="carte-apocalypses, origine-jour" back="verso" capacite="osef"/>
-		<card template="carte-apocalypses, origine-nuit" back="verso" capacite="osef"/>
-		<card template="carte-apocalypses, origine-neant" back="verso" capacite="osef"/>
-		<card template="carte-apocalypses" back="verso" capacite="osef"/>
-		<card template="carte-apocalypses" back="verso" capacite="osef"/>
+		<card template="carte-apocalypses, origine-jour" back="verso" capacite="apocalypse"/>
+		<card template="carte-apocalypses, origine-nuit" back="verso" capacite="apocalypse"/>
+		<card template="carte-apocalypses, origine-neant" back="verso" capacite="apocalypse"/>
+		<card template="carte-apocalypses" back="verso" capacite="apocalypse"/>
+		<card template="carte-apocalypses" back="verso" capacite="apocalypse"/>
 		<!-- DIVINITES -->
 		<!-- brewalen -->
 		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_mystique" back="verso_special" capacite="osef">

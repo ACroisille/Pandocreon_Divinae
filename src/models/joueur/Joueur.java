@@ -19,6 +19,7 @@ import models.cartes.Deus_Ex;
 import models.cartes.Divinite;
 import models.cartes.Guide_Spirituel;
 import models.enums.Origine;
+import models.enums.Retour;
 
 public abstract class Joueur {
 	protected Map<Origine,Integer> pointsAction;
@@ -36,8 +37,8 @@ public abstract class Joueur {
 	 * Permet au joueur de jouer tant que ses points d'action le lui permettent.
 	 * @return Renvois faux si une carte APOCALYPSE a été joué sinon renvois vrai.
 	 */
-	public boolean jouer(){
-		return false;
+	public Retour jouer(){
+		return Retour.CONTINUE;
 	};
 	
 	/**
@@ -46,9 +47,10 @@ public abstract class Joueur {
 	 * @return La carte joué ou null.
 	 * @throws NoTypeException 
 	 */
-	public Carte jouerCarteMain(Carte carte) throws NoTypeException{
+	public Retour jouerCarteMain(Carte carte) throws NoTypeException{
 		if(gcj.isJouable(carte, this.pointsAction)){
 			//Intention de jouer la carte
+			Retour ret = Retour.CONTINUE;
 			this.payerCoutCarte(carte);
 			gcj.intentionJouerCarte(carte);//La carte passe dans la pilePose et un listener est déclenché. 
 			if(carte instanceof Croyant){
@@ -61,20 +63,19 @@ public abstract class Joueur {
 			else if(carte instanceof Deus_Ex){
 				//Utilise la capacité de la carte
 				System.out.println("Une carte DeusEx a été posé, elle est sacrifié");
-				carte.getCapacite().capacite(carte, this);
+				ret = carte.getCapacite().capacite(carte, this);
 			}
 			else if(carte instanceof Apocalypse){
 				//Active une apocalypse
 				System.err.println("APOCALYPSE");
-				carte.getCapacite().capacite(carte, this);
+				ret = carte.getCapacite().capacite(carte, this);
 			}
 			else throw new NoTypeException("La carte est de type DIVINITE ou est NULL.");
 			//La carte a été jouer
 			gcj.transfertCarteJouer(carte);
-			return carte;
+			return ret;
 		}
-		
-		//System.err.println("Vous ne pouvez pas jouer cette carte !");
+		System.err.println("Vous ne pouvez pas jouer cette carte !");
 		return null;
 	}
 	
@@ -83,8 +84,9 @@ public abstract class Joueur {
 	 * @param indice L'indice de la carte devant lui.
 	 * @throws NoTypeException 
 	 */
-	public Carte sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
+	public Retour sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
 		if(gcj.isJouable(carte, this.pointsAction) && gcj.isSacrifiable(carte)){
+			Retour ret = Retour.CONTINUE;
 			//La carte est mise dans la pile de sacrifice
 			gcj.intentionJouerCarte(carte);
 			if(carte instanceof Croyant){
@@ -102,10 +104,10 @@ public abstract class Joueur {
 			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
 			this.payerCoutCarte(carte);
 			//La capacité est activé
-			carte.getCapacite().capacite(carte, this);
+			ret = carte.getCapacite().capacite(carte, this);
 			
 			gcj.transfertCarteJouer(carte);
-			return carte;
+			return ret;
 		}
 		System.err.println("Vous ne pouvez pas jouer cette carte !");
 		return null;

@@ -14,6 +14,7 @@ import models.cartes.Carte;
 import models.cartes.Croyant;
 import models.cartes.Guide_Spirituel;
 import models.enums.Origine;
+import models.enums.Retour;
 
 public class JoueurReel extends Joueur{
 	
@@ -27,7 +28,8 @@ public class JoueurReel extends Joueur{
 	}
 	
 	@Override
-	public boolean jouer() {
+	public Retour jouer() {
+		Retour ret = Retour.CONTINUE;
 		System.out.println(this.toString());
 		//System.out.println(super.gcj.toString());
 		//Phase de défausse 
@@ -36,13 +38,15 @@ public class JoueurReel extends Joueur{
 		this.phaseCompleterMain();
 		//Jouer carte action
 		System.out.println(Gestionnaire_cartes_partie.afficherCartesPartie());
-		if(!this.phaseJouerCarteMain()) return false;
+		ret = this.phaseJouerCarteMain();
+		if(!ret.equals(Retour.CONTINUE)) return ret;
 		
 		//sacrifier carte du champs de bataille.
 		System.out.println(super.gcj.champsDeBatailleToString());
-		if(!this.phaseSacrificeCarteChampsDeBataille()) return false;
+		ret = this.phaseSacrificeCarteChampsDeBataille();
+		if(!ret.equals(Retour.CONTINUE)) return ret;
 		
-		return true;
+		return ret;
 	}
 	
 	public void phaseDefausse(){
@@ -61,28 +65,30 @@ public class JoueurReel extends Joueur{
 		if(this.yesOrNo(this.scan)) super.gcj.remplirMain();
 	}
 	
-	public boolean phaseJouerCarteMain(){
+	public Retour phaseJouerCarteMain(){
 		System.out.println("Souhaitez vous jouer une carte de votre main ?");
 		Carte carte = null;
+		Retour ret = Retour.CONTINUE;
 		do{
 			
 			carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()));
 			if(carte != null){
 				//La carte est joué
 				try {
-					super.jouerCarteMain(carte);
-					if(carte instanceof Apocalypse) return false;
+					ret = super.jouerCarteMain(carte);
+					//if(carte instanceof Apocalypse) return false;
 				} catch (NoTypeException e) {
 					e.printStackTrace();
 				}
 			}
-		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0);
-		return true;
+		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0 && ret.equals(Retour.CONTINUE));
+		return ret;
 	}
 
-	public boolean phaseSacrificeCarteChampsDeBataille(){
+	public Retour phaseSacrificeCarteChampsDeBataille(){
 		System.out.println("Souhaitez vous sacrifier une carte du champs de bataille ?");
 		Carte carte = null;		
+		Retour ret = Retour.CONTINUE;
 		do{
 			System.out.println("Cartes sacrifiables sur le champs de bataille : ");
 			System.out.println(super.gcj.cartesJouablesToString(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille())));
@@ -90,13 +96,13 @@ public class JoueurReel extends Joueur{
 			if(carte != null){
 				//La carte est joué
 				try {
-					super.sacrifierCarteChampsDeBataille(carte);
+					ret = super.sacrifierCarteChampsDeBataille(carte);
 				} catch (NoTypeException e) {
 					e.printStackTrace();
 				}
 			}
-		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0);
-		return true;
+		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0 && ret.equals(Retour.CONTINUE));
+		return ret;
 	}
 	
 	@Override
