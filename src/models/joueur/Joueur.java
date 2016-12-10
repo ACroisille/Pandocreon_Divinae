@@ -84,8 +84,8 @@ public abstract class Joueur {
 	 * @param indice L'indice de la carte devant lui.
 	 * @throws NoTypeException 
 	 */
-	public Retour sacrifierCarteChampsDeBataille(Carte carte) throws NoTypeException{
-		if(gcj.isJouable(carte, this.pointsAction) && gcj.isSacrifiable(carte)){
+	public Retour sacrifierCarteChampsDeBataille(Carte carte,boolean self) throws NoTypeException{
+		if((gcj.isJouable(carte, this.pointsAction) || self == false) &&  gcj.isSacrifiable(carte)){
 			Retour ret = Retour.CONTINUE;
 			//La carte est mise dans la pile de sacrifice
 			gcj.intentionJouerCarte(carte);
@@ -102,7 +102,7 @@ public abstract class Joueur {
 				gcj.defausserChampsDeBataille(carte);
 			}
 			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
-			this.payerCoutCarte(carte);
+			if(self == true) this.payerCoutCarte(carte);
 			//La capacité est activé
 			ret = carte.getCapacite().capacite(carte, this);
 			
@@ -110,7 +110,7 @@ public abstract class Joueur {
 			return ret;
 		}
 		System.err.println("Vous ne pouvez pas jouer cette carte !");
-		return null;
+		return Retour.CONTINUE;
 	}
 	
 	/**

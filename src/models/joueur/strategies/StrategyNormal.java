@@ -81,7 +81,7 @@ public class StrategyNormal implements Strategy{
 		Retour ret = Retour.CONTINUE;
 		if(cartesJouables.size() > 0){
 			try {
-				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
+				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0),true);
 			} catch (NoTypeException e) {
 				e.printStackTrace();
 			}
@@ -89,7 +89,7 @@ public class StrategyNormal implements Strategy{
 		else if(joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille()).size() > 0){
 			cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
 			try {
-				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0));
+				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0),true);
 			} catch (NoTypeException e) {
 				e.printStackTrace();
 			}

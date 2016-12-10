@@ -96,7 +96,7 @@ public class JoueurReel extends Joueur{
 			if(carte != null){
 				//La carte est joué
 				try {
-					ret = super.sacrifierCarteChampsDeBataille(carte);
+					ret = super.sacrifierCarteChampsDeBataille(carte,true);
 				} catch (NoTypeException e) {
 					e.printStackTrace();
 				}

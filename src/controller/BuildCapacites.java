@@ -153,7 +153,7 @@ public abstract class BuildCapacites {
 					carteaSacrifier = cible.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					if(carteaSacrifier != null){
 						try {
-							ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier);
+							ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
 						} catch (NoTypeException e) {
 							e.printStackTrace();
 						}
@@ -196,7 +196,7 @@ public abstract class BuildCapacites {
 						}
 						else{
 							try {
-								ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier);
+								ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
 							} catch (NoTypeException e) {
 								e.printStackTrace();
 							}
@@ -321,7 +321,7 @@ public abstract class BuildCapacites {
 					Carte carteaSacrifier = j.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					if(carteaSacrifier != null){
 						try {
-							Retour ret = j.sacrifierCarteChampsDeBataille(carteaSacrifier);
+							Retour ret = j.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
 							if(!ret.equals(Retour.CONTINUE)) return ret;
 						} catch (NoTypeException e) {
 							e.printStackTrace();
@@ -377,7 +377,7 @@ public abstract class BuildCapacites {
 				for(int i=0;i<cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().size();i++){
 					if(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().get(i).getOrigine().equals(Origine.NEANT)){
 						try {
-							Retour ret = cible.sacrifierCarteChampsDeBataille(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().get(i));
+							Retour ret = cible.sacrifierCarteChampsDeBataille(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().get(i),false);
 							if(!ret.equals(Retour.CONTINUE)) return ret;
 						} catch (NoTypeException e) {
 							e.printStackTrace();
@@ -421,7 +421,7 @@ public abstract class BuildCapacites {
 				for(int i=0;i<2;i++){
 					Carte select = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					try {
-						Retour ret = cible.sacrifierCarteChampsDeBataille(carte);
+						Retour ret = cible.sacrifierCarteChampsDeBataille(carte,false);
 						if(!ret.equals(Retour.CONTINUE)) return ret;
 					} catch (NoTypeException e) {
 						e.printStackTrace();
@@ -518,7 +518,7 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Carte guide = user.cardPeeker(user.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
-				guide.setImmunite(true);
+				if(guide != null) guide.setImmunite(true);
 				for(int i=0;i<((Guide_Spirituel)guide).getSesCroyants().size();i++){
 					((Guide_Spirituel)guide).getSesCroyants().get(i).setImmunite(true);
 				}
