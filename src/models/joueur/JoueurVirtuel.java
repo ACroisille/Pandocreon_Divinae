@@ -36,7 +36,8 @@ public class JoueurVirtuel extends Joueur{
 	@Override
 	public Joueur joueurPeeker(Set<Joueur> joueurs) {
 		Iterator<Joueur> it = joueurs.iterator();
-		return it.next();
+		if(it.hasNext()) return it.next();
+		else return null;
 	}
 	
 	@Override

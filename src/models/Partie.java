@@ -49,7 +49,7 @@ public class Partie {
 	}
 	
 	private boolean jouerTour(){
-		System.out.println("Tour " + numeroTour);
+		System.err.println("Tour " + numeroTour);
 		//Lancer du dés de cosmogonie 
 		distribuerPointsAction(De_Cosmogonie.lancerDe());
 		System.out.println("Distribution des points d'action.");

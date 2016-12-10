@@ -600,7 +600,7 @@
 			<image id="nbr_quatre" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- illusionnistes -->
-		<card template="carte-croyants, origine-nuit, dogmes-humain_symboles_chaos" back="verso" capacite="activerCapaciteCroyant">
+		<card template="carte-croyants, origine-nuit, dogmes-humain_symboles_chaos" back="verso" capacite="activerCapacite">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Illusionnistes
@@ -745,7 +745,7 @@
 		</card>
 		<!-- GUIDES SPIRITUELS -->
 		<!-- martyr -->
-		<card template="carte-guides, origine-jour, dogmes-nature_humain" back="verso" capacite="martyr">
+		<card template="carte-guides, origine-jour, dogmes-nature_humain" back="verso" capacite="apocalypse">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Martyr
@@ -757,7 +757,7 @@
 			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- martyr -->
-		<card template="carte-guides, origine-nuit, dogmes-humain_symboles" back="verso" capacite="martyr">
+		<card template="carte-guides, origine-nuit, dogmes-humain_symboles" back="verso" capacite="apocalypse">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Martyr
@@ -769,7 +769,7 @@
 			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- martyr -->
-		<card template="carte-guides, origine-neant, dogmes-nature_chaos" back="verso" capacite="martyr">
+		<card template="carte-guides, origine-neant, dogmes-nature_chaos" back="verso" capacite="apocalypse">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Martyr
@@ -877,7 +877,7 @@
 			<image id="nbr_deux" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- shaman -->
-		<card template="carte-guides, origine-nuit, dogmes-nature_symboles" back="verso" capacite="osef">
+		<card template="carte-guides, origine-nuit, dogmes-nature_symboles" back="verso" capacite="shaman">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Shaman
@@ -889,7 +889,7 @@
 			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- anarchiste -->
-		<card template="carte-guides, origine-neant, dogmes-humain_chaos" back="verso" capacite="osef">
+		<card template="carte-guides, origine-neant, dogmes-humain_chaos" back="verso" capacite="obligerSacrificeGuide">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Anarchiste
@@ -901,7 +901,7 @@
 			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- paladin -->
-		<card template="carte-guides, origine-jour, dogmes-humain_mystique" back="verso" capacite="osef">
+		<card template="carte-guides, origine-jour, dogmes-humain_mystique" back="verso" capacite="paladin">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Paladin
@@ -986,10 +986,10 @@
 		</card>
 		<!-- DEUS EX -->
 		<!-- colere divine -->
-		<card template="carte-deusex, origine-jour" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-jour" back="verso" capacite="colereDivine">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
-				Colère Divine
+				Colere Divine
 			</text>
 			<text font="DauphinPlain" size="9" color="#000000" align="left"
 			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
@@ -997,10 +997,10 @@
 			</text>
 		</card>
 		<!-- colere divine -->
-		<card template="carte-deusex, origine-nuit" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-nuit" back="verso" capacite="colereDivine">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
-				Colère Divine
+				Colere Divine
 			</text>
 			<text font="DauphinPlain" size="9" color="#000000" align="left"
 			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
@@ -1008,7 +1008,7 @@
 			</text>
 		</card>
 		<!-- stase -->
-		<card template="carte-deusex, origine-jour" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-jour" back="verso" capacite="stase">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Stase
@@ -1019,7 +1019,7 @@
 			</text>
 		</card>
 		<!-- ordre celeste -->
-		<card template="carte-deusex, origine-jour" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-jour" back="verso" capacite="voleGuide">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Ordre Céleste
@@ -1030,7 +1030,7 @@
 			</text>
 		</card>
 		<!-- fourberie -->
-		<card template="carte-deusex, origine-nuit" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-nuit" back="verso" capacite="fourberie">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Fourberie
@@ -1041,7 +1041,7 @@
 			</text>
 		</card>
 		<!-- diversion -->
-		<card template="carte-deusex, origine-nuit" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-nuit" back="verso" capacite="piocherCartes">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Diversion
@@ -1052,7 +1052,7 @@
 			</text>
 		</card>
 		<!-- concentration mystique -->
-		<card template="carte-deusex, origine-neant" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-neant" back="verso" capacite="voleGuide">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Concentration Mystique
@@ -1063,7 +1063,7 @@
 			</text>
 		</card>
 		<!-- trou noir -->
-		<card template="carte-deusex, origine-neant" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-neant" back="verso" capacite="empecherIncrementationPointsActionAll">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Trou Noir
@@ -1074,7 +1074,7 @@
 			</text>
 		</card>
 		<!-- phoenix -->
-		<card template="carte-deusex, origine-neant" back="verso" capacite="osef">
+		<card template="carte-deusex, origine-neant" back="verso" capacite="activerCapacite">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Ph½nix

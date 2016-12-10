@@ -16,6 +16,7 @@ import models.Partie;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.Croyant;
+import models.cartes.Deus_Ex;
 import models.cartes.Guide_Spirituel;
 import models.enums.Dogme;
 import models.enums.Origine;
@@ -42,6 +43,19 @@ public abstract class BuildCapacites {
 			
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
+				
+				//Retire toutes les immunitées 
+				Set<Joueur> joueurs = Partie.getJoueurs();
+				Iterator<Joueur> it = joueurs.iterator();
+				while(it.hasNext()){
+					Joueur j = it.next();
+					for(int i=0;i<j.getGestionnaire_Cartes_Joueur().getChampsDeBataille().size();i++){
+						if(j.getGestionnaire_Cartes_Joueur().getChampsDeBataille().get(i).getImmunite().equals(true)){
+							j.getGestionnaire_Cartes_Joueur().getChampsDeBataille().get(i).setImmunite(false);
+						}
+					}
+				}
+				
 				return Retour.APOCALYPSE;
 			}
 		});
@@ -111,9 +125,12 @@ public abstract class BuildCapacites {
 			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
 				Joueur cible = user.joueurPeeker(joueurs);
+				int nbCartes = 0;
+				if(carte instanceof Croyant) nbCartes = 2;
+				else if(carte instanceof Deus_Ex) nbCartes = 3;
 				if(cible != null){
 					Carte c = null;
-					for(int i=0;i<2;i++){
+					for(int i=0;i<nbCartes;i++){
 						c= cible.getGestionnaire_Cartes_Joueur().donnerCarte();
 						if(c != null) user.getGestionnaire_Cartes_Joueur().addMain(carte);
 					}
@@ -127,20 +144,22 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				////////////////////////////////////////////////////////////
 				Joueur cible = user.joueurPeeker(joueurs);
+				Retour ret = Retour.CONTINUE;
 				//La cible doit sacrifier un croyant
 				Carte carteaSacrifier = null;
 				if(cible != null){
 					carteaSacrifier = cible.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					if(carteaSacrifier != null){
 						try {
-							cible.sacrifierCarteChampsDeBataille(carteaSacrifier);
+							ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier);
 						} catch (NoTypeException e) {
 							e.printStackTrace();
 						}
 					}
 				}
-				return Retour.CONTINUE;
+				return ret;
 			}
 		});
 		
@@ -149,8 +168,9 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
-				//Pour le sacrifice de Devin
-				if(carte instanceof Guide_Spirituel){
+				
+				//Si la carte joué est Devin, alors la liste de joueurs selectionnable est réduite.
+				if(carte.getNom().equals("Devin")){
 					Iterator<Joueur> it = joueurs.iterator();
 					while(it.hasNext()){
 						Joueur j = it.next();
@@ -160,20 +180,31 @@ public abstract class BuildCapacites {
 						}
 					}
 				}
+				
 				Joueur cible = user.joueurPeeker(joueurs);
-				//La cible doit sacrifier un croyant
+				Retour ret = Retour.CONTINUE;
+				//La cible doit sacrifier un Guide
 				Carte carteaSacrifier = null;
 				if(cible != null){
 					carteaSacrifier = cible.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
 					if(carteaSacrifier != null){
-						try {
-							cible.sacrifierCarteChampsDeBataille(carteaSacrifier);
-						} catch (NoTypeException e) {
-							e.printStackTrace();
+						//Si la carte est un Anarchiste alors el, si lui ou sa Divinité ne croit pas au Dogme Chaos. 
+						//Les capacités spéciales sont jouées normalement.
+						if(carte.getNom().equals("Anarchiste") && cible.getGestionnaire_Cartes_Joueur().getDivinite().getSesDogmes().contains(Dogme.CHAOS)
+								&& ((Guide_Spirituel)carteaSacrifier).getDogmes().contains(Dogme.CHAOS)){
+							cible.getGestionnaire_Cartes_Joueur().defausserChampsDeBataille(carteaSacrifier);
 						}
+						else{
+							try {
+								ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier);
+							} catch (NoTypeException e) {
+								e.printStackTrace();
+							}
+						}
+						
 					}
 				}
-				return Retour.CONTINUE;
+				return ret;
 			}
 		});
 		
@@ -239,17 +270,26 @@ public abstract class BuildCapacites {
 			}
 		});
 		
-		capacites.put("activerCapaciteCroyant", new Capacite() {
+		capacites.put("activerCapacite", new Capacite() {
 			
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
-				Joueur cible = user.joueurPeeker(joueurs);
+				Joueur cible = null;
+				if(carte instanceof Croyant){
+					cible = user.joueurPeeker(joueurs);
+				}
 				Retour ret = Retour.CONTINUE;
 				//La cible doit sacrifier un croyant
 				Carte carteaActiver = null;
-				if(cible != null){
+				if(carte instanceof Croyant && cible != null){
 					carteaActiver = cible.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
+					if(carteaActiver != null){
+						ret = carteaActiver.getCapacite().capacite(carteaActiver, user);
+					}
+				}
+				else if(carte instanceof Deus_Ex){
+					carteaActiver = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getChampsDeBataille());
 					if(carteaActiver != null){
 						ret = carteaActiver.getCapacite().capacite(carteaActiver, user);
 					}
@@ -281,7 +321,8 @@ public abstract class BuildCapacites {
 					Carte carteaSacrifier = j.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					if(carteaSacrifier != null){
 						try {
-							j.sacrifierCarteChampsDeBataille(carteaSacrifier);
+							Retour ret = j.sacrifierCarteChampsDeBataille(carteaSacrifier);
+							if(!ret.equals(Retour.CONTINUE)) return ret;
 						} catch (NoTypeException e) {
 							e.printStackTrace();
 						}
@@ -305,15 +346,6 @@ public abstract class BuildCapacites {
 			}
 		});
 			
-		capacites.put("martyr", new Capacite() {
-			
-			@Override
-			public Retour capacite(Carte carte, Joueur user) {
-				System.err.println("Apocalypse now !");
-				return Retour.APOCALYPSE;
-			}
-		});
-		
 		capacites.put("clerc", new Capacite() {
 			
 			@Override
@@ -321,6 +353,51 @@ public abstract class BuildCapacites {
 				Origine o = user.originePeeker();
 				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
 					user.incrementerPointAction(o);
+				}
+				return Retour.CONTINUE;
+			}
+		});
+		
+		capacites.put("shaman", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				//Si la carte est Shaman, réduit la liste de joueur selectionnables à 
+				Iterator<Joueur> it = joueurs.iterator();
+				while(it.hasNext()){
+					Joueur j = it.next();
+					if(!j.getGestionnaire_Cartes_Joueur().getDivinite().getSesDogmes().contains(Dogme.HUMAIN)){
+						it.remove();
+					}
+				}
+				////////////////////////////////////////////////////////////
+				Joueur cible = user.joueurPeeker(joueurs);
+					//Tous les croyants d'origine Neant sont sacrifiés
+				for(int i=0;i<cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().size();i++){
+					if(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().get(i).getOrigine().equals(Origine.NEANT)){
+						try {
+							Retour ret = cible.sacrifierCarteChampsDeBataille(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().get(i));
+							if(!ret.equals(Retour.CONTINUE)) return ret;
+						} catch (NoTypeException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				return Retour.CONTINUE;
+			}
+		});
+
+		capacites.put("paladin", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				for(int i=0;i<Gestionnaire_cartes_partie.getTable().size();i++){
+					Carte c = Gestionnaire_cartes_partie.getTable().get(i);
+					if((c.getOrigine().equals(Origine.NUIT) || c.getOrigine().equals(Origine.NEANT)) && ((Croyant)c).getDogmes().contains(Dogme.NATURE)){
+						Gestionnaire_cartes_partie.getTable().remove(c);
+						Gestionnaire_cartes_partie.getDefausse().add(c);
+					}
 				}
 				return Retour.CONTINUE;
 			}
@@ -344,7 +421,8 @@ public abstract class BuildCapacites {
 				for(int i=0;i<2;i++){
 					Carte select = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					try {
-						cible.sacrifierCarteChampsDeBataille(carte);
+						Retour ret = cible.sacrifierCarteChampsDeBataille(carte);
+						if(!ret.equals(Retour.CONTINUE)) return ret;
 					} catch (NoTypeException e) {
 						e.printStackTrace();
 					}
@@ -395,10 +473,120 @@ public abstract class BuildCapacites {
 				while(it.hasNext()){
 					it.next().attribuerPointsAction(o);
 				}
-				return Retour.CONTINUE;
+				return Retour.STOPTOUR;
 			}
 		});
 	
+		capacites.put("colereDivine", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				
+				Joueur cible = user.joueurPeeker(joueurs);
+				//La cible doit sacrifier un Guide
+				Carte carteaSacrifier = null;
+				List<Carte> guides = cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille();
+				if(carte.getOrigine().equals(Origine.JOUR)){
+					for(int i=0;i<cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().size();i++){
+						if(!cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().get(i).getOrigine().equals(Origine.NEANT)
+								&& !cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().get(i).getOrigine().equals(Origine.NUIT)){
+							guides.remove(cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().get(i));
+						}
+					}
+				}
+				else if(carte.getOrigine().equals(Origine.NUIT)){
+					for(int i=0;i<cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().size();i++){
+						if(!cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().get(i).getOrigine().equals(Origine.NEANT)
+								&& !cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().get(i).getOrigine().equals(Origine.JOUR)){
+							guides.remove(cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().get(i));
+						}
+					}
+				}
+				if(cible != null){
+					carteaSacrifier = cible.cardPeeker(guides);
+					if(carteaSacrifier != null){
+						//Si la carte joué est colère divine, la carte n'est pas sacrifié mais juste défaussé.
+						cible.getGestionnaire_Cartes_Joueur().defausserChampsDeBataille(carteaSacrifier);
+					}
+				}
+				return Retour.CONTINUE;			}
+		});
+		
+		capacites.put("stase", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Carte guide = user.cardPeeker(user.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
+				guide.setImmunite(true);
+				for(int i=0;i<((Guide_Spirituel)guide).getSesCroyants().size();i++){
+					((Guide_Spirituel)guide).getSesCroyants().get(i).setImmunite(true);
+				}
+				return Retour.CONTINUE;
+			}
+		});
+		
+		capacites.put("voleGuide", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				//Restreindre la liste de joueurs
+				Iterator<Joueur> it = joueurs.iterator();
+				while(it.hasNext()){
+					Joueur j = it.next();
+					if(j.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().size() < 1){
+						it.remove();
+					}
+				}
+				Joueur cible = user.joueurPeeker(joueurs);
+				if(cible != null){
+					Carte guide = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
+					if(guide != null){
+						//transfert du guide
+						user.getGestionnaire_Cartes_Joueur().getChampsDeBataille().add(guide);
+						cible.getGestionnaire_Cartes_Joueur().getChampsDeBataille().remove(guide);
+						//transfert des croyants
+						for(int i=0;i<((Guide_Spirituel)guide).getSesCroyants().size();i++){
+							user.getGestionnaire_Cartes_Joueur().getChampsDeBataille().add(((Guide_Spirituel)guide).getSesCroyants().get(i));
+							cible.getGestionnaire_Cartes_Joueur().getChampsDeBataille().remove(((Guide_Spirituel)guide).getSesCroyants().get(i));
+						}
+					}
+				}
+				return Retour.CONTINUE;
+			}
+		});
+
+		capacites.put("fourberie", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				////////////////////////////////////////////////////////////
+				//Restreindre la liste de joueurs
+				Iterator<Joueur> it = joueurs.iterator();
+				while(it.hasNext()){
+					Joueur j = it.next();
+					if(j.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille().size() >1){
+						it.remove();
+					}
+				}
+				Joueur cible = user.joueurPeeker(joueurs);
+				//La cible doit sacrifier un croyant
+				Carte carteaSacrifier = null;
+				if(cible != null){
+					for(int i=0;i<2;i++){
+						carteaSacrifier = cible.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
+						if(carteaSacrifier != null){
+							cible.getGestionnaire_Cartes_Joueur().defausserChampsDeBataille(carteaSacrifier);
+						}
+					}
+				}
+				return Retour.CONTINUE;
+			}
+		});
+		
+		
 		return capacites;
 	}
 	

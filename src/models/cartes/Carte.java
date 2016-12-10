@@ -12,12 +12,15 @@ public abstract class Carte{
 	protected boolean capaciteUsed;
 	protected Capacite capacite;
 	
+	protected Boolean immunite;
+	
 	public Carte(String nom,String capaciteDesc,Origine origine, Capacite capacite){
 		this.nom = nom;
 		this.capaciteDesc = capaciteDesc;
 		this.origine = origine;
 		this.capacite = capacite;
 		this.capaciteUsed = false;
+		this.immunite = false;
 	}
 	
 	public void utiliserCapacite(){};
@@ -32,5 +35,17 @@ public abstract class Carte{
 	
 	public Origine getOrigine() {
 		return origine;
+	}
+	
+	public String getNom() {
+		return nom;
+	}
+	
+	public Boolean getImmunite() {
+		return immunite;
+	}
+	
+	public void setImmunite(Boolean immunite) {
+		this.immunite = immunite;
 	}
 }

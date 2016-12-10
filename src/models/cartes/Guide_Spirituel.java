@@ -75,6 +75,10 @@ public class Guide_Spirituel extends Religion{
 		return sesCroyants;
 	}
 	
+	public Set<Dogme> getDogmes(){
+		return super.sesDogmes;
+	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
