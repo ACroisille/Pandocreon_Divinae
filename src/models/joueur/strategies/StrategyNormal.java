@@ -28,13 +28,13 @@ public class StrategyNormal implements Strategy{
 		this.phaseCompleterMain(joueur);
 		//Jouer carte action
 		ret = this.phaseJouerCarteMain(joueur);
-		if(!ret.equals(Retour.CONTINUE)) return ret;
+		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
 		
 		System.out.println(joueur.getGestionnaire_Cartes_Joueur().champsDeBatailleToString());
 		
 		//sacrifier carte du champs de bataille.
 		ret = this.phaseSacrificeCarteChampsDeBataille(joueur);
-		if(!ret.equals(Retour.CONTINUE)) return ret;
+		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
 		return ret;
 	}
 	

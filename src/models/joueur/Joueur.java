@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import controller.Gestionnaire_Cartes_Joueur;
 import controller.Gestionnaire_cartes_partie;
+import controller.SacrificeListener;
 import exceptions.NoTypeException;
+import models.Partie;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
@@ -21,10 +24,11 @@ import models.cartes.Guide_Spirituel;
 import models.enums.Origine;
 import models.enums.Retour;
 
-public abstract class Joueur {
+public class Joueur implements SacrificeListener{
 	protected Map<Origine,Integer> pointsAction;
 	protected Gestionnaire_Cartes_Joueur gcj = null;
 	protected boolean incrementerPointsAction = true;
+	protected SacrificeListener sacrificeListener;
 	
 	public Joueur(){
 		this.pointsAction = new HashMap<Origine,Integer>();
@@ -52,25 +56,30 @@ public abstract class Joueur {
 			//Intention de jouer la carte
 			Retour ret = Retour.CONTINUE;
 			this.payerCoutCarte(carte);
-			gcj.intentionJouerCarte(carte);//La carte passe dans la pilePose et un listener est déclenché. 
-			if(carte instanceof Croyant){
-				//Rien à faire pour le moment
-				System.out.println("Une carte Croyant a été ajouté à la pile de Croyants");
+			
+			ret = gcj.intentionJouerCarte(carte);
+				//Si le reour le l'intention est cancel, la carte est défaussé et l'opération de jouerCarteMain est arrêté
+			if(ret.equals(Retour.CONTINUE)){
+				if(carte instanceof Croyant){
+					//Rien à faire pour le moment
+					System.out.println("Une carte Croyant a été ajouté à la pile de Croyants");
+				}
+				else if(carte instanceof Guide_Spirituel){
+					System.out.println("Une carte Guide Spirituel a été posé, il rammène les croyants à lui");
+				}
+				else if(carte instanceof Deus_Ex){
+					//Utilise la capacité de la carte
+					System.out.println("Une carte DeusEx a été posé, elle est sacrifié : ");
+					System.out.println(carte.toString());
+					ret = carte.getCapacite().capacite(carte, this);
+				}
+				else if(carte instanceof Apocalypse){
+					//Active une apocalypse
+					System.err.println("APOCALYPSE");
+					ret = carte.getCapacite().capacite(carte, this);
+				}
+				else throw new NoTypeException("La carte est de type DIVINITE ou est NULL.");
 			}
-			else if(carte instanceof Guide_Spirituel){
-				System.out.println("Une carte Guide Spirituel a été posé, il rammène les croyants à lui");
-			}
-			else if(carte instanceof Deus_Ex){
-				//Utilise la capacité de la carte
-				System.out.println("Une carte DeusEx a été posé, elle est sacrifié");
-				ret = carte.getCapacite().capacite(carte, this);
-			}
-			else if(carte instanceof Apocalypse){
-				//Active une apocalypse
-				System.err.println("APOCALYPSE");
-				ret = carte.getCapacite().capacite(carte, this);
-			}
-			else throw new NoTypeException("La carte est de type DIVINITE ou est NULL.");
 			//La carte a été jouer
 			gcj.transfertCarteJouer(carte);
 			return ret;
@@ -87,24 +96,29 @@ public abstract class Joueur {
 	public Retour sacrifierCarteChampsDeBataille(Carte carte,boolean self) throws NoTypeException{
 		if((gcj.isJouable(carte, this.pointsAction) || self == false) &&  gcj.isSacrifiable(carte)){
 			Retour ret = Retour.CONTINUE;
-			//La carte est mise dans la pile de sacrifice
-			gcj.intentionJouerCarte(carte);
-			if(carte instanceof Croyant){
-				 System.out.println("Sacrifice d'une carte croyant.");
-				 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
-				 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
-					 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
-				 }
-			}
-			else if(carte instanceof Guide_Spirituel){
-				System.out.println("Sacrifice d'une carte Guide Spirituel.");
-				//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
-				gcj.defausserChampsDeBataille(carte);
-			}
-			else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
+			
 			if(self == true) this.payerCoutCarte(carte);
-			//La capacité est activé
-			ret = carte.getCapacite().capacite(carte, this);
+			//La carte est mise dans la pile de sacrifice
+			ret = gcj.intentionJouerCarte(carte);
+			
+			//Si le reour le l'intention est cancel, la carte est défaussé et l'opération de jouerCarteMain est arrêté
+			if(ret.equals(Retour.CONTINUE)){
+				if(carte instanceof Croyant){
+					 System.out.println("Sacrifice d'une carte croyant.");
+					 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
+					 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
+						 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
+					 }
+				}
+				else if(carte instanceof Guide_Spirituel){
+					System.out.println("Sacrifice d'une carte Guide Spirituel.");
+					//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
+					gcj.defausserChampsDeBataille(carte);
+				}
+				else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
+				//La capacité est activé
+				ret = carte.getCapacite().capacite(carte, this);
+			}
 			
 			gcj.transfertCarteJouer(carte);
 			return ret;
@@ -113,12 +127,30 @@ public abstract class Joueur {
 		return Retour.CONTINUE;
 	}
 	
-	/**
-	 * Permet au joueur d'utiliser une carte sans origine ou sa divinité.
-	 * @param carte
-	 */
-	public void enReponse(Carte carte){
+	@Override
+	public Retour enReponse(Carte sacrifice) {
+		Retour ret = Retour.CONTINUE;
+		if(sacrifice.getOrigine() != null){
+			System.err.println("EN REPONSE");
+			Set<Joueur> joueurs = new LinkedHashSet<Joueur>(Partie.getJoueurs());
+			joueurs.remove(this);
+			
+			Iterator<Joueur> it = joueurs.iterator();
+			while(it.hasNext()){
+				Joueur j = it.next();
+				Carte c = j.cardPeeker(j.getGestionnaire_Cartes_Joueur().getCartesReponse());
+				if(c != null){
+					try {
+						ret = j.jouerCarteMain(c);
+					} catch (NoTypeException e) {
+						e.printStackTrace();
+					}
+					if(!ret.equals(Retour.CONTINUE)) return ret;
+				}
+			}
+		}
 		
+		return ret;
 	}
 	
 	/**
@@ -228,6 +260,7 @@ public abstract class Joueur {
 	
 	public void attachGestionnaire_Cartes_Joueur(List<Carte> main, Divinite divinite){
 		this.gcj = new Gestionnaire_Cartes_Joueur(this, main, divinite);
+		this.gcj.addSacrificeListener(this);
 	}
 	
 	public Gestionnaire_Cartes_Joueur getGestionnaire_Cartes_Joueur(){
@@ -237,6 +270,7 @@ public abstract class Joueur {
 	public Map<Origine, Integer> getPointsAction() {
 		return pointsAction;
 	}
+	
 	
 	@Override
 	public String toString() {

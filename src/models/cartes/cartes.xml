@@ -1085,7 +1085,7 @@
 			</text>
 		</card>
 		<!-- influence jour -->
-		<card template="carte-deusex" back="verso" capacite="osef">
+		<card template="carte-deusex" back="verso" capacite="influence">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Influence Jour
@@ -1096,7 +1096,7 @@
 			</text>
 		</card>
 		<!-- influence nuit -->
-		<card template="carte-deusex" back="verso" capacite="osef">
+		<card template="carte-deusex" back="verso" capacite="influence">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Influence Nuit
@@ -1107,10 +1107,10 @@
 			</text>
 		</card>
 		<!-- influence neant -->
-		<card template="carte-deusex" back="verso" capacite="osef">
+		<card template="carte-deusex" back="verso" capacite="influence">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
-				Influence Néant
+				Influence Neant
 			</text>
 			<text font="DauphinPlain" size="9" color="#000000" align="left"
 			 x="1.4cm" y="2cm" width="3.5cm" height="2.3cm">
@@ -1118,7 +1118,7 @@
 			</text>
 		</card>
 		<!-- influence nulle -->
-		<card template="carte-deusex" back="verso" capacite="osef">
+		<card template="carte-deusex" back="verso" capacite="influence">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Influence Nulle
@@ -1129,7 +1129,7 @@
 			</text>
 		</card>
 		<!-- influence nulle -->
-		<card template="carte-deusex" back="verso" capacite="osef">
+		<card template="carte-deusex" back="verso" capacite="influence">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Influence Nulle
@@ -1162,7 +1162,7 @@
 			</text>
 		</card>
 		<!-- bouleversement -->
-		<card template="carte-deusex" back="verso" capacite="osef">
+		<card template="carte-deusex" back="verso" capacite="relancerDe">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Bouleversement

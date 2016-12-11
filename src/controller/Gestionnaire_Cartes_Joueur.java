@@ -9,6 +9,7 @@ import java.util.Map;
 import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import exceptions.NoTypeException;
+import models.Partie;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
@@ -17,6 +18,7 @@ import models.cartes.Deus_Ex;
 import models.cartes.Divinite;
 import models.cartes.Guide_Spirituel;
 import models.enums.Origine;
+import models.enums.Retour;
 import models.joueur.Joueur;
 
 public class Gestionnaire_Cartes_Joueur {
@@ -27,11 +29,13 @@ public class Gestionnaire_Cartes_Joueur {
 	private List<Carte> main;
 	private List<Carte> champsDeBataille;
 	private Divinite divinite;
-	private Carte pilePose=null,pileSacrifice=null; //Ajouter listener dessus
+	private Carte pilePose=null;
+	//private Carte pileSacrifice=null; //Ajouter listener dessus
 	
 	private Boolean sacrificeCroyant = true; 
 	private Boolean	sacrificeGuide = true;
 	
+	private SacrificeListener sacrificeListener;
 	
 	public Gestionnaire_Cartes_Joueur(Joueur joueur, List<Carte> main,Divinite divinite){
 		this.joueur = joueur;
@@ -99,25 +103,40 @@ public class Gestionnaire_Cartes_Joueur {
 	 * Transfert une carte de la main / du champs de bataille pour la pose / le sacrifice
 	 * @param carte La carte joué.
 	 */
-	public void intentionJouerCarte(Carte carte) throws NoTypeException{
+	public Retour intentionJouerCarte(Carte carte) throws NoTypeException{
+		Retour ret = Retour.CONTINUE;
 		if(main.contains(carte)){
 			main.remove(carte);
 			if(carte instanceof Croyant || carte instanceof Guide_Spirituel){
-				System.out.println("Une carte"+carte.getClass().getName()+" a été ajouté à la pile de pose.");
+				System.out.println("Une carte"+carte.getClass().getName()+" a été ajouté à la pile de pose :");
+				System.out.println(carte.toString());
+				
 				this.pilePose = carte;
 			}
 			else if(carte instanceof Deus_Ex || carte instanceof Apocalypse){
-				System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice");
-				this.pileSacrifice = carte;
+				System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
+				System.out.println(carte.toString());
+				
+				//this.pileSacrifice = carte;
+				Partie.pileSacrifice.push(carte);
+				
+				ret = this.sacrificeListener.enReponse(carte);
 			}
 			else throw new NoTypeException("La carte n'a pas de TYPE ou est NULL.");
 		}
 		else if(champsDeBataille.contains(carte)){
 			champsDeBataille.remove(carte);
-			System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice");
-			this.pileSacrifice = carte;
+			System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
+			System.out.println(carte.toString());
+			
+			Partie.pileSacrifice.push(carte);
+			
+			ret = this.sacrificeListener.enReponse(carte);
 		}
-		else System.err.println("Le joueur ne possède pas la carte spécifié !");
+		else{
+			System.err.println("Le joueur ne possède pas la carte spécifié !");
+		}
+		return ret;
 	}
 	
 	/**
@@ -140,9 +159,9 @@ public class Gestionnaire_Cartes_Joueur {
 			}
 			this.pilePose = null;
 		}
-		else if(carte.equals(this.pileSacrifice)){
+		else if(carte.equals(Partie.pileSacrifice.peek())){
 			Gestionnaire_cartes_partie.addDefausse(carte);
-			this.pileSacrifice = null;
+			Partie.pileSacrifice.pop();
 		}		
 		else throw new NoTypeException("Il n'y a pas de carte dans la pile.");
 	}
@@ -218,6 +237,16 @@ public class Gestionnaire_Cartes_Joueur {
 		return array;
 	}
 	
+	public List<Carte> getCartesReponse(){
+		List<Carte> reponse = new ArrayList<Carte>();
+		for(int i=0;i<this.main.size();i++){
+			if(this.main.get(i).getOrigine() == null){
+				reponse.add(this.main.get(i));
+			}
+		}
+		return reponse;
+	}
+	
 	public void addMain(Carte carte){
 		if(this.champsDeBataille.contains(carte)){
 			this.gererDependances(carte);
@@ -284,6 +313,14 @@ public class Gestionnaire_Cartes_Joueur {
 	public void setSacrificeGuide(Boolean sacrificeGuide) {
 		this.sacrificeGuide = sacrificeGuide;
 	}
+	
+	public void addSacrificeListener(SacrificeListener sacrificeListener){
+		this.sacrificeListener = sacrificeListener;
+	}
+	/*
+	public Carte getPileSacrifice() {
+		return pileSacrifice;
+	}*/
 	
 	@Override
 	public String toString() {

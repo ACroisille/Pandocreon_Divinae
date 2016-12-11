@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 import controller.Gestionnaire_cartes_partie;
 import exceptions.NoTypeException;
@@ -20,11 +21,12 @@ import models.joueur.JoueurReel;
 public class Partie {
 	
 	private static Set<Joueur> joueurs;
+	public static Stack<Carte> pileSacrifice;
 	private Gestionnaire_cartes_partie gcp = null;
 	private int numeroTour;
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
 		Partie.joueurs = joueurs;
-		
+		pileSacrifice = new Stack<Carte>();
 		Collections.shuffle(deck);
 		//Récupèration des divinitées dans la paquet de carte.
 		Queue<Divinite> divinites = this.getDivinites(deck);
@@ -175,6 +177,16 @@ public class Partie {
 			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() == min && !j.equals(joueurMin)) return null;
 		}
 		return joueurMin;
+	}
+	
+	public static Carte getLast(){
+		Carte wanted = null;
+		if(Partie.pileSacrifice.size()>2){
+			Carte back = Partie.pileSacrifice.pop();
+			wanted = Partie.pileSacrifice.peek();
+			Partie.pileSacrifice.push(back);
+		}
+		return wanted;
 	}
 	
 	/**

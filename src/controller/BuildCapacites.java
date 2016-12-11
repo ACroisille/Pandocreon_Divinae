@@ -435,7 +435,16 @@ public abstract class BuildCapacites {
 			
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
-				System.err.println("Exorciste : non implémenté");
+				Carte c = user.cardPeeker(user.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
+				if(c != null){
+					user.getGestionnaire_Cartes_Joueur().getMain().add(c);
+					user.getGestionnaire_Cartes_Joueur().getChampsDeBataille().remove(c);
+					for(int i=0;i<((Guide_Spirituel)c).getSesCroyants().size();i++){
+						Gestionnaire_cartes_partie.addDefausse(c);
+						user.getGestionnaire_Cartes_Joueur().getChampsDeBataille().remove(c);
+					}
+					((Guide_Spirituel)c).libererCroyants();
+				}
 				return Retour.CONTINUE;
 			}
 		});
@@ -583,6 +592,58 @@ public abstract class BuildCapacites {
 					}
 				}
 				return Retour.CONTINUE;
+			}
+		});
+		
+		capacites.put("influence", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				//Avec cette capacité le Joueur n'est pas celui qui appelle la capacité mais celui que l'on souhaite contrer.
+				Retour ret = Retour.CONTINUE;
+				Origine o = null;
+				if(Partie.getLast() != null){
+					o = Partie.getLast().getOrigine();
+				}
+				
+				switch(carte.getNom()){
+				case "Influence Jour" : 
+					if(o == Origine.JOUR) ret = Retour.CANCEL;
+					break;
+				case "Influence Nuit" : 
+					if(o == Origine.NUIT) ret = Retour.CANCEL;
+					break;
+				case "Influence Neant" : 
+					if(o == Origine.NEANT) ret = Retour.CANCEL;
+					break;
+				case "Influence Nulle" :
+					ret = Retour.CANCEL;
+					break;
+				default : ret = Retour.CONTINUE;
+					break;
+				}
+				return ret;
+			}
+		});
+		
+		capacites.put("transe", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				//carte correspond à la carte joué dont les benefices seront attribués au joueur qui contre...
+				
+				carte.getCapacite().capacite(carte, user);
+				return Retour.CANCEL;
+			}
+		});
+		
+		capacites.put("mirroir", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				//Avec cette capacité le Joueur n'est pas celui qui appelle la capacité mais celui que l'on souhaite contrer.
+				carte.getCapacite().capacite(carte, user);
+				return Retour.CANCEL;
 			}
 		});
 		

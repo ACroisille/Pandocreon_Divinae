@@ -27,6 +27,7 @@ public class JoueurVirtuel extends Joueur{
 		return this.strategy.jouer(this);
 	}
 	
+	
 	@Override
 	public Carte cardPeeker(List<Carte> cartes) {
 		if(cartes.size() > 0) return cartes.get(0);
