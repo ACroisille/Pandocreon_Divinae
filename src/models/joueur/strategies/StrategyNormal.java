@@ -1,21 +1,24 @@
 package models.joueur.strategies;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
 import exceptions.NoTypeException;
+import models.De_Cosmogonie;
 import models.Partie;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.Croyant;
 import models.cartes.Deus_Ex;
 import models.cartes.Guide_Spirituel;
+import models.enums.Origine;
 import models.enums.Retour;
 import models.joueur.Joueur;
 
 public class StrategyNormal implements Strategy{
-	
 	
 	
 	@Override
@@ -26,6 +29,10 @@ public class StrategyNormal implements Strategy{
 		this.phaseDefausse(joueur);
 		//Remplir main
 		this.phaseCompleterMain(joueur);
+		
+		ret = this.phaseUtiliserDivinite(joueur);
+		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
+		
 		//Jouer carte action
 		ret = this.phaseJouerCarteMain(joueur);
 		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
@@ -38,6 +45,7 @@ public class StrategyNormal implements Strategy{
 		return ret;
 	}
 	
+	@Override
 	public void phaseDefausse(Joueur joueur){
 		//Retire de sa main toutes les cartes qu'il ne peut pas jouer
 		List<Carte> nePasDefausse = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
@@ -49,12 +57,28 @@ public class StrategyNormal implements Strategy{
 		joueur.getGestionnaire_Cartes_Joueur().defausserMain(defausse);
 	}
 	
+	@Override
 	public void phaseCompleterMain(Joueur joueur){
 		if(joueur.getGestionnaire_Cartes_Joueur().getMain().size() < 7) joueur.getGestionnaire_Cartes_Joueur().remplirMain();
 		System.out.println("MAIN : " + joueur.getGestionnaire_Cartes_Joueur().getMain().size());
 		System.out.println("PIOCHE : " + Gestionnaire_cartes_partie.getPioche().size());
 	}
 	
+	@Override
+	public Retour phaseUtiliserDivinite(Joueur joueur){
+		Retour ret = Retour.CONTINUE;
+		if(!joueur.getGestionnaire_Cartes_Joueur().getDivinite().isCapaciteUsed()){
+			String nom = joueur.getGestionnaire_Cartes_Joueur().getDivinite().getNom();
+			if(nom.equals("Shingva") || nom.equals("Llewella") || nom.equals("Gorpa") || nom.equals("Pui-Tara") || nom.equals("Yartsur")
+					|| nom.equals("Gwenhelen") || nom.equals("Killinstred") ){
+				int nb = (int) (Math.random() * 6 );
+				if(nb == 1) ret = joueur.activerCapaciteDivinite();
+			}
+		}
+		return ret;
+	}
+	
+	@Override	
 	public Retour phaseJouerCarteMain(Joueur joueur){
 		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
 		Carte picked = null;
@@ -75,6 +99,7 @@ public class StrategyNormal implements Strategy{
 		return ret;
 	}
 	
+	@Override
 	public Retour phaseSacrificeCarteChampsDeBataille(Joueur joueur){
 		//Un joueur virtuel ne sacrifie qu'une seul carte par tour
 		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
@@ -96,7 +121,6 @@ public class StrategyNormal implements Strategy{
 		}
 		return ret;
 	}
-	
 	
 	public Carte selectionCarteMain(Joueur joueur, List<Carte> main){
 		for(int i=0;i<main.size();i++){
@@ -120,6 +144,40 @@ public class StrategyNormal implements Strategy{
 		}
 		//Si aucune carte n'est digne d'être joué, retourne null. 
 		return null;
+	}
+
+	@Override
+	public Carte repondre(Joueur joueur, Carte sacrifice) {
+		if(sacrifice.getOrigine() != null){
+			List<Carte> cartes = new ArrayList<Carte>(joueur.getGestionnaire_Cartes_Joueur().getCartesReponse());
+			String nom = joueur.getGestionnaire_Cartes_Joueur().getDivinite().getNom();
+			if(!joueur.getGestionnaire_Cartes_Joueur().getDivinite().isCapaciteUsed()&&
+					(nom.equals("Brewalen") || nom.equals("Dinded"))){
+				cartes.add(joueur.getGestionnaire_Cartes_Joueur().getDivinite());
+			}
+			return this.cardPeeker(cartes);
+		}
+		else return null;
+	}
+
+	@Override
+	public Carte cardPeeker(List<Carte> cartes) {
+		if(cartes.size() > 0){
+			int nb = (int) (Math.random() * (cartes.size()-1));
+			return cartes.get(nb);
+		}else return null;
+	}
+
+	@Override
+	public Joueur joueurPeeker(Set<Joueur> joueurs) {
+		Iterator<Joueur> it = joueurs.iterator();
+		if(it.hasNext()) return it.next();
+		else return null;
+	}
+
+	@Override
+	public Origine originePeeker() {
+		return De_Cosmogonie.lancerDe();
 	}
 	
 	

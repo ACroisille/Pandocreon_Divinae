@@ -3,12 +3,14 @@ package models.joueur;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
 import exceptions.NoTypeException;
+import models.Partie;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.Croyant;
@@ -38,17 +40,20 @@ public class JoueurReel extends Joueur{
 		this.phaseCompleterMain();
 		//Jouer carte action
 		System.out.println(Gestionnaire_cartes_partie.afficherCartesPartie());
+		ret = this.phaseUtiliserDivinite();
+		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
+		
 		ret = this.phaseJouerCarteMain();
-		if(!ret.equals(Retour.CONTINUE)) return ret;
+		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
 		
 		//sacrifier carte du champs de bataille.
 		System.out.println(super.gcj.champsDeBatailleToString());
 		ret = this.phaseSacrificeCarteChampsDeBataille();
-		if(!ret.equals(Retour.CONTINUE)) return ret;
+		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
 		
 		return ret;
 	}
-	
+		
 	public void phaseDefausse(){
 		System.out.println("Souhaitez vous vous défausser d'une partie ou la totalité de votre main ?");
 		Carte carte = null;
@@ -63,6 +68,15 @@ public class JoueurReel extends Joueur{
 	public void phaseCompleterMain(){
 		System.out.println("Souhaitez vous completer votre main ? (y/n)");
 		if(this.yesOrNo(this.scan)) super.gcj.remplirMain();
+	}
+	
+	public Retour phaseUtiliserDivinite(){
+		Retour ret = Retour.CONTINUE;
+		if(!this.gcj.getDivinite().isCapaciteUsed()){
+			System.out.println("Voulez vous activer la capacité de votre divinité ?");
+			if(this.yesOrNo(scan)) ret = super.activerCapaciteDivinite();
+		}
+		return ret;
 	}
 	
 	public Retour phaseJouerCarteMain(){
@@ -103,6 +117,16 @@ public class JoueurReel extends Joueur{
 			}
 		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0 && ret.equals(Retour.CONTINUE));
 		return ret;
+	}
+	
+	@Override
+	public Carte repondre(Carte sacrifice) {
+		List<Carte> cartes = new ArrayList<Carte>(this.gcj.getCartesReponse());
+		if(!this.gcj.getDivinite().isCapaciteUsed()){
+			cartes.add(this.gcj.getDivinite());
+		}
+		Carte c = this.cardPeeker(cartes);
+		return c;
 	}
 	
 	@Override

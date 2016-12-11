@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import controller.BuildCartes;
@@ -19,7 +20,6 @@ public class Launcher {
 		if(nomJoueurReel != null){
 			joueurs.add(new JoueurReel(nomJoueurReel));
 		}
-		//joueurs.add(new JoueurReel("joueur2"));
 	
 		for(int i=0;i<nombreJoueursVirtuels;i++){
 			joueurs.add(new JoueurVirtuel(i+1,new StrategyNormal()));
@@ -33,8 +33,26 @@ public class Launcher {
 		
 		System.out.println("Chargement des cartes...");
 		ArrayList<Carte> deck = BuildCartes.getCartes();
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Voulez vous ajouter un joueur humain ? Si oui entrez son nom, sinon entrer (skip)");
+		String input = null; 
+		do{
+			input =  sc.nextLine();
+		}while(input.equals("") && !input.equals("skip"));
+		String nomHumain=null;
+		if(!input.equals("skip")){
+			nomHumain = input;
+		}
+		
+		System.out.println("Combien de joueurs non humain voulez vous ?");
+		do{
+			input = sc.nextLine();
+		}while(!input.matches("[0-9]+") || Integer.parseInt(input) <1 || Integer.parseInt(input) > 4);
+		Integer index = Integer.parseInt(input);
+		
 		System.out.println("Chargement des joueurs...");
-		Set<Joueur> joueurs =  Launcher.setJoueurs(null, 4);
+		Set<Joueur> joueurs =  Launcher.setJoueurs(nomHumain, index);
 		System.out.println("Lancement d'une partie...");
 		new Partie(joueurs, deck);
 		

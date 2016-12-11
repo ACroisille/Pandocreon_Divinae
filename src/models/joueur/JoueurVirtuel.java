@@ -1,11 +1,9 @@
 package models.joueur;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 
-import models.De_Cosmogonie;
 import models.cartes.Carte;
 import models.enums.Origine;
 import models.enums.Retour;
@@ -27,23 +25,24 @@ public class JoueurVirtuel extends Joueur{
 		return this.strategy.jouer(this);
 	}
 	
+	@Override
+	public Carte repondre(Carte sacrifice) {
+		return this.strategy.repondre(this,sacrifice);
+	}
 	
 	@Override
 	public Carte cardPeeker(List<Carte> cartes) {
-		if(cartes.size() > 0) return cartes.get(0);
-		else return null;
+		return this.strategy.cardPeeker(cartes);
 	}
 	
 	@Override
 	public Joueur joueurPeeker(Set<Joueur> joueurs) {
-		Iterator<Joueur> it = joueurs.iterator();
-		if(it.hasNext()) return it.next();
-		else return null;
+		return this.strategy.joueurPeeker(joueurs);
 	}
 	
 	@Override
 	public Origine originePeeker() {
-		return De_Cosmogonie.lancerDe();
+		return this.strategy.originePeeker();
 	}
 	
 	@Override

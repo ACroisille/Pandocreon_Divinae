@@ -119,7 +119,6 @@ public class Joueur implements SacrificeListener{
 				//La capacité est activé
 				ret = carte.getCapacite().capacite(carte, this);
 			}
-			
 			gcj.transfertCarteJouer(carte);
 			return ret;
 		}
@@ -127,29 +126,38 @@ public class Joueur implements SacrificeListener{
 		return Retour.CONTINUE;
 	}
 	
+	
+	
 	@Override
 	public Retour enReponse(Carte sacrifice) {
 		Retour ret = Retour.CONTINUE;
-		if(sacrifice.getOrigine() != null){
-			System.err.println("EN REPONSE");
-			Set<Joueur> joueurs = new LinkedHashSet<Joueur>(Partie.getJoueurs());
-			joueurs.remove(this);
-			
-			Iterator<Joueur> it = joueurs.iterator();
-			while(it.hasNext()){
-				Joueur j = it.next();
-				Carte c = j.cardPeeker(j.getGestionnaire_Cartes_Joueur().getCartesReponse());
-				if(c != null){
+		System.err.println("EN REPONSE");
+		Set<Joueur> joueurs = new LinkedHashSet<Joueur>(Partie.getJoueurs());
+		joueurs.remove(this);
+		Iterator<Joueur> it = joueurs.iterator();
+		while(it.hasNext()){
+			Joueur j = it.next();
+			Carte c = j.repondre(sacrifice);
+			if(c != null){
+				if(c instanceof Divinite){
+					ret = j.activerCapaciteDivinite();
+				}
+				else{
 					try {
 						ret = j.jouerCarteMain(c,true);
 					} catch (NoTypeException e) {
 						e.printStackTrace();
 					}
-					if(!ret.equals(Retour.CONTINUE)) return ret;
 				}
+				if(!ret.equals(Retour.CONTINUE)) return ret;
 			}
 		}
 		return ret;
+	}
+	
+	
+	public Carte repondre(Carte sacrifice){
+		return null;
 	}
 	
 	/**
@@ -159,10 +167,9 @@ public class Joueur implements SacrificeListener{
 		//Vérifier que la divinité n'ai pas déja utilisé son pouvoir 
 		Retour ret = Retour.CONTINUE;
 		if(!this.getGestionnaire_Cartes_Joueur().getDivinite().isCapaciteUsed()){
-			this.getGestionnaire_Cartes_Joueur().getDivinite().getCapacite().capacite(this.getGestionnaire_Cartes_Joueur().getDivinite(), this);
+			ret = this.getGestionnaire_Cartes_Joueur().getDivinite().getCapacite().capacite(this.getGestionnaire_Cartes_Joueur().getDivinite(), this);
 			this.getGestionnaire_Cartes_Joueur().getDivinite().setCapaciteUsed(true);
 		}
-		
 		return ret;
 	}
 	
