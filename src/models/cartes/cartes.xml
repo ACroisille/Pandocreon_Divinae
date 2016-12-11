@@ -1191,7 +1191,7 @@
 		<card template="carte-apocalypses" back="verso" capacite="apocalypse"/>
 		<!-- DIVINITES -->
 		<!-- brewalen -->
-		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_mystique" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_mystique" back="verso_special" capacite="brewalen">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Brewalen
@@ -1206,7 +1206,7 @@
 			</text>
 		</card>
 		<!-- drinded -->
-		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_symboles" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-nature_humain_symboles" back="verso_special" capacite="drinded">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Drinded
@@ -1221,7 +1221,7 @@
 			</text>
 		</card>
 		<!-- yarstur -->
-		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-mystique_symboles_chaos" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-jour, dogmes-divinites-mystique_symboles_chaos" back="verso_special" capacite="detruireCroyants">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Yarstur
@@ -1236,7 +1236,7 @@
 			</text>
 		</card>
 		<!-- killinstred -->
-		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_chaos" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_chaos" back="verso_special" capacite="obligerPoseSacrifice">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Killinstred
@@ -1251,7 +1251,7 @@
 			</text>
 		</card>
 		<!-- llewella -->
-		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_chaos" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_chaos" back="verso_special" capacite="obligerPoseSacrifice">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Llewella
@@ -1266,7 +1266,7 @@
 			</text>
 		</card>
 		<!-- pui-tara -->
-		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_symboles" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-nuit, dogmes-divinites-nature_mystique_symboles" back="verso_special" capacite="detruireCroyants">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Pui-Tara
@@ -1281,7 +1281,7 @@
 			</text>
 		</card>
 		<!-- gwenghelen -->
-		<card template="carte-divinites, origine-divinites-aube, dogmes-divinites-humain_mystique_symboles" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-aube, dogmes-divinites-humain_mystique_symboles" back="verso_special" capacite="gwenhelen">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Gwenghelen
@@ -1296,7 +1296,7 @@
 			</text>
 		</card>
 		<!-- shingva -->
-		<card template="carte-divinites, origine-divinites-aube, dogmes-divinites-humain_mystique_chaos" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-aube, dogmes-divinites-humain_mystique_chaos" back="verso_special" capacite="shingva">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Shingva
@@ -1311,7 +1311,7 @@
 			</text>
 		</card>
 		<!-- gorpa -->
-		<card template="carte-divinites, origine-divinites-crepuscule, dogmes-divinites-humain_symboles_chaos" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-crepuscule, dogmes-divinites-humain_symboles_chaos" back="verso_special" capacite="volerPointsAction">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Gorpa
@@ -1326,7 +1326,7 @@
 			</text>
 		</card>
 		<!-- romtec -->
-		<card template="carte-divinites, origine-divinites-crepuscule, dogmes-divinites-nature_humain_chaos" back="verso_special" capacite="osef">
+		<card template="carte-divinites, origine-divinites-crepuscule, dogmes-divinites-nature_humain_chaos" back="verso_special" capacite="romtec">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.25cm" y="3cm" width="4cm" height="16pt" rotation="90">
 				Romtec

@@ -9,7 +9,6 @@ public abstract class Carte{
 	protected String capaciteDesc;
 	protected Origine origine;
 	
-	protected boolean capaciteUsed;
 	protected Capacite capacite;
 	
 	protected Boolean immunite;
@@ -19,7 +18,6 @@ public abstract class Carte{
 		this.capaciteDesc = capaciteDesc;
 		this.origine = origine;
 		this.capacite = capacite;
-		this.capaciteUsed = false;
 		this.immunite = false;
 	}
 	

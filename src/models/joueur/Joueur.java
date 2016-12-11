@@ -51,11 +51,11 @@ public class Joueur implements SacrificeListener{
 	 * @return La carte joué ou null.
 	 * @throws NoTypeException 
 	 */
-	public Retour jouerCarteMain(Carte carte) throws NoTypeException{
-		if(gcj.isJouable(carte, this.pointsAction)){
+	public Retour jouerCarteMain(Carte carte,boolean self) throws NoTypeException{
+		if(gcj.isJouable(carte, this.pointsAction) || !self){
 			//Intention de jouer la carte
 			Retour ret = Retour.CONTINUE;
-			this.payerCoutCarte(carte);
+			if(self)this.payerCoutCarte(carte);
 			
 			ret = gcj.intentionJouerCarte(carte);
 				//Si le reour le l'intention est cancel, la carte est défaussé et l'opération de jouerCarteMain est arrêté
@@ -94,10 +94,10 @@ public class Joueur implements SacrificeListener{
 	 * @throws NoTypeException 
 	 */
 	public Retour sacrifierCarteChampsDeBataille(Carte carte,boolean self) throws NoTypeException{
-		if((gcj.isJouable(carte, this.pointsAction) || self == false) &&  gcj.isSacrifiable(carte)){
+		if((gcj.isJouable(carte, this.pointsAction) || !self) &&  gcj.isSacrifiable(carte)){
 			Retour ret = Retour.CONTINUE;
 			
-			if(self == true) this.payerCoutCarte(carte);
+			if(self) this.payerCoutCarte(carte);
 			//La carte est mise dans la pile de sacrifice
 			ret = gcj.intentionJouerCarte(carte);
 			
@@ -141,7 +141,7 @@ public class Joueur implements SacrificeListener{
 				Carte c = j.cardPeeker(j.getGestionnaire_Cartes_Joueur().getCartesReponse());
 				if(c != null){
 					try {
-						ret = j.jouerCarteMain(c);
+						ret = j.jouerCarteMain(c,true);
 					} catch (NoTypeException e) {
 						e.printStackTrace();
 					}
@@ -149,15 +149,21 @@ public class Joueur implements SacrificeListener{
 				}
 			}
 		}
-		
 		return ret;
 	}
 	
 	/**
 	 * Permet au joueur d'utiliser la capacité de sa divinité. 
 	 */
-	public void activerCapaciteDivinite(Carte carte){
+	public Retour activerCapaciteDivinite(){
+		//Vérifier que la divinité n'ai pas déja utilisé son pouvoir 
+		Retour ret = Retour.CONTINUE;
+		if(!this.getGestionnaire_Cartes_Joueur().getDivinite().isCapaciteUsed()){
+			this.getGestionnaire_Cartes_Joueur().getDivinite().getCapacite().capacite(this.getGestionnaire_Cartes_Joueur().getDivinite(), this);
+			this.getGestionnaire_Cartes_Joueur().getDivinite().setCapaciteUsed(true);
+		}
 		
+		return ret;
 	}
 	
 	public Carte cardPeeker(List<Carte> cartes){

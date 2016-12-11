@@ -75,7 +75,7 @@ public class JoueurReel extends Joueur{
 			if(carte != null){
 				//La carte est joué
 				try {
-					ret = super.jouerCarteMain(carte);
+					ret = super.jouerCarteMain(carte,true);
 					//if(carte instanceof Apocalypse) return false;
 				} catch (NoTypeException e) {
 					e.printStackTrace();

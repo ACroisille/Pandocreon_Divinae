@@ -486,6 +486,10 @@ public abstract class BuildCapacites {
 			}
 		});
 	
+		//--------------------------------------------------------------------
+		//DEUS EX-------------------------------------------------------------
+		//--------------------------------------------------------------------
+
 		capacites.put("colereDivine", new Capacite() {
 			
 			@Override
@@ -647,6 +651,130 @@ public abstract class BuildCapacites {
 			}
 		});
 		
+		
+		//--------------------------------------------------------------------
+		//DIVINITES-----------------------------------------------------------
+		//--------------------------------------------------------------------
+		
+		capacites.put("brewalen", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Retour ret = Retour.CONTINUE;
+				if(Partie.getLast() != null && (Partie.getLast() instanceof Apocalypse || Partie.getLast().getNom().equals("Martyr"))){
+					ret = Retour.CANCEL;
+				}
+				return ret;
+			}
+		});
+		
+		capacites.put("shingva", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				Joueur cible = user.joueurPeeker(joueurs);
+				Retour ret = Retour.CONTINUE;
+				Carte carteaSacrifier = null;
+				if(cible != null){
+					List<Carte> guides = cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille();
+					Iterator<Carte> it = guides.iterator();
+					while(it.hasNext()){
+						Carte c = it.next();
+						if(!((Guide_Spirituel)c).getDogmes().contains(Dogme.SYMBOLES) && !((Guide_Spirituel)c).getDogmes().contains(Dogme.NATURE)){
+							it.remove();
+						}
+					}
+					carteaSacrifier = cible.cardPeeker(guides);
+					if(carteaSacrifier != null){
+						try {
+							ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
+						} catch (NoTypeException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				return ret;
+			}
+		});
+
+		capacites.put("obligerPoseSacrifice", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				Joueur cible = user.joueurPeeker(joueurs);
+				Retour ret = Retour.CONTINUE;
+				if(cible != null){
+					for(int i=0;i<cible.getGestionnaire_Cartes_Joueur().getMain().size();i++){
+						if(cible.getGestionnaire_Cartes_Joueur().getMain().get(i) instanceof Apocalypse){
+							try {
+								ret = cible.jouerCarteMain(cible.getGestionnaire_Cartes_Joueur().getMain().get(i), false);
+							} catch (NoTypeException e) {
+								e.printStackTrace();
+							}
+						}
+						break;
+					}
+				}
+				return ret;
+			}
+		});
+		
+		capacites.put("drinded", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Retour ret = Retour.CONTINUE;
+				if(Partie.getLast() != null && Partie.getLast() instanceof Guide_Spirituel){
+					ret = Retour.CANCEL;
+				}
+				return ret;
+			}
+		});
+
+		capacites.put("detruireCroyants", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				List<Carte> table = new ArrayList<Carte>(Gestionnaire_cartes_partie.getTable());
+				Iterator<Carte> it = table.iterator();
+				while(it.hasNext()){
+					Carte c = it.next();
+					if(carte.getOrigine().equals(Origine.NUIT) && c.getOrigine() == Origine.JOUR){
+							Gestionnaire_cartes_partie.getTable().remove(c);
+					}
+					else if(carte.getOrigine().equals(Origine.JOUR) && c.getOrigine() == Origine.NEANT){
+						Gestionnaire_cartes_partie.getTable().remove(c);
+					}
+				}
+				return Retour.CONTINUE;
+			}
+		});
+		
+		capacites.put("gwenhelen", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				Set<Joueur> joueurs = BuildCapacites.getJoueursPartie(user);
+				Joueur cible = user.joueurPeeker(joueurs);
+				
+				if(cible != null){
+					user.getPointsAction().replace(Origine.NEANT, user.getPointsAction().get(Origine.NEANT) + cible.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille().size());
+				}
+				
+				return Retour.CONTINUE;
+			}
+		});
+		
+		capacites.put("romtec", new Capacite() {
+			
+			@Override
+			public Retour capacite(Carte carte, Joueur user) {
+				System.err.println("Romtec : not implemented yet !");
+				return null;
+			}
+		});
 		
 		return capacites;
 	}

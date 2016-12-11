@@ -63,7 +63,7 @@ public class StrategyNormal implements Strategy{
 			picked = this.selectionCarteMain(joueur, cartesJouables);
 			if(picked != null){
 				try {
-					ret = joueur.jouerCarteMain(picked);
+					ret = joueur.jouerCarteMain(picked,true);
 				} catch (NoTypeException e) {
 					e.printStackTrace();
 				}

@@ -30,7 +30,6 @@ public class Gestionnaire_Cartes_Joueur {
 	private List<Carte> champsDeBataille;
 	private Divinite divinite;
 	private Carte pilePose=null;
-	//private Carte pileSacrifice=null; //Ajouter listener dessus
 	
 	private Boolean sacrificeCroyant = true; 
 	private Boolean	sacrificeGuide = true;

@@ -9,16 +9,25 @@ import models.enums.Origine;
 public class Divinite extends Carte{
 	private String carteDesc;
 	private Set<Dogme> sesDogmes;
-	
+	private boolean capaciteUsed;
+
 	public Divinite(String nom, String carteDesc,String capaciteDesc, Origine origine,Set<Dogme> sesDogmes,Capacite capacite) {
 		super(nom, capaciteDesc, origine,capacite);
-		// TODO Auto-generated constructor stub
 		this.carteDesc = carteDesc;
 		this.sesDogmes = sesDogmes;
+		this.capaciteUsed = false;
 	}
 	
 	public Set<Dogme> getSesDogmes() {
 		return sesDogmes;
+	}
+	
+	public boolean isCapaciteUsed() {
+		return capaciteUsed;
+	}
+	
+	public void setCapaciteUsed(boolean capaciteUsed) {
+		this.capaciteUsed = capaciteUsed;
 	}
 	
 	@Override
