@@ -565,9 +565,11 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Carte guide = user.cardPeeker(user.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille());
-				if(guide != null) guide.setImmunite(true);
-				for(int i=0;i<((Guide_Spirituel)guide).getSesCroyants().size();i++){
-					((Guide_Spirituel)guide).getSesCroyants().get(i).setImmunite(true);
+				if(guide != null){
+					guide.setImmunite(true);
+					for(int i=0;i<((Guide_Spirituel)guide).getSesCroyants().size();i++){
+						((Guide_Spirituel)guide).getSesCroyants().get(i).setImmunite(true);
+					}
 				}
 				return Retour.CONTINUE;
 			}
