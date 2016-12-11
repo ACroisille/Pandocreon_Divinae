@@ -40,10 +40,12 @@ public class JoueurReel extends Joueur{
 		//Remplir main
 		this.phaseCompleterMain();
 		//Jouer carte action
-		System.out.println(Gestionnaire_cartes_partie.afficherCartesPartie());
+		System.out.println("Votre Divinité : " + this.gcj.getDivinite());
+
 		ret = this.phaseUtiliserDivinite();
 		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
 		
+		System.out.println(Gestionnaire_cartes_partie.afficherCartesPartie());
 		ret = this.phaseJouerCarteMain();
 		if(ret.equals(Retour.APOCALYPSE) || ret.equals(Retour.STOPTOUR)) return ret;
 		
@@ -56,7 +58,7 @@ public class JoueurReel extends Joueur{
 	}
 		
 	public void phaseDefausse(){
-		System.out.println("Souhaitez vous vous défausser d'une partie ou la totalité de votre main ?");
+		System.out.println("Souhaitez vous vous défausser d'une carte de votre main ?");
 		Carte carte = null;
 		do{
 			carte = cardPeeker(super.gcj.getMain());
@@ -74,7 +76,7 @@ public class JoueurReel extends Joueur{
 	public Retour phaseUtiliserDivinite(){
 		Retour ret = Retour.CONTINUE;
 		if(!this.gcj.getDivinite().isCapaciteUsed()){
-			System.out.println("Voulez vous activer la capacité de votre divinité ?");
+			System.out.println("Voulez vous activer la capacité de votre divinité ? (y/n)");
 			if(this.yesOrNo(scan)) ret = super.activerCapaciteDivinite();
 		}
 		return ret;

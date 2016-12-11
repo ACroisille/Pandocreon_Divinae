@@ -306,7 +306,7 @@ public abstract class BuildCapacites {
 					}
 				}
 				else if(carte instanceof Deus_Ex){
-					carteaActiver = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getChampsDeBataille());
+					carteaActiver = user.cardPeeker(user.getGestionnaire_Cartes_Joueur().getChampsDeBataille());
 					if(carteaActiver != null){
 						ret = carteaActiver.getCapacite().capacite(carteaActiver, user);
 					}
@@ -337,7 +337,7 @@ public abstract class BuildCapacites {
 				Iterator<Joueur> it = joueursSelect.iterator();
 				while(it.hasNext()){
 					Joueur j = it.next();
-					Carte carteaSacrifier = j.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
+					Carte carteaSacrifier = j.cardPeeker(j.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
 					if(carteaSacrifier != null){
 						try {
 							Retour ret = j.sacrifierCarteChampsDeBataille(carteaSacrifier,false);

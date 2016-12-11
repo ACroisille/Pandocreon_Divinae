@@ -23,7 +23,8 @@ public class Partie {
 	private static Set<Joueur> joueurs;
 	public static Stack<Carte> pileSacrifice;
 	private Gestionnaire_cartes_partie gcp = null;
-	private int numeroTour;
+	public static int numeroTour;
+	
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
 		Partie.joueurs = joueurs;
 		pileSacrifice = new Stack<Carte>();
@@ -34,7 +35,7 @@ public class Partie {
 		
 		//Distribution des divinites aux joueurs
 		this.distributionCartes(deck, divinites);
-		this.numeroTour = 0;
+		Partie.numeroTour = 1;
 		this.jouerPartie(true);
 	}
 	
@@ -45,7 +46,7 @@ public class Partie {
 	public void jouerPartie(boolean jouer){
 		while(jouer){
 			jouer = this.jouerTour();
-			numeroTour += 1;
+			Partie.numeroTour += 1;
 		}
 		System.out.println("Fin de partie");
 	}

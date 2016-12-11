@@ -1,12 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import exceptions.NoTypeException;
 import models.Partie;

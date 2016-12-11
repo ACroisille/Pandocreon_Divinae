@@ -913,7 +913,7 @@
 			<image id="nbr_trois" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- ascete -->
-		<card template="carte-guides, origine-nuit, dogmes-humain_symboles" back="verso" capacite="ascete">
+		<card template="carte-guides, origine-nuit, dogmes-humain_symboles" back="verso" capacite="osef">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Ascète
@@ -925,7 +925,7 @@
 			<image id="nbr_un" x="5.2cm" y="0.4cm"/>
 		</card>
 		<!-- devin -->
-		<card template="carte-guides, origine-neant, dogmes-nature_mystique" back="verso" capacite="osef">
+		<card template="carte-guides, origine-neant, dogmes-nature_mystique" back="verso" capacite="obligerSacrificeGuide">
 			<text font="DauphinPlain" size="16" color="#000000" align="center"
 			 x="1.2cm" y="5.5cm" width="4cm" height="16pt">
 				Devin
