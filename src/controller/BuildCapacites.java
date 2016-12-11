@@ -446,17 +446,20 @@ public abstract class BuildCapacites {
 					}
 				}
 				Joueur cible = user.joueurPeeker(joueurs);
-				for(int i=0;i<2;i++){
-					Carte select = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
-					try {
-						Retour ret = cible.sacrifierCarteChampsDeBataille(carte,false);
-						if(!ret.equals(Retour.CONTINUE)) return ret;
-					} catch (NoTypeException e) {
-						e.printStackTrace();
-					} catch (DependencyException e) {
-						e.printStackTrace();
+				if(cible != null){
+					for(int i=0;i<2;i++){
+						Carte select = user.cardPeeker(cible.getGestionnaire_Cartes_Joueur().getCroyantsChampsDeBataille());
+						try {
+							Retour ret = cible.sacrifierCarteChampsDeBataille(carte,false);
+							if(!ret.equals(Retour.CONTINUE)) return ret;
+						} catch (NoTypeException e) {
+							e.printStackTrace();
+						} catch (DependencyException e) {
+							e.printStackTrace();
+						}
 					}
 				}
+				
 				System.err.println("Capacité : ascete");
 				return Retour.CONTINUE;
 			}
