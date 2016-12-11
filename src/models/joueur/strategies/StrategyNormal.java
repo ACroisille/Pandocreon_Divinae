@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
+import exceptions.DependencyException;
 import exceptions.NoTypeException;
 import models.De_Cosmogonie;
 import models.Partie;
@@ -24,6 +25,7 @@ public class StrategyNormal implements Strategy{
 	@Override
 	public Retour jouer(Joueur joueur) {
 		System.err.println(joueur.toString());
+		
 		Retour ret = Retour.CONTINUE;
 		//Phase de défausse 
 		this.phaseDefausse(joueur);
@@ -53,15 +55,15 @@ public class StrategyNormal implements Strategy{
 		for(int i=0;i<joueur.getGestionnaire_Cartes_Joueur().getMain().size();i++){
 			if(!nePasDefausse.contains(joueur.getGestionnaire_Cartes_Joueur().getMain().get(i))) defausse.add(joueur.getGestionnaire_Cartes_Joueur().getMain().get(i));
 		}
-		System.out.println("DEFAUSSE : " + defausse.size());
+		//System.out.println("DEFAUSSE : " + defausse.size());
 		joueur.getGestionnaire_Cartes_Joueur().defausserMain(defausse);
 	}
 	
 	@Override
 	public void phaseCompleterMain(Joueur joueur){
 		if(joueur.getGestionnaire_Cartes_Joueur().getMain().size() < 7) joueur.getGestionnaire_Cartes_Joueur().remplirMain();
-		System.out.println("MAIN : " + joueur.getGestionnaire_Cartes_Joueur().getMain().size());
-		System.out.println("PIOCHE : " + Gestionnaire_cartes_partie.getPioche().size());
+		System.out.println("MAIN : " + joueur.getGestionnaire_Cartes_Joueur().getMain().size()+"\n");
+		//System.out.println("PIOCHE : " + Gestionnaire_cartes_partie.getPioche().size());
 	}
 	
 	@Override
@@ -72,7 +74,10 @@ public class StrategyNormal implements Strategy{
 			if(nom.equals("Shingva") || nom.equals("Llewella") || nom.equals("Gorpa") || nom.equals("Pui-Tara") || nom.equals("Yartsur")
 					|| nom.equals("Gwenhelen") || nom.equals("Killinstred") ){
 				int nb = (int) (Math.random() * 6 );
-				if(nb == 1) ret = joueur.activerCapaciteDivinite();
+				if(nb == 1){
+					System.err.println("Capacité divinité : " + nom + " activé !");
+					ret = joueur.activerCapaciteDivinite();
+				}
 			}
 		}
 		return ret;
@@ -80,7 +85,9 @@ public class StrategyNormal implements Strategy{
 	
 	@Override	
 	public Retour phaseJouerCarteMain(Joueur joueur){
+		System.out.println("Phase jouer carte main");
 		List<Carte> cartesJouables = joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getMain());
+		
 		Carte picked = null;
 		Retour ret = Retour.CONTINUE;
 		do{
@@ -109,6 +116,8 @@ public class StrategyNormal implements Strategy{
 				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0),true);
 			} catch (NoTypeException e) {
 				e.printStackTrace();
+			} catch (DependencyException e) {
+				e.printStackTrace();
 			}
 		}
 		else if(joueur.getGestionnaire_Cartes_Joueur().cartesJouables(joueur.getPointsAction(), joueur.getGestionnaire_Cartes_Joueur().getGuidesChampsDeBataille()).size() > 0){
@@ -116,6 +125,8 @@ public class StrategyNormal implements Strategy{
 			try {
 				ret = joueur.sacrifierCarteChampsDeBataille(cartesJouables.get(0),true);
 			} catch (NoTypeException e) {
+				e.printStackTrace();
+			} catch (DependencyException e) {
 				e.printStackTrace();
 			}
 		}
@@ -134,7 +145,7 @@ public class StrategyNormal implements Strategy{
 			else if(main.get(i) instanceof Guide_Spirituel && ((Guide_Spirituel)main.get(i)).croyantsDisponible().size() >= ((Guide_Spirituel)main.get(i)).getNombre()){
 				return main.get(i);
 			}
-			else if(main.get(i) instanceof Deus_Ex){
+			else if(main.get(i) instanceof Deus_Ex && main.get(i).getOrigine() != null){
 				boolean contain = false;
 				for(int j=0;j<main.size();j++){
 					if(main.get(j) instanceof Croyant || main.get(j) instanceof Guide_Spirituel) contain = true;

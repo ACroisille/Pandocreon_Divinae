@@ -12,6 +12,7 @@ import java.util.Set;
 import controller.Gestionnaire_Cartes_Joueur;
 import controller.Gestionnaire_cartes_partie;
 import controller.SacrificeListener;
+import exceptions.DependencyException;
 import exceptions.NoTypeException;
 import models.Partie;
 import models.cartes.Apocalypse;
@@ -69,13 +70,11 @@ public class Joueur implements SacrificeListener{
 				}
 				else if(carte instanceof Deus_Ex){
 					//Utilise la capacité de la carte
-					System.out.println("Une carte DeusEx a été posé, elle est sacrifié : ");
-					System.out.println(carte.toString());
+					System.err.println("Sacrifice de : " + carte.getNom());
 					ret = carte.getCapacite().capacite(carte, this);
 				}
 				else if(carte instanceof Apocalypse){
 					//Active une apocalypse
-					System.err.println("APOCALYPSE");
 					ret = carte.getCapacite().capacite(carte, this);
 				}
 				else throw new NoTypeException("La carte est de type DIVINITE ou est NULL.");
@@ -92,8 +91,9 @@ public class Joueur implements SacrificeListener{
 	 * Permet au joueur de sacrifier une des cartes qui se trouvant sur le champs de bataille.
 	 * @param indice L'indice de la carte devant lui.
 	 * @throws NoTypeException 
+	 * @throws DependencyException 
 	 */
-	public Retour sacrifierCarteChampsDeBataille(Carte carte,boolean self) throws NoTypeException{
+	public Retour sacrifierCarteChampsDeBataille(Carte carte,boolean self) throws DependencyException, NoTypeException{
 		if((gcj.isJouable(carte, this.pointsAction) || !self) &&  gcj.isSacrifiable(carte)){
 			Retour ret = Retour.CONTINUE;
 			
@@ -101,22 +101,21 @@ public class Joueur implements SacrificeListener{
 			//La carte est mise dans la pile de sacrifice
 			ret = gcj.intentionJouerCarte(carte);
 			
-			//Si le reour le l'intention est cancel, la carte est défaussé et l'opération de jouerCarteMain est arrêté
-			if(ret.equals(Retour.CONTINUE)){
-				if(carte instanceof Croyant){
-					 System.out.println("Sacrifice d'une carte croyant.");
-					 //Si la carte croyant était la dernière de son guide, le guide est défaussé.
-					 if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
-						 gcj.defausserChampsDeBataille(((Croyant)carte).getGuide());
-					 }
+			this.gcj.gererDependances(carte);
+			
+			for(int i=0;i<this.gcj.getGuidesChampsDeBataille().size();i++){
+				if(((Guide_Spirituel) this.gcj.getGuidesChampsDeBataille().get(i)).getSesCroyants().size() == 0){
+					throw new DependencyException("Un guide n'a pas de croyant mais est quand même sur le champs de bataille.");
 				}
-				else if(carte instanceof Guide_Spirituel){
-					System.out.println("Sacrifice d'une carte Guide Spirituel.");
-					//Si le guide possèdais des croyants, ils reviennent au centre de la table. 
-					gcj.defausserChampsDeBataille(carte);
+			}
+			for(int i=0;i<this.gcj.getCroyantsChampsDeBataille().size();i++){
+				if(((Croyant) this.gcj.getCroyantsChampsDeBataille().get(i)).getGuide() == null){
+					throw new DependencyException("Un croyant n'a pas de guide mais est quand même sur le champs de bataille.");
 				}
-				else throw new NoTypeException("La carte n'est pas de type CROYANT ou GUIDE_SPIRITUEL.");
+			}
+			if(ret.equals(Retour.CONTINUE)){	
 				//La capacité est activé
+				System.err.println("Sacrifice de : " + carte.getNom());
 				ret = carte.getCapacite().capacite(carte, this);
 			}
 			gcj.transfertCarteJouer(carte);
@@ -131,7 +130,6 @@ public class Joueur implements SacrificeListener{
 	@Override
 	public Retour enReponse(Carte sacrifice) {
 		Retour ret = Retour.CONTINUE;
-		System.err.println("EN REPONSE");
 		Set<Joueur> joueurs = new LinkedHashSet<Joueur>(Partie.getJoueurs());
 		joueurs.remove(this);
 		Iterator<Joueur> it = joueurs.iterator();
@@ -139,6 +137,7 @@ public class Joueur implements SacrificeListener{
 			Joueur j = it.next();
 			Carte c = j.repondre(sacrifice);
 			if(c != null){
+				System.err.println("EN REPONSE \n" + c.toString());
 				if(c instanceof Divinite){
 					ret = j.activerCapaciteDivinite();
 				}

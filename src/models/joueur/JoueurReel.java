@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
+import exceptions.DependencyException;
 import exceptions.NoTypeException;
 import models.Partie;
 import models.cartes.Apocalypse;
@@ -112,6 +113,8 @@ public class JoueurReel extends Joueur{
 				try {
 					ret = super.sacrifierCarteChampsDeBataille(carte,true);
 				} catch (NoTypeException e) {
+					e.printStackTrace();
+				} catch (DependencyException e) {
 					e.printStackTrace();
 				}
 			}

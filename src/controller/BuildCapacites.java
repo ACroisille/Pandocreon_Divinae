@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import exceptions.DependencyException;
 import exceptions.NoTypeException;
 import models.De_Cosmogonie;
 import models.Partie;
@@ -55,7 +56,7 @@ public abstract class BuildCapacites {
 						}
 					}
 				}
-				
+				System.err.println("Capacite : Apocalypse");
 				return Retour.APOCALYPSE;
 			}
 		});
@@ -65,6 +66,7 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				user.incrementerPointAction(carte.getOrigine());
+				System.err.println("Capacite : incrementerOrigine");
 				return Retour.CONTINUE;
 			}
 		});
@@ -88,8 +90,10 @@ public abstract class BuildCapacites {
 								!j.getGestionnaire_Cartes_Joueur().getDivinite().getSesDogmes().contains(Dogme.MYSTIQUE)) it.remove();
 					}
 				}
+				
 				Joueur cible = user.joueurPeeker(joueurs);
 				if(cible != null) cible.getGestionnaire_Cartes_Joueur().setSacrificeCroyant(false);
+				System.err.println("Capacite : empecherSacrificeCroyant " + cible);
 				return Retour.CONTINUE;
 			}
 		});
@@ -115,6 +119,7 @@ public abstract class BuildCapacites {
 				}
 				Joueur cible = user.joueurPeeker(joueurs);
 				if(cible != null) cible.getGestionnaire_Cartes_Joueur().setSacrificeGuide(false);
+				System.err.println("Capacite : empecherSacrificeGuide " + cible);
 				return Retour.CONTINUE;
 			}
 		});
@@ -135,6 +140,7 @@ public abstract class BuildCapacites {
 						if(c != null) user.getGestionnaire_Cartes_Joueur().addMain(carte);
 					}
 				}
+				System.err.println("Capacité : piocherCarte " + cible);
 				return Retour.CONTINUE;
 			}
 		});
@@ -156,9 +162,12 @@ public abstract class BuildCapacites {
 							ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
 						} catch (NoTypeException e) {
 							e.printStackTrace();
+						} catch (DependencyException e) {
+							e.printStackTrace();
 						}
 					}
 				}
+				System.err.println("Capacité : obligerSacrificeCroyant " + carteaSacrifier);
 				return ret;
 			}
 		});
@@ -199,11 +208,14 @@ public abstract class BuildCapacites {
 								ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
 							} catch (NoTypeException e) {
 								e.printStackTrace();
+							} catch (DependencyException e) {
+								e.printStackTrace();
 							}
 						}
 						
 					}
 				}
+				System.err.println("Capacité : obligerSacrificeGuide " + carteaSacrifier);
 				return ret;
 			}
 		});
@@ -222,6 +234,7 @@ public abstract class BuildCapacites {
 						cible.getGestionnaire_Cartes_Joueur().addMain(carteAFaireRevenir);
 					}
 				}
+				System.err.println("Capacité : faireRevenirGuideMain " + carteAFaireRevenir);
 				return Retour.CONTINUE;
 			}
 		});
@@ -236,6 +249,8 @@ public abstract class BuildCapacites {
 				while(it.hasNext()){
 					it.next().attribuerPointsAction(o);
 				}
+				System.err.println("Capacité : relancerDe " + o.name());
+				
 				return Retour.STOPTOUR;
 			}
 		});
@@ -254,6 +269,7 @@ public abstract class BuildCapacites {
 						cible.getGestionnaire_Cartes_Joueur().defausserChampsDeBataille(carteaDefausser);;
 					}
 				}
+				System.err.println("Capacité : DefausserGuide " + carteaDefausser);
 				return Retour.CONTINUE;
 			}
 		});
@@ -266,6 +282,7 @@ public abstract class BuildCapacites {
 				user.getPointsAction().replace(Origine.JOUR, user.getPointsAction().get(Origine.JOUR) + cible.getPointsAction().get(Origine.JOUR));
 				user.getPointsAction().replace(Origine.NUIT, user.getPointsAction().get(Origine.NUIT) + cible.getPointsAction().get(Origine.NUIT));
 				user.getPointsAction().replace(Origine.NEANT, user.getPointsAction().get(Origine.NEANT) + cible.getPointsAction().get(Origine.NEANT));
+				System.err.println("Capacité : volerPointsAction " + cible.toString());
 				return Retour.CONTINUE;
 			}
 		});
@@ -294,6 +311,8 @@ public abstract class BuildCapacites {
 						ret = carteaActiver.getCapacite().capacite(carteaActiver, user);
 					}
 				}
+				
+				System.err.println("Capacité : activerCapacite " + carteaActiver);
 				return ret;
 			}
 		});
@@ -325,9 +344,12 @@ public abstract class BuildCapacites {
 							if(!ret.equals(Retour.CONTINUE)) return ret;
 						} catch (NoTypeException e) {
 							e.printStackTrace();
+						} catch (DependencyException e) {
+							e.printStackTrace();
 						}
 					}
 				}
+				System.err.println("Capacite : obligerSacrificeCroyantAll ");
 				return Retour.CONTINUE;
 			}
 		});
@@ -342,6 +364,7 @@ public abstract class BuildCapacites {
 				while(it.hasNext()){
 					it.next().setIncrementerPointsAction(false);
 				}
+				System.err.println("Capacité : empecherIncrementationPointsActionAll");
 				return Retour.CONTINUE;
 			}
 		});
@@ -354,6 +377,7 @@ public abstract class BuildCapacites {
 				for(int i=0;i<((Guide_Spirituel)carte).getSesCroyants().size();i++){
 					user.incrementerPointAction(o);
 				}
+				System.err.println("Capacité : clerc");
 				return Retour.CONTINUE;
 			}
 		});
@@ -381,9 +405,12 @@ public abstract class BuildCapacites {
 							if(!ret.equals(Retour.CONTINUE)) return ret;
 						} catch (NoTypeException e) {
 							e.printStackTrace();
+						} catch (DependencyException e) {
+							e.printStackTrace();
 						}
 					}
 				}
+				System.err.println("Capacité : shaman");
 				return Retour.CONTINUE;
 			}
 		});
@@ -399,6 +426,7 @@ public abstract class BuildCapacites {
 						Gestionnaire_cartes_partie.getDefausse().add(c);
 					}
 				}
+				System.err.println("Capacité : Paladin");
 				return Retour.CONTINUE;
 			}
 		});
@@ -425,8 +453,11 @@ public abstract class BuildCapacites {
 						if(!ret.equals(Retour.CONTINUE)) return ret;
 					} catch (NoTypeException e) {
 						e.printStackTrace();
+					} catch (DependencyException e) {
+						e.printStackTrace();
 					}
 				}
+				System.err.println("Capacité : ascete");
 				return Retour.CONTINUE;
 			}
 		});
@@ -445,6 +476,7 @@ public abstract class BuildCapacites {
 					}
 					((Guide_Spirituel)c).libererCroyants();
 				}
+				System.out.println("Capacité : exorciste");
 				return Retour.CONTINUE;
 			}
 		});
@@ -468,6 +500,7 @@ public abstract class BuildCapacites {
 						Gestionnaire_cartes_partie.addDefausse(carte);
 					}
 				}
+				System.err.println("Capacité : tyran");
 				return Retour.CONTINUE;
 			}
 		});
@@ -482,6 +515,7 @@ public abstract class BuildCapacites {
 				while(it.hasNext()){
 					it.next().attribuerPointsAction(o);
 				}
+				System.err.println("Capacité : messie");
 				return Retour.STOPTOUR;
 			}
 		});
@@ -690,6 +724,8 @@ public abstract class BuildCapacites {
 						try {
 							ret = cible.sacrifierCarteChampsDeBataille(carteaSacrifier,false);
 						} catch (NoTypeException e) {
+							e.printStackTrace();
+						} catch (DependencyException e) {
 							e.printStackTrace();
 						}
 					}

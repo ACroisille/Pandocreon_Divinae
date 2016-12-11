@@ -107,13 +107,13 @@ public class Gestionnaire_Cartes_Joueur {
 		if(main.contains(carte)){
 			main.remove(carte);
 			if(carte instanceof Croyant || carte instanceof Guide_Spirituel){
-				System.out.println("Une carte"+carte.getClass().getName()+" a été ajouté à la pile de pose :");
+				System.out.println("\nUne carte"+carte.getClass().getName()+" a été ajouté à la pile de pose :");
 				System.out.println(carte.toString());
 				
 				this.pilePose = carte;
 			}
 			else if(carte instanceof Deus_Ex || carte instanceof Apocalypse){
-				System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
+				System.out.println("\nUne carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
 				System.out.println(carte.toString());
 				
 				//this.pileSacrifice = carte;
@@ -125,7 +125,7 @@ public class Gestionnaire_Cartes_Joueur {
 		}
 		else if(champsDeBataille.contains(carte)){
 			champsDeBataille.remove(carte);
-			System.out.println("Une carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
+			System.out.println("\nUne carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
 			System.out.println(carte.toString());
 			
 			Partie.pileSacrifice.push(carte);
@@ -256,7 +256,7 @@ public class Gestionnaire_Cartes_Joueur {
 	}
 	
 	public void defausserChampsDeBataille(Carte carte){
-		this.gererDependances(carte);
+		//this.gererDependances(carte);
 		this.champsDeBataille.remove(carte);
 		Gestionnaire_cartes_partie.addDefausse(carte);
 	}
@@ -278,7 +278,8 @@ public class Gestionnaire_Cartes_Joueur {
 			//Defausse le croyant, si il était le dernier son guide est défausser
 			if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
 				//Le croyant est le dernier, le guide est donc défaussé
-				this.champsDeBataille.remove(((Croyant)carte).getGuide());
+				//this.champsDeBataille.remove(((Croyant)carte).getGuide());
+				defausserChampsDeBataille(((Croyant)carte).getGuide());
 				//Même s'il ne reste qu'un seul croyant rattacher au guide, il faut le libèrer.
 				((Croyant)carte).getGuide().libererCroyants();
 			}

@@ -20,7 +20,7 @@ public class Launcher {
 		if(nomJoueurReel != null){
 			joueurs.add(new JoueurReel(nomJoueurReel));
 		}
-	
+		
 		for(int i=0;i<nombreJoueursVirtuels;i++){
 			joueurs.add(new JoueurVirtuel(i+1,new StrategyNormal()));
 		}
