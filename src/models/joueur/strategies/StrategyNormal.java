@@ -161,7 +161,6 @@ public class StrategyNormal implements Strategy{
 	public Carte repondre(Joueur joueur, Carte sacrifice) {
 		if(sacrifice.getOrigine() != null){
 			List<Carte> cartes = new ArrayList<Carte>(joueur.getGestionnaire_Cartes_Joueur().getCartesReponse());
-			
 			Iterator<Carte> it = cartes.iterator();
 			while(it.hasNext()){
 				if(!it.next().getNom().split(" ")[0].equals("Influence")){
