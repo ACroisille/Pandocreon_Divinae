@@ -21,4 +21,7 @@ public abstract class Religion extends Carte{
 		return nombre;
 	}
 	
+	public Set<Dogme> getSesDogmes() {
+		return sesDogmes;
+	}
 }

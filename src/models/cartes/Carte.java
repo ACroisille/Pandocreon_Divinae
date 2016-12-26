@@ -46,4 +46,8 @@ public abstract class Carte{
 	public void setImmunite(Boolean immunite) {
 		this.immunite = immunite;
 	}
+	
+	public String getCapaciteDesc() {
+		return capaciteDesc;
+	}
 }
