@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.swing.JFrame;
 
 import controller.BuildCartes;
+import models.De_Cosmogonie;
 import models.Partie;
 import models.cartes.Carte;
 import models.joueur.Joueur;
@@ -15,6 +16,7 @@ import models.joueur.JoueurReel;
 import models.joueur.JoueurVirtuel;
 import models.joueur.strategies.StrategyNormal;
 import views.CardView;
+import views.DiceView;
 
 
 public class Launcher {
@@ -36,13 +38,17 @@ public class Launcher {
 		
 		System.out.println("Chargement des cartes...");
 		ArrayList<Carte> deck = BuildCartes.getCartes();
-		
-		//Debug : carte affichage d'une carte de façon aléatoire
+		//Debug : carte affichage d'une carte de façon aléatoire et du dé
+		De_Cosmogonie.lancerDe();
 		Collections.shuffle(deck);
 		JFrame frame = new JFrame();
+		JFrame frame2=new JFrame();
 		frame.add(new CardView(deck.get(0)));
 		frame.pack();
 		frame.setVisible(true);
+		frame2.add(new DiceView());
+		frame2.pack();
+		frame2.setVisible(true);
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Voulez vous ajouter un joueur humain ? Si oui entrez son nom, sinon entrer (skip)");

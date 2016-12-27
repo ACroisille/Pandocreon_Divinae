@@ -17,6 +17,8 @@ import models.enums.Origine;
 import models.enums.Retour;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
+import views.CardView;
+import views.DiceView;
 
 public class Partie {
 	
@@ -37,6 +39,7 @@ public class Partie {
 		this.distributionCartes(deck, divinites);
 		Partie.numeroTour = 1;
 		this.jouerPartie(true);
+		
 	}
 	
 	/**
@@ -55,6 +58,8 @@ public class Partie {
 		System.err.println("Tour " + numeroTour);
 		//Lancer du dés de cosmogonie 
 		distribuerPointsAction(De_Cosmogonie.lancerDe());
+		DiceView vuede=new DiceView();
+		vuede.setVisible(true);
 		System.out.println("Distribution des points d'action.");
 		Iterator<Joueur> it = joueurs.iterator();
 		Retour next;
@@ -116,6 +121,8 @@ public class Partie {
 		while(it.hasNext()){
 			//Chaque joueur démarre avec 7 cartes
 			List<Carte> main =  new ArrayList<Carte>(deck.subList(0, 7));
+			CardView carte= new CardView(main.get(5));
+			carte.setVisible(true);
 			deck.removeAll(main);
 			(it.next()).attachGestionnaire_Cartes_Joueur(main, divinites.poll());
 		}
