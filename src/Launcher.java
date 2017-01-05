@@ -15,6 +15,7 @@ import models.joueur.JoueurReel;
 import models.joueur.JoueurVirtuel;
 import models.joueur.strategies.StrategyNormal;
 import views.CardView;
+import views.MainFrame;
 
 
 public class Launcher {
@@ -37,13 +38,6 @@ public class Launcher {
 		System.out.println("Chargement des cartes...");
 		ArrayList<Carte> deck = BuildCartes.getCartes();
 		
-		//Debug : carte affichage d'une carte de façon aléatoire
-		Collections.shuffle(deck);
-		JFrame frame = new JFrame();
-		frame.add(new CardView(deck.get(0)));
-		frame.pack();
-		frame.setVisible(true);
-		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Voulez vous ajouter un joueur humain ? Si oui entrez son nom, sinon entrer (skip)");
 		String input = null; 
@@ -64,6 +58,8 @@ public class Launcher {
 		System.out.println("Chargement des joueurs...");
 		Set<Joueur> joueurs =  Launcher.setJoueurs(nomHumain, index);
 		System.out.println("Lancement d'une partie...");
+		
+		
 		new Partie(joueurs, deck);
 		
 	}

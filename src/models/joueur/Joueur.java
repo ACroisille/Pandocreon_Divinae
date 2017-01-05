@@ -29,6 +29,7 @@ public class Joueur implements SacrificeListener{
 	protected Map<Origine,Integer> pointsAction;
 	protected Gestionnaire_Cartes_Joueur gcj = null;
 	protected boolean incrementerPointsAction = true;
+	
 	protected SacrificeListener sacrificeListener;
 	
 	public Joueur(){

@@ -33,6 +33,7 @@ public class Gestionnaire_Cartes_Joueur {
 	private Boolean	sacrificeGuide = true;
 	
 	private SacrificeListener sacrificeListener;
+	private JoueurCardUpdateListener joueurCardUpdateListener;
 	
 	public Gestionnaire_Cartes_Joueur(Joueur joueur, List<Carte> main,Divinite divinite){
 		this.joueur = joueur;
@@ -48,6 +49,8 @@ public class Gestionnaire_Cartes_Joueur {
 	 */
 	public void transfertCroyants(Guide_Spirituel guide,List<Carte> croyants){
 		this.champsDeBataille.addAll(croyants);
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
 		for(int i=0;i<croyants.size();i++){
 			Gestionnaire_cartes_partie.removeTable(croyants.get(i));
 		}
@@ -62,10 +65,14 @@ public class Gestionnaire_Cartes_Joueur {
 			this.main.remove(defausse.get(i));
 			Gestionnaire_cartes_partie.addDefausse(defausse.get(i));
 		}
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majMain(this.joueur, main);
 	}
 	
 	public void defausserMain(Carte carte){
 		this.main.remove(carte);
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majMain(this.joueur, main);
 		Gestionnaire_cartes_partie.addDefausse(carte);
 	}
 	
@@ -74,6 +81,8 @@ public class Gestionnaire_Cartes_Joueur {
 	 */
 	public void piocherCarte(){
 		this.main.add(Gestionnaire_cartes_partie.piocherCarte());
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majMain(this.joueur, main);
 	}
 	
 	/**
@@ -91,6 +100,8 @@ public class Gestionnaire_Cartes_Joueur {
 	 */
 	public Carte donnerCarte(){
 		if(main.size()>0){
+			//Mise à jours de l'UI
+			this.joueurCardUpdateListener.majMain(this.joueur, main);
 			return main.remove(0);
 		}
 		else return null;
@@ -104,6 +115,8 @@ public class Gestionnaire_Cartes_Joueur {
 		Retour ret = Retour.CONTINUE;
 		if(main.contains(carte)){
 			main.remove(carte);
+			//Mise à jours de l'UI
+			this.joueurCardUpdateListener.majMain(this.joueur, main);
 			if(carte instanceof Croyant || carte instanceof Guide_Spirituel){
 				System.out.println("\nUne carte"+carte.getClass().getName()+" a été ajouté à la pile de pose :");
 				System.out.println(carte.toString());
@@ -123,6 +136,8 @@ public class Gestionnaire_Cartes_Joueur {
 		}
 		else if(champsDeBataille.contains(carte)){
 			champsDeBataille.remove(carte);
+			//Mise à jours de l'UI
+			this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
 			System.out.println("\nUne carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
 			System.out.println(carte.toString());
 			
@@ -151,6 +166,8 @@ public class Gestionnaire_Cartes_Joueur {
 			else if(carte instanceof Guide_Spirituel){
 				//On ajoute la carte au champs de bataille.
 				this.champsDeBataille.add(this.pilePose);
+				//Mise à jours de l'UI
+				this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
 				//Le guide rassemble les croyants. 
 				this.transfertCroyants((Guide_Spirituel) carte, ((Guide_Spirituel)carte).ammenerCroyants());
 			}
@@ -251,11 +268,16 @@ public class Gestionnaire_Cartes_Joueur {
 			this.champsDeBataille.remove(carte);
 		}
 		this.main.add(carte);
+		
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majMain(this.joueur, main);
 	}
 	
 	public void defausserChampsDeBataille(Carte carte){
-		//this.gererDependances(carte);
+		this.gererDependances(carte);
 		this.champsDeBataille.remove(carte);
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
 		Gestionnaire_cartes_partie.addDefausse(carte);
 	}
 	
@@ -291,6 +313,8 @@ public class Gestionnaire_Cartes_Joueur {
 	 */
 	public void remettreSurTable(Croyant carte){
 		this.champsDeBataille.remove(carte);
+		//Mise à jours de l'UI
+		this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
 		Gestionnaire_cartes_partie.addTable(carte);
 	}
 	
@@ -315,10 +339,10 @@ public class Gestionnaire_Cartes_Joueur {
 	public void addSacrificeListener(SacrificeListener sacrificeListener){
 		this.sacrificeListener = sacrificeListener;
 	}
-	/*
-	public Carte getPileSacrifice() {
-		return pileSacrifice;
-	}*/
+	
+	public void addListCartesListener(JoueurCardUpdateListener joueurCardUpdateListener){
+		this.joueurCardUpdateListener = joueurCardUpdateListener;
+	}
 	
 	@Override
 	public String toString() {

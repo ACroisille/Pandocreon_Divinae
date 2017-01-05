@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import controller.Gestionnaire_cartes_partie;
+import controller.PartieCardUpdateListener;
 import exceptions.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;
@@ -17,6 +18,7 @@ import models.enums.Origine;
 import models.enums.Retour;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
+import views.MainFrame;
 
 public class Partie {
 	
@@ -25,7 +27,9 @@ public class Partie {
 	private Gestionnaire_cartes_partie gcp = null;
 	public static int numeroTour;
 	
+	
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
+		
 		Partie.joueurs = joueurs;
 		pileSacrifice = new Stack<Carte>();
 		Collections.shuffle(deck);
@@ -36,6 +40,8 @@ public class Partie {
 		//Distribution des divinites aux joueurs
 		this.distributionCartes(deck, divinites);
 		Partie.numeroTour = 1;
+		
+		new MainFrame(this);
 		this.jouerPartie(true);
 	}
 	

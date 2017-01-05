@@ -1,13 +1,19 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
@@ -20,12 +26,18 @@ import models.enums.Dogme;
 
 public class CardView extends JPanel {
 	
-	private int size = 300;
+	private int size = 200;
+	public static final String PATH = "ressources/";
 	
-
-	public CardView(Carte carte){
-		final String PATH = "ressources/";
-		this.setPreferredSize(new Dimension((size/3)*2, size));
+	public CardView(Carte carte,int size){
+		this.size = size;
+		
+		if(carte instanceof Divinite){
+			this.setPreferredSize(new Dimension(size,(size/3)*2));
+			this.setMaximumSize(new Dimension(size,(size/3)*2));
+		}
+		else this.setPreferredSize(new Dimension((size/3)*2, size));
+		
 		this.setLayout(new BorderLayout());
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new BorderLayout());
@@ -101,6 +113,7 @@ public class CardView extends JPanel {
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(southPanel, BorderLayout.SOUTH);
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setVisible(true);
 		
 	}

@@ -19,6 +19,8 @@ public class Gestionnaire_cartes_partie {
 	private static List<Croyant> pileTable;
 	private static Queue<Divinite> divinitesRestantes;
 	
+	private static PartieCardUpdateListener partieCardUpdateListener;
+	
 	public Gestionnaire_cartes_partie(List<Carte> deck,Queue<Divinite> divinitesRestantes){
 		Gestionnaire_cartes_partie.pioche = new LinkedList<Carte>(deck);
 		Gestionnaire_cartes_partie.defausse = new ArrayList<Carte>();
@@ -33,6 +35,7 @@ public class Gestionnaire_cartes_partie {
 	
 	public static void addTable(Carte carte){
 		Gestionnaire_cartes_partie.table.add((Croyant)carte);
+		partieCardUpdateListener.majTable(Gestionnaire_cartes_partie.table);
 	}
 	
 	public static void addPileTable(Carte carte){
@@ -45,6 +48,7 @@ public class Gestionnaire_cartes_partie {
 	public static void joinTable(){
 		Gestionnaire_cartes_partie.table.addAll(Gestionnaire_cartes_partie.pileTable);
 		Gestionnaire_cartes_partie.pileTable.clear();
+		partieCardUpdateListener.majTable(Gestionnaire_cartes_partie.table);
 	}
 	
 	public static List<Croyant> getTable(){
@@ -57,6 +61,7 @@ public class Gestionnaire_cartes_partie {
 	
 	public static void removeTable(Carte carte){
 		Gestionnaire_cartes_partie.table.remove(carte);
+		partieCardUpdateListener.majTable(Gestionnaire_cartes_partie.table);
 	}
 	
 	public static Carte piocherCarte(){
@@ -72,6 +77,10 @@ public class Gestionnaire_cartes_partie {
 	
 	public static List<Carte> getDefausse() {
 		return defausse;
+	}
+	
+	public static void addPartieCardUpdateListener(PartieCardUpdateListener partieCardUpdateListener){
+		Gestionnaire_cartes_partie.partieCardUpdateListener = partieCardUpdateListener;
 	}
 	
 	public static String afficherCartesPartie(){
