@@ -16,6 +16,7 @@ import models.joueur.JoueurVirtuel;
 import models.joueur.strategies.StrategyNormal;
 import views.CardView;
 import views.MainFrame;
+import views.DiceView;
 
 
 public class Launcher {

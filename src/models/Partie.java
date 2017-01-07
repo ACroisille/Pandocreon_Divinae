@@ -19,6 +19,8 @@ import models.enums.Retour;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
 import views.MainFrame;
+import views.CardView;
+import views.DiceView;
 
 public class Partie {
 	
