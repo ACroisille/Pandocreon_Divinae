@@ -11,7 +11,8 @@ import java.util.Set;
 
 import controller.Gestionnaire_Cartes_Joueur;
 import controller.Gestionnaire_cartes_partie;
-import controller.SacrificeListener;
+import controller.listeners.JoueurPointsActionsListener;
+import controller.listeners.SacrificeListener;
 import exceptions.DependencyException;
 import exceptions.NoTypeException;
 import models.Partie;
@@ -31,6 +32,7 @@ public class Joueur implements SacrificeListener{
 	protected boolean incrementerPointsAction = true;
 	
 	protected SacrificeListener sacrificeListener;
+	protected JoueurPointsActionsListener joueurPointsActionsListener;
 	
 	public Joueur(){
 		this.pointsAction = new HashMap<Origine,Integer>();
@@ -261,10 +263,12 @@ public class Joueur implements SacrificeListener{
 	public void incrementerPointAction(Origine origine){
 		//System.out.println("Incrémentation Point d'action : " + origine);
 		if(incrementerPointsAction) pointsAction.replace(origine, pointsAction.get(origine) + 1);
+		if(this.joueurPointsActionsListener != null) this.joueurPointsActionsListener.updatePointsActions(pointsAction);
 	}
 	
 	public void decrementerPointsAction(Origine origine){
 		pointsAction.replace(origine, pointsAction.get(origine) - 1);
+		if(this.joueurPointsActionsListener != null) this.joueurPointsActionsListener.updatePointsActions(pointsAction);
 	}
 	
 	public void setIncrementerPointsAction(boolean incrementerPointsAction) {
@@ -284,6 +288,9 @@ public class Joueur implements SacrificeListener{
 		return pointsAction;
 	}
 	
+	public void addJoueurPointsActionsListener(JoueurPointsActionsListener joueurPointsActionsListener){
+		this.joueurPointsActionsListener = joueurPointsActionsListener;
+	}
 	
 	@Override
 	public String toString() {

@@ -45,6 +45,10 @@ public class JoueurVirtuel extends Joueur{
 		return this.strategy.originePeeker();
 	}
 	
+	public Integer getNumJoueur() {
+		return numJoueur;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();

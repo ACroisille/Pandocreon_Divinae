@@ -4,18 +4,31 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
-import controller.JoueurCardUpdateListener;
+import com.sun.org.apache.xpath.internal.operations.Or;
+
+import controller.listeners.CardClickListener;
+import controller.listeners.JoueurCardPeekerListener;
+import controller.listeners.JoueurCardUpdateListener;
+import controller.listeners.JoueurPointsActionsListener;
 import models.cartes.Carte;
 import models.enums.Origine;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
+import sun.dc.pr.PathStroker;
+import views.selecter.CardPeeker;
+import views.selecter.YesOrNo;
 
-public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener{
+public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener, JoueurCardPeekerListener, JoueurPointsActionsListener{
 	
 	public JPanel champsDeBataillePanel;
 	public JPanel southPanel;
@@ -23,23 +36,33 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener{
 	public JPanel divinitePanel;
 	public JPanel mainPanel;
 	public JPanel infoPanel;
+	public JPanel phasePanel;
+	
+	public JButton passBtn;
+	public JLabel phaseInfoLbl;
 	
 	public JLabel pointsJour;
 	public JLabel pointsNuit;
 	public JLabel pointsNeant;
 	
+	
 	public JoueurReelUI(JoueurReel j, Dimension d){
 		
 		j.getGestionnaire_Cartes_Joueur().addListCartesListener(this);
+		j.addJoueurCardPeekerListener(this);
+		j.addJoueurPointsActionsListener(this);
 		
 		this.setLayout(new BorderLayout());
+		Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+		this.setBorder(loweredbevel);
 		
 		divinitePanel = new JPanel(new FlowLayout());
 		divinitePanel.add(new CardView(j.getGestionnaire_Cartes_Joueur().getDivinite(), Sizes.HUMAN_CARD_SIZE));
 		
 		mainPanel = new JPanel(new FlowLayout());
 		for(int i=0;i<j.getGestionnaire_Cartes_Joueur().getMain().size();i++){
-			mainPanel.add(new CardView(j.getGestionnaire_Cartes_Joueur().getMain().get(i),Sizes.HUMAN_CARD_SIZE));
+			CardView cardView = new CardView(j.getGestionnaire_Cartes_Joueur().getMain().get(i),Sizes.HUMAN_CARD_SIZE);
+			mainPanel.add(cardView);
 		}
 		
 		infoPanel = new JPanel(new GridLayout(3, 3));
@@ -62,8 +85,16 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener{
 		champsDeBataillePanel = new JPanel(new FlowLayout());
 		//champsDeBataillePanel.setPreferredSize(new Dimension(d.width, d.height/4));
 		
+		phasePanel = new JPanel();
+		phasePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		passBtn = new JButton("Passer");
+		phaseInfoLbl = new JLabel();
+		phasePanel.add(passBtn);
+		phasePanel.add(phaseInfoLbl);
+		
 		this.add(southPanel, BorderLayout.SOUTH);
-		this.add(champsDeBataillePanel,BorderLayout.NORTH);
+		this.add(champsDeBataillePanel,BorderLayout.CENTER);
+		this.add(phasePanel,BorderLayout.NORTH);
 	}
 
 	@Override
@@ -84,6 +115,110 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener{
 		}
 		this.champsDeBataillePanel.revalidate();
 		this.champsDeBataillePanel.repaint();
+	}
+	
+	@Override
+	public void afficherMessage(String msg) {
+		this.phaseInfoLbl.setText(msg);
+	}
+	
+	@Override
+	public Carte cardPeekerMain(List<Carte> cartes) {
+		this.passBtn.setVisible(true);
+		List<CardView> cardViews = new ArrayList<CardView>();
+		//Fait apparaitre en vert les cartes pouvant être joué
+		for(int i=0;i<this.mainPanel.getComponentCount();i++){
+			if(cartes.contains(((CardView)this.mainPanel.getComponent(i)).getCarte())){
+				((CardView)this.mainPanel.getComponent(i)).setSurbrillance(true);
+				cardViews.add(((CardView)this.mainPanel.getComponent(i)));
+			}
+		}
+		
+		Carte carte = selectCard(cardViews);
+		
+		//Remettre le bord des cartes en noir
+		for(int i=0;i<this.mainPanel.getComponentCount();i++){
+				((CardView)this.mainPanel.getComponent(i)).setSurbrillance(false);
+		}
+		
+		return carte;
+	}
+	
+	@Override
+	public Carte cardPeekerChampsDeBataille(List<Carte> cartes) {
+		this.passBtn.setVisible(true);
+		List<CardView> cardViews = new ArrayList<CardView>();
+		//Fait apparaitre en vert les cartes pouvant être joué
+		for(int i=0;i<this.champsDeBataillePanel.getComponentCount();i++){
+			if(cartes.contains(((CardView)this.champsDeBataillePanel.getComponent(i)).getCarte())){
+				((CardView)this.champsDeBataillePanel.getComponent(i)).setSurbrillance(true);
+				cardViews.add(((CardView)this.champsDeBataillePanel.getComponent(i)));
+			}
+		}
+		
+		Carte carte = selectCard(cardViews);
+		
+		//Remettre le bord des cartes en noir
+		for(int i=0;i<this.champsDeBataillePanel.getComponentCount();i++){
+			((CardView)this.champsDeBataillePanel.getComponent(i)).setSurbrillance(false);
+		}
+		
+		return carte;
+	}
+	
+	private Carte selectCard(List<CardView> cardViews){
+		CardPeeker peeker = new CardPeeker(cardViews, this.passBtn);
+		peeker.start();
+		synchronized (peeker) {
+			try {
+				peeker.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		//System.out.println(peeker.getClicked());
+		return peeker.getClicked();
+	}
+
+	
+	@Override
+	public boolean yesOrNo() {
+		this.passBtn.setVisible(false);
+		
+		JButton yes = new JButton("Oui");
+		JButton no = new JButton("Non");
+		
+		this.phasePanel.add(yes);
+		this.phasePanel.add(no);
+		this.phasePanel.revalidate();
+		this.phasePanel.repaint();
+		
+		YesOrNo yon = new YesOrNo(yes, no);
+		yon.start();
+		
+		synchronized (yon) {
+			try {
+				yon.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		this.phasePanel.remove(yes);
+		this.phasePanel.remove(no);
+		this.phasePanel.revalidate();
+		this.phasePanel.repaint();
+		
+		return yon.getYesOrNo();
+	}
+
+	@Override
+	public void updatePointsActions(Map<Origine, Integer> pointsAction) {
+		this.pointsJour.setText(pointsAction.get(Origine.JOUR).toString());
+		this.pointsNuit.setText(pointsAction.get(Origine.NUIT).toString());
+		this.pointsNeant.setText(pointsAction.get(Origine.NEANT).toString());
+		this.infoPanel.revalidate();
+		this.infoPanel.repaint();
 	}
 	
 }

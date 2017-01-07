@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import controller.listeners.PartieCardUpdateListener;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
 import models.cartes.Croyant;

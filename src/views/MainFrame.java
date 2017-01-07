@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 
 import com.sun.glass.ui.Size;
 
-import controller.JoueurCardUpdateListener;
-import controller.PartieCardUpdateListener;
+import controller.listeners.JoueurCardUpdateListener;
+import controller.listeners.PartieCardUpdateListener;
 import models.Partie;
 import models.cartes.Carte;
 import models.cartes.Croyant;

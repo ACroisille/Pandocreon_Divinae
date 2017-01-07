@@ -5,7 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
+import controller.listeners.JoueurCardUpdateListener;
+import controller.listeners.SacrificeListener;
 import exceptions.NoTypeException;
 import models.Partie;
 import models.cartes.Apocalypse;
@@ -298,10 +299,10 @@ public class Gestionnaire_Cartes_Joueur {
 			//Defausse le croyant, si il était le dernier son guide est défausser
 			if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
 				//Le croyant est le dernier, le guide est donc défaussé
-				//this.champsDeBataille.remove(((Croyant)carte).getGuide());
+				this.champsDeBataille.remove(((Croyant)carte).getGuide());
 				defausserChampsDeBataille(((Croyant)carte).getGuide());
 				//Même s'il ne reste qu'un seul croyant rattacher au guide, il faut le libèrer.
-				((Croyant)carte).getGuide().libererCroyants();
+				//if(((Croyant)carte).getGuide() != null) ((Croyant)carte).getGuide().libererCroyants();
 			}
 		}
 	}

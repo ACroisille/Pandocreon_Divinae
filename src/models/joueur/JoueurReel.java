@@ -9,6 +9,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 import controller.Gestionnaire_cartes_partie;
+import controller.listeners.JoueurCardPeekerListener;
+import controller.listeners.JoueurCardUpdateListener;
 import exceptions.DependencyException;
 import exceptions.NoTypeException;
 import models.Partie;
@@ -23,6 +25,8 @@ public class JoueurReel extends Joueur{
 	
 	private String nom;
 	private Scanner scan;
+	
+	private JoueurCardPeekerListener joueurCardPeekerListener;
 	
 	public JoueurReel(String nom){
 		super();
@@ -61,7 +65,11 @@ public class JoueurReel extends Joueur{
 		System.out.println("Souhaitez vous vous défausser d'une carte de votre main ?");
 		Carte carte = null;
 		do{
-			carte = cardPeeker(super.gcj.getMain());
+			
+			this.joueurCardPeekerListener.afficherMessage("Souhaitez vous vous défausser d'une carte de votre main ?");
+			carte = this.joueurCardPeekerListener.cardPeekerMain(super.gcj.getMain());
+			//carte = this.cardPeeker(super.gcj.getMain());
+			
 			if(carte != null){
 				super.getGestionnaire_Cartes_Joueur().defausserMain(carte);
 			}
@@ -70,25 +78,33 @@ public class JoueurReel extends Joueur{
 	
 	public void phaseCompleterMain(){
 		System.out.println("Souhaitez vous completer votre main ? (y/n)");
-		if(this.yesOrNo(this.scan)) super.gcj.remplirMain();
+		
+		this.joueurCardPeekerListener.afficherMessage("Souhaitez vous completer votre main ?");
+		
+		//if(this.yesOrNo(this.scan)) super.gcj.remplirMain();
+		if(this.joueurCardPeekerListener.yesOrNo()) super.gcj.remplirMain();
 	}
 	
 	public Retour phaseUtiliserDivinite(){
 		Retour ret = Retour.CONTINUE;
 		if(!this.gcj.getDivinite().isCapaciteUsed()){
 			System.out.println("Voulez vous activer la capacité de votre divinité ? (y/n)");
-			if(this.yesOrNo(scan)) ret = super.activerCapaciteDivinite();
+			this.joueurCardPeekerListener.afficherMessage("Voulez vous activer la capacité de votre divinité ?");
+			//if(this.yesOrNo(scan)) ret = super.activerCapaciteDivinite();
+			if(this.joueurCardPeekerListener.yesOrNo()) ret = super.activerCapaciteDivinite();
 		}
 		return ret;
 	}
 	
 	public Retour phaseJouerCarteMain(){
 		System.out.println("Souhaitez vous jouer une carte de votre main ?");
+		this.joueurCardPeekerListener.afficherMessage("Souhaitez vous jouer une carte de votre main ?");
+		
 		Carte carte = null;
 		Retour ret = Retour.CONTINUE;
 		do{
-			
-			carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()));
+			carte = this.joueurCardPeekerListener.cardPeekerMain(super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()));
+			//carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()));
 			if(carte != null){
 				//La carte est joué
 				try {
@@ -104,12 +120,16 @@ public class JoueurReel extends Joueur{
 
 	public Retour phaseSacrificeCarteChampsDeBataille(){
 		System.out.println("Souhaitez vous sacrifier une carte du champs de bataille ?");
+		this.joueurCardPeekerListener.afficherMessage("Souhaitez vous sacrifier une carte du champs de bataille ?");
+		
 		Carte carte = null;		
 		Retour ret = Retour.CONTINUE;
 		do{
-			System.out.println("Cartes sacrifiables sur le champs de bataille : ");
-			System.out.println(super.gcj.cartesJouablesToString(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille())));
-			carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille()));
+			//System.out.println("Cartes sacrifiables sur le champs de bataille : ");
+			//System.out.println(super.gcj.cartesJouablesToString(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille())));
+			//carte = cardPeeker(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille()));
+			carte = this.joueurCardPeekerListener.cardPeekerChampsDeBataille(super.gcj.cartesJouables(super.pointsAction,super.gcj.getChampsDeBataille()));
+			
 			if(carte != null){
 				//La carte est joué
 				try {
@@ -121,6 +141,7 @@ public class JoueurReel extends Joueur{
 				}
 			}
 		}while(carte != null && super.gcj.cartesJouables(super.pointsAction,super.gcj.getMain()).size() > 0 && ret.equals(Retour.CONTINUE));
+		this.joueurCardPeekerListener.afficherMessage("En attente des autres joueurs...");
 		return ret;
 	}
 	
@@ -194,6 +215,11 @@ public class JoueurReel extends Joueur{
 		else if(input.equals("n") || input.equals("N")) return false;
 		else return null;
 	}
+	
+	public void addJoueurCardPeekerListener(JoueurCardPeekerListener joueurCardPeekerListener){
+		this.joueurCardPeekerListener = joueurCardPeekerListener;
+	}
+	
 	
 	@Override
 	public String toString() {

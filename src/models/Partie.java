@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import controller.Gestionnaire_cartes_partie;
-import controller.PartieCardUpdateListener;
+import controller.listeners.PartieCardUpdateListener;
 import exceptions.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;

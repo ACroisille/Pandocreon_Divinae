@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import controller.listeners.CardClickListener;
 import models.cartes.Apocalypse;
 import models.cartes.Carte;
 import models.cartes.Croyant;
@@ -24,13 +27,19 @@ import models.cartes.Guide_Spirituel;
 import models.cartes.Religion;
 import models.enums.Dogme;
 
-public class CardView extends JPanel {
+public class CardView extends JPanel implements MouseListener{
 	
+	private Carte carte;
 	private int size = 200;
 	public static final String PATH = "ressources/";
+	private boolean surbrillance=false;
+	
+	private CardClickListener cardClickListener;
 	
 	public CardView(Carte carte,int size){
+		this.carte = carte;
 		this.size = size;
+		this.addMouseListener(this);
 		
 		if(carte instanceof Divinite){
 			this.setPreferredSize(new Dimension(size,(size/3)*2));
@@ -113,10 +122,54 @@ public class CardView extends JPanel {
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(southPanel, BorderLayout.SOUTH);
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
 		this.setVisible(true);
-		
 	}
 	
+	public Carte getCarte() {
+		return carte;
+	}
+	
+	public void setSurbrillance(boolean put){
+		if(put == true){
+			//On met la carte en surbrillance
+			this.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
+			
+		}
+		else{
+			//On enleve la surbrillance de la carte
+			this.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+		}
+	}
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(this.cardClickListener != null){
+			this.cardClickListener.cardClicked(this.carte);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
+	}
+
+	public void addCardClickListener(CardClickListener cardClickListener){
+		this.cardClickListener = cardClickListener;
+	}
 }

@@ -15,7 +15,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import controller.Gestionnaire_cartes_partie;
-import controller.PartieCardUpdateListener;
+import controller.listeners.PartieCardUpdateListener;
 import models.cartes.Croyant;
 import models.joueur.Joueur;
 import models.joueur.JoueurVirtuel;
