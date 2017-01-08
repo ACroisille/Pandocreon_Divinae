@@ -147,12 +147,14 @@ public class JoueurReel extends Joueur{
 	
 	@Override
 	public Carte repondre(Carte sacrifice) {
+		this.joueurCardPeekerListener.afficherMessage("Une carte a été ajouté à la pile de sacrifice. Souhaitez vous la contrer ?");
 		List<Carte> cartes = new ArrayList<Carte>(this.gcj.getCartesReponse());
 		if(!this.gcj.getDivinite().isCapaciteUsed()){
 			cartes.add(this.gcj.getDivinite());
 		}
-		Carte c = this.cardPeeker(cartes);
-		return c;
+		//Carte c = this.cardPeeker(cartes);
+		Carte carte = this.joueurCardPeekerListener.cardPeekerMain(cartes);
+		return carte;
 	}
 	
 	@Override

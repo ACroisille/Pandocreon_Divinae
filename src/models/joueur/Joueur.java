@@ -103,9 +103,7 @@ public class Joueur implements SacrificeListener{
 			if(self) this.payerCoutCarte(carte);
 			//La carte est mise dans la pile de sacrifice
 			ret = gcj.intentionJouerCarte(carte);
-			
-			this.gcj.gererDependances(carte);
-			
+						
 			for(int i=0;i<this.gcj.getGuidesChampsDeBataille().size();i++){
 				if(((Guide_Spirituel) this.gcj.getGuidesChampsDeBataille().get(i)).getSesCroyants().size() == 0){
 					throw new DependencyException("Un guide n'a pas de croyant mais est quand même sur le champs de bataille.");
@@ -129,29 +127,30 @@ public class Joueur implements SacrificeListener{
 	}
 	
 	
-	
 	@Override
 	public Retour enReponse(Carte sacrifice) {
 		Retour ret = Retour.CONTINUE;
-		Set<Joueur> joueurs = new LinkedHashSet<Joueur>(Partie.getJoueurs());
-		joueurs.remove(this);
-		Iterator<Joueur> it = joueurs.iterator();
-		while(it.hasNext()){
-			Joueur j = it.next();
-			Carte c = j.repondre(sacrifice);
-			if(c != null){
-				System.err.println("EN REPONSE \n" + c.toString());
-				if(c instanceof Divinite){
-					ret = j.activerCapaciteDivinite();
-				}
-				else{
-					try {
-						ret = j.jouerCarteMain(c,true);
-					} catch (NoTypeException e) {
-						e.printStackTrace();
+		if(Gestionnaire_cartes_partie.getPileSacrificeSize() < 2){
+			Set<Joueur> joueurs = new LinkedHashSet<Joueur>(Partie.getJoueurs());
+			joueurs.remove(this);
+			Iterator<Joueur> it = joueurs.iterator();
+			while(it.hasNext()){
+				Joueur j = it.next();
+				Carte c = j.repondre(sacrifice);
+				if(c != null){
+					System.err.println("EN REPONSE \n" + c.toString());
+					if(c instanceof Divinite){
+						ret = j.activerCapaciteDivinite();
 					}
+					else{
+						try {
+							ret = j.jouerCarteMain(c,true);
+						} catch (NoTypeException e) {
+							e.printStackTrace();
+						}
+					}
+					if(!ret.equals(Retour.CONTINUE)) return ret;
 				}
-				if(!ret.equals(Retour.CONTINUE)) return ret;
 			}
 		}
 		return ret;

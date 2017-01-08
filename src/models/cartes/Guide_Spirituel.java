@@ -50,6 +50,12 @@ public class Guide_Spirituel extends Religion{
 			this.sesCroyants.remove(i);
 		}
 	}
+	
+	public void removeCroyant(Croyant croyant){
+		croyant.setGuide(null);
+		this.sesCroyants.remove(croyant);
+	}
+	
 	/**
 	 * Permet d'obtenir la liste des croyants qu'un guide peut rammener à lui.
 	 * @return La liste de croyant.

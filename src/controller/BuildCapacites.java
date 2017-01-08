@@ -645,8 +645,8 @@ public abstract class BuildCapacites {
 				//Avec cette capacité le Joueur n'est pas celui qui appelle la capacité mais celui que l'on souhaite contrer.
 				Retour ret = Retour.CONTINUE;
 				Origine o = null;
-				if(Partie.getLast() != null){
-					o = Partie.getLast().getOrigine();
+				if(Gestionnaire_cartes_partie.getLast() != null){
+					o = Gestionnaire_cartes_partie.getLast().getOrigine();
 				}
 				
 				switch(carte.getNom()){
@@ -700,7 +700,7 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Retour ret = Retour.CONTINUE;
-				if(Partie.getLast() != null && (Partie.getLast() instanceof Apocalypse || Partie.getLast().getNom().equals("Martyr"))){
+				if(Gestionnaire_cartes_partie.getLast() != null && (Gestionnaire_cartes_partie.getLast() instanceof Apocalypse || Gestionnaire_cartes_partie.getLast().getNom().equals("Martyr"))){
 					ret = Retour.CANCEL;
 				}
 				return ret;
@@ -767,7 +767,7 @@ public abstract class BuildCapacites {
 			@Override
 			public Retour capacite(Carte carte, Joueur user) {
 				Retour ret = Retour.CONTINUE;
-				if(Partie.getLast() != null && Partie.getLast() instanceof Guide_Spirituel){
+				if(Gestionnaire_cartes_partie.getLast() != null && Gestionnaire_cartes_partie.getLast() instanceof Guide_Spirituel){
 					ret = Retour.CANCEL;
 				}
 				return ret;

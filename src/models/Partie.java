@@ -10,8 +10,6 @@ import java.util.Set;
 import java.util.Stack;
 
 import controller.Gestionnaire_cartes_partie;
-import controller.listeners.PartieCardUpdateListener;
-import exceptions.NoTypeException;
 import models.cartes.Carte;
 import models.cartes.Divinite;
 import models.enums.Origine;
@@ -25,7 +23,6 @@ import views.DiceView;
 public class Partie {
 	
 	private static Set<Joueur> joueurs;
-	public static Stack<Carte> pileSacrifice;
 	private Gestionnaire_cartes_partie gcp = null;
 	public static int numeroTour;
 	
@@ -33,7 +30,6 @@ public class Partie {
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
 		
 		Partie.joueurs = joueurs;
-		pileSacrifice = new Stack<Carte>();
 		Collections.shuffle(deck);
 		//Récupèration des divinitées dans la paquet de carte.
 		Queue<Divinite> divinites = this.getDivinites(deck);
@@ -186,16 +182,6 @@ public class Partie {
 			if(j.getGestionnaire_Cartes_Joueur().compterPointsPriere() == min && !j.equals(joueurMin)) return null;
 		}
 		return joueurMin;
-	}
-	
-	public static Carte getLast(){
-		Carte wanted = null;
-		if(Partie.pileSacrifice.size()>2){
-			Carte back = Partie.pileSacrifice.pop();
-			wanted = Partie.pileSacrifice.peek();
-			Partie.pileSacrifice.push(back);
-		}
-		return wanted;
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -123,6 +124,22 @@ public class CardView extends JPanel implements MouseListener{
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(southPanel, BorderLayout.SOUTH);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+		this.setVisible(true);
+	}
+	
+	public CardView(int size){
+		this.size = size;
+		int width, height;
+		width = (size/3)*2;
+		height = size;
+		this.setPreferredSize(new Dimension(width, height));
+		this.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		StringBuffer buf = new StringBuffer();
+		buf.append(PATH).append("back.jpg");
+		JPanel back = new ImagePanel(buf.toString(), width, height);
+		
+		this.add(back);
 		this.setVisible(true);
 	}
 	

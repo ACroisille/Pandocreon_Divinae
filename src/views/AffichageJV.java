@@ -37,11 +37,11 @@ public class AffichageJV extends JPanel implements JoueurCardUpdateListener{
 		this.divinite = new CardView(j.getGestionnaire_Cartes_Joueur().getDivinite(), Sizes.BOT_CARD_SIZE);
 		
 		champsDeBataille = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		/*
-		JScrollPane scrollPane = new JScrollPane(champsDeBataille);
+		
+		/*JScrollPane scrollPane = new JScrollPane(champsDeBataille);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrollPane.setMaximumSize(new Dimension(d.width/3, d.height/4));*/
+		scrollPane.setMaximumSize(new Dimension(d.width/4, d.height/4));*/
 		
 		this.add(this.divinite);
 		this.add(this.champsDeBataille);

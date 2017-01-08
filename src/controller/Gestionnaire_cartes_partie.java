@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 import controller.listeners.PartieCardUpdateListener;
+import models.Partie;
 import models.cartes.Carte;
 import models.cartes.ConstanteCarte;
 import models.cartes.Croyant;
@@ -19,6 +21,7 @@ public class Gestionnaire_cartes_partie {
 	private static List<Croyant> table;
 	private static List<Croyant> pileTable;
 	private static Queue<Divinite> divinitesRestantes;
+	private static Stack<Carte> pileSacrifice;
 	
 	private static PartieCardUpdateListener partieCardUpdateListener;
 	
@@ -28,10 +31,12 @@ public class Gestionnaire_cartes_partie {
 		Gestionnaire_cartes_partie.table = new ArrayList<Croyant>();
 		Gestionnaire_cartes_partie.pileTable = new ArrayList<Croyant>();
 		Gestionnaire_cartes_partie.divinitesRestantes = divinitesRestantes;
+		Gestionnaire_cartes_partie.pileSacrifice = new Stack<Carte>();
 	}
 	
 	public static void addDefausse(Carte carte){
 		Gestionnaire_cartes_partie.defausse.add(carte);
+		partieCardUpdateListener.majDefausse(carte);
 	}
 	
 	public static void addTable(Carte carte){
@@ -78,6 +83,44 @@ public class Gestionnaire_cartes_partie {
 	
 	public static List<Carte> getDefausse() {
 		return defausse;
+	}
+	
+	public static void addPileSacrifice(Carte sacrifice){
+		//Ajout d'une carte à la pile de sacrifices
+		Gestionnaire_cartes_partie.pileSacrifice.push(sacrifice);
+		partieCardUpdateListener.majSacrifice(sacrifice);
+	}
+	
+	public static Carte peekPileSacrifice(){
+		if(Gestionnaire_cartes_partie.pileSacrifice.size() > 0){
+			return Gestionnaire_cartes_partie.pileSacrifice.peek();
+		}else{
+			partieCardUpdateListener.majSacrifice(null);
+			return null;
+		}
+	}
+	
+	public static Carte popPileSacrifice(){
+		partieCardUpdateListener.majSacrifice(Gestionnaire_cartes_partie.peekPileSacrifice());
+		Carte c = Gestionnaire_cartes_partie.pileSacrifice.pop();
+		if(Gestionnaire_cartes_partie.pileSacrifice.size() == 0){
+			partieCardUpdateListener.majSacrifice(null);
+		}
+		return c;
+	}
+	
+	public static Carte getLast(){
+		Carte wanted = null;
+		if(Gestionnaire_cartes_partie.pileSacrifice.size()>=2){
+			Carte back = Gestionnaire_cartes_partie.pileSacrifice.pop();
+			wanted = Gestionnaire_cartes_partie.pileSacrifice.peek();
+			Gestionnaire_cartes_partie.pileSacrifice.push(back);
+		}
+		return wanted;
+	}
+	
+	public static int getPileSacrificeSize(){
+		return Gestionnaire_cartes_partie.pileSacrifice.size();
 	}
 	
 	public static void addPartieCardUpdateListener(PartieCardUpdateListener partieCardUpdateListener){

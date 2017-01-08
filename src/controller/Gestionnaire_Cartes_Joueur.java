@@ -129,20 +129,23 @@ public class Gestionnaire_Cartes_Joueur {
 				System.out.println(carte.toString());
 				
 				//this.pileSacrifice = carte;
-				Partie.pileSacrifice.push(carte);
+				Gestionnaire_cartes_partie.addPileSacrifice(carte);
 				
 				ret = this.sacrificeListener.enReponse(carte);
 			}
 			else throw new NoTypeException("La carte n'a pas de TYPE ou est NULL.");
 		}
 		else if(champsDeBataille.contains(carte)){
+			
 			champsDeBataille.remove(carte);
+			this.gererDependances(carte);
 			//Mise à jours de l'UI
 			this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
+			
 			System.out.println("\nUne carte "+carte.getClass().getName()+" a été ajouté à la pile de sacrifice :");
 			System.out.println(carte.toString());
 			
-			Partie.pileSacrifice.push(carte);
+			Gestionnaire_cartes_partie.addPileSacrifice(carte);
 			
 			ret = this.sacrificeListener.enReponse(carte);
 		}
@@ -174,9 +177,9 @@ public class Gestionnaire_Cartes_Joueur {
 			}
 			this.pilePose = null;
 		}
-		else if(carte.equals(Partie.pileSacrifice.peek())){
+		else if(carte.equals(Gestionnaire_cartes_partie.peekPileSacrifice())){
 			Gestionnaire_cartes_partie.addDefausse(carte);
-			Partie.pileSacrifice.pop();
+			Gestionnaire_cartes_partie.popPileSacrifice();
 		}		
 		else throw new NoTypeException("Il n'y a pas de carte dans la pile.");
 	}
@@ -300,10 +303,11 @@ public class Gestionnaire_Cartes_Joueur {
 			if(((Croyant)carte).getGuide().getSesCroyants().size() == 1){
 				//Le croyant est le dernier, le guide est donc défaussé
 				this.champsDeBataille.remove(((Croyant)carte).getGuide());
-				defausserChampsDeBataille(((Croyant)carte).getGuide());
-				//Même s'il ne reste qu'un seul croyant rattacher au guide, il faut le libèrer.
-				//if(((Croyant)carte).getGuide() != null) ((Croyant)carte).getGuide().libererCroyants();
+				//Mise à jours de l'UI
+				this.joueurCardUpdateListener.majChampsDeBataille(this.joueur, champsDeBataille);
+				Gestionnaire_cartes_partie.addDefausse(carte);				
 			}
+			((Croyant)carte).getGuide().removeCroyant(((Croyant)carte));
 		}
 	}
 	
