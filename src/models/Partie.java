@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.Stack;
 
 import controller.Gestionnaire_cartes_partie;
+import controller.listeners.PartieCardUpdateListener;
+import controller.listeners.PartieUpdateListener;
 import models.cartes.Carte;
 import models.cartes.Divinite;
 import models.enums.Origine;
@@ -26,6 +28,7 @@ public class Partie {
 	private Gestionnaire_cartes_partie gcp = null;
 	public static int numeroTour;
 	
+	private static PartieUpdateListener partieUpdateListener;
 	
 	public Partie(Set<Joueur> joueurs, ArrayList<Carte> deck){
 		
@@ -71,6 +74,7 @@ public class Partie {
 				Joueur joueurMax = Partie.getJoueurMax();
 				if(joueurMax != null){
 					System.err.println(joueurMax.toString() + " emporte la partie !");
+					partieUpdateListener.showMessageDialog(joueurMax.toString() + " emporte la partie !");
 					return false;
 				}else System.out.println("Joueurs à égalité, la partie continue !");
 			}
@@ -80,7 +84,9 @@ public class Partie {
 				Joueur joueurMin = Partie.getJoueurMin();
 				if(joueurMin != null){
 					System.err.println(joueurMin.toString() + " est éliminé de la partie !");
+					partieUpdateListener.showMessageDialog(joueurMin.toString() + " est éliminé de la partie !");
 					Partie.joueurs.remove(joueurMin);
+					partieUpdateListener.retirerJoueur(joueurMin);
 					this.clear();
 					return true;
 				}else System.out.println("Joueurs à égalité, personne n'est éliminé, la partie continue !");
@@ -202,4 +208,7 @@ public class Partie {
 		return joueurs;
 	}
 	
+	public static void addPartieUpdateListener(PartieUpdateListener partieUpdateListener){
+		Partie.partieUpdateListener = partieUpdateListener;
+	}
 }

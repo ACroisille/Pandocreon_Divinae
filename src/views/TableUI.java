@@ -68,6 +68,7 @@ public class TableUI extends JPanel implements PartieCardUpdateListener{
 		this.add(this.cartesSpeciales,BorderLayout.EAST);
 		
 		this.cartesTable = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.cartesTable.setBorder(this.createTitledBorder("Cartes au centre de la table"));
 		this.add(this.cartesTable, BorderLayout.CENTER);
 		
 		this.champsDeBataillePanel = new HashMap<JoueurVirtuel,AffichageJV>();
