@@ -189,4 +189,8 @@ public class CardView extends JPanel implements MouseListener{
 	public void addCardClickListener(CardClickListener cardClickListener){
 		this.cardClickListener = cardClickListener;
 	}
+	
+	public void removeCardClickListener(){
+		this.cardClickListener = null;
+	}
 }

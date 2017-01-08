@@ -31,8 +31,8 @@ public class MainFrame extends JFrame implements PartieUpdateListener{
 	
 	private Partie partie;
 	
-	private JoueurReelUI joueurReelUI;
-	private TableUI tableUI;
+	public JoueurReelUI joueurReelUI;
+	public TableUI tableUI;
 	
 	private Dimension screenSize;
 	

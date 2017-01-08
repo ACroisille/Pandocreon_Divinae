@@ -14,8 +14,10 @@ public class CardPeeker extends Thread implements CardClickListener,ActionListen
 	
 	private Carte clicked=null;
 	private boolean pass = false;
+	private List<CardView> cardViews;
 	
 	public CardPeeker(List<CardView> cardViews, JButton pass){
+		this.cardViews = cardViews;
 		for(int i=0;i<cardViews.size();i++){
 			cardViews.get(i).addCardClickListener(this);
 		}
@@ -44,6 +46,9 @@ public class CardPeeker extends Thread implements CardClickListener,ActionListen
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+		for(int i=0;i<cardViews.size();i++){
+			cardViews.get(i).removeCardClickListener();
 		}
 	}
 	

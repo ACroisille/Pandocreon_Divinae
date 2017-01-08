@@ -5,8 +5,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,6 +26,7 @@ import models.cartes.Carte;
 import models.enums.Origine;
 import models.joueur.Joueur;
 import models.joueur.JoueurReel;
+import models.joueur.JoueurVirtuel;
 import sun.dc.pr.PathStroker;
 import views.selecter.CardPeeker;
 import views.selecter.YesOrNo;
@@ -166,6 +169,45 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener, Jo
 		return carte;
 	}
 	
+	@Override
+	public Joueur joueurPeeker(Set<Joueur> joueurs) {
+		this.passBtn.setVisible(true);
+		
+		List<CardView> cardViews = new ArrayList<CardView>();
+		Iterator<Joueur> it = joueurs.iterator();
+		while(it.hasNext()){
+			Joueur j = it.next();
+			if(j instanceof JoueurReel){
+				cardViews.add((CardView) this.divinitePanel.getComponent(0));
+				((CardView) this.divinitePanel.getComponent(0)).setSurbrillance(true);
+			}
+			else if(j instanceof JoueurVirtuel){
+				cardViews.add(((MainFrame)this.getParent()).tableUI.champsDeBataillePanel.get((JoueurVirtuel)j).divinite);
+				((MainFrame)this.getParent()).tableUI.champsDeBataillePanel.get((JoueurVirtuel)j).divinite.setSurbrillance(true);
+			}
+		}
+		
+		Carte divinite = this.selectCard(cardViews);
+		Joueur elu = null;
+		//Si la divinité est null c'est que le joueur a cliqué sur passer
+		if(divinite != null){	
+			it = joueurs.iterator();
+			while(it.hasNext()){
+				Joueur j = it.next();
+				if(j.getGestionnaire_Cartes_Joueur().getDivinite().equals(divinite)){
+					elu = j;
+					break;
+				}
+			}
+		}
+		
+		for(int i=0;i<cardViews.size();i++){
+			cardViews.get(i).setSurbrillance(false);
+		}
+		
+		return elu;
+	}
+	
 	private Carte selectCard(List<CardView> cardViews){
 		CardPeeker peeker = new CardPeeker(cardViews, this.passBtn);
 		peeker.start();
@@ -220,5 +262,7 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener, Jo
 		this.infoPanel.revalidate();
 		this.infoPanel.repaint();
 	}
+
+	
 	
 }

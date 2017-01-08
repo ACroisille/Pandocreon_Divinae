@@ -173,7 +173,7 @@ public class JoueurReel extends Joueur{
 	
 	@Override
 	public Joueur joueurPeeker(Set<Joueur> joueurs) {
-		Iterator<Joueur> it = joueurs.iterator();
+		/*Iterator<Joueur> it = joueurs.iterator();
 		Joueur j = null;
 		do{
 			while(it.hasNext()){
@@ -185,7 +185,9 @@ public class JoueurReel extends Joueur{
 				j=null;
 			}
 		}while(j.equals(null));
-		return null;
+		return null;*/
+		this.joueurCardPeekerListener.afficherMessage("Quel joueur souhaitez vous prendre pour cible ? ");
+		return this.joueurCardPeekerListener.joueurPeeker(joueurs);
 	}
 	
 	@Override
