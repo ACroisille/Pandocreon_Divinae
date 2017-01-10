@@ -29,5 +29,13 @@ public class ImagePanel extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.drawImage(image, 0, 0, width, height, this);
+		g.dispose();
+		this.image.flush();
+	}
+	
+	public void dispose(){
+		this.image.flush();
+		this.image = null;
+		//System.err.println("Memory saved !");
 	}
 }

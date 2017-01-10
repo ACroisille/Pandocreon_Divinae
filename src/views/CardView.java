@@ -11,6 +11,9 @@ import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -37,9 +40,12 @@ public class CardView extends JPanel implements MouseListener{
 	
 	private CardClickListener cardClickListener;
 	
+	private Stack<ImagePanel> images;
+	
 	public CardView(Carte carte,int size){
 		this.carte = carte;
 		this.size = size;
+		this.images = new Stack<ImagePanel>();
 		this.addMouseListener(this);
 		
 		if(carte instanceof Divinite){
@@ -65,7 +71,8 @@ public class CardView extends JPanel implements MouseListener{
 				buf = new StringBuffer();
 				buf.append(PATH).append(it.next().getName()).append(".jpg");
 				//System.out.println(buf.toString());
-				dogmes.add(new ImagePanel(buf.toString(), size/12, size/12));
+				this.images.add(new ImagePanel(buf.toString(), size/12, size/12));
+				dogmes.add(this.images.peek());
 			}
 			northPanel.add(dogmes, BorderLayout.WEST);
 		}
@@ -73,7 +80,8 @@ public class CardView extends JPanel implements MouseListener{
 		if(carte.getOrigine() != null){
 			buf = new StringBuffer();
 			buf.append(PATH).append(carte.getOrigine().getOrigineName()).append(".jpg");
-			northPanel.add(new ImagePanel(buf.toString(), size/6, size/6),BorderLayout.EAST);
+			this.images.add(new ImagePanel(buf.toString(), size/6, size/6));
+			northPanel.add(this.images.peek(),BorderLayout.EAST);
 		}
 		
 		JPanel centerPanel = new JPanel();
@@ -110,7 +118,8 @@ public class CardView extends JPanel implements MouseListener{
 			}
 			buf = new StringBuffer();
 			buf.append(PATH).append(nbr).append(".jpg");
-			southPanel.add(new ImagePanel(buf.toString(), size/10, size/8), BorderLayout.EAST);
+			this.images.add(new ImagePanel(buf.toString(), size/10, size/8));
+			southPanel.add(this.images.peek(), BorderLayout.EAST);
 		}
 		String type = null;
 		if(carte instanceof Apocalypse) type = "Apocalypse";
@@ -151,7 +160,6 @@ public class CardView extends JPanel implements MouseListener{
 		if(put == true){
 			//On met la carte en surbrillance
 			this.setBorder(BorderFactory.createLineBorder(Color.GREEN,2,true));
-			
 		}
 		else{
 			//On enleve la surbrillance de la carte
@@ -192,5 +200,13 @@ public class CardView extends JPanel implements MouseListener{
 	
 	public void removeCardClickListener(){
 		this.cardClickListener = null;
+	}
+	
+	public void dispose(){
+		//System.err.println("Removing a cardview !");
+		Iterator<ImagePanel> it = this.images.iterator();
+		while(it.hasNext()){
+			it.next().dispose();
+		}
 	}
 }

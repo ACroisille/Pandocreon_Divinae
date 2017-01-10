@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
@@ -102,7 +103,13 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener, Jo
 
 	@Override
 	public void majMain(Joueur joueur, List<Carte> main) {
+		
+		for(int j=0;j<this.mainPanel.getComponentCount();j++){
+			((CardView)this.mainPanel.getComponent(j)).dispose();
+			
+		}
 		this.mainPanel.removeAll();
+		
 		for(int i=0;i<main.size();i++){
 			this.mainPanel.add(new CardView(main.get(i),Sizes.HUMAN_CARD_SIZE));
 		}
@@ -112,7 +119,12 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener, Jo
 
 	@Override
 	public void majChampsDeBataille(Joueur joueur, List<Carte> champsDeBataille) {
+		
+		for(int j=0;j<this.champsDeBataillePanel.getComponentCount();j++){
+			((CardView)this.champsDeBataillePanel.getComponent(j)).dispose();
+		}
 		this.champsDeBataillePanel.removeAll();
+		
 		for(int i=0;i<champsDeBataille.size();i++){
 			this.champsDeBataillePanel.add(new CardView(champsDeBataille.get(i), Sizes.HUMAN_CARD_SIZE));
 		}
@@ -182,8 +194,8 @@ public class JoueurReelUI extends JPanel implements JoueurCardUpdateListener, Jo
 				((CardView) this.divinitePanel.getComponent(0)).setSurbrillance(true);
 			}
 			else if(j instanceof JoueurVirtuel){
-				cardViews.add(((MainFrame)this.getParent()).tableUI.champsDeBataillePanel.get((JoueurVirtuel)j).divinite);
-				((MainFrame)this.getParent()).tableUI.champsDeBataillePanel.get((JoueurVirtuel)j).divinite.setSurbrillance(true);
+				cardViews.add(((MainFrame) SwingUtilities.getWindowAncestor(this)).tableUI.champsDeBataillePanel.get((JoueurVirtuel)j).divinite);
+				((MainFrame) SwingUtilities.getWindowAncestor(this)).tableUI.champsDeBataillePanel.get((JoueurVirtuel)j).divinite.setSurbrillance(true);
 			}
 		}
 		
