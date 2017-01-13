@@ -61,7 +61,9 @@ public class Partie {
 	private boolean jouerTour(){
 		System.err.println("Tour " + numeroTour);
 		//Lancer du dés de cosmogonie 
-		distribuerPointsAction(De_Cosmogonie.lancerDe());
+		Origine o = De_Cosmogonie.lancerDe();
+		this.partieUpdateListener.showMessageDialog("Tour numéros : " + Partie.numeroTour + " Origine : " + o.name());
+		distribuerPointsAction(o);
 		System.out.println("Distribution des points d'action.");
 		Iterator<Joueur> it = joueurs.iterator();
 		Retour next;
