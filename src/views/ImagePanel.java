@@ -30,7 +30,7 @@ public class ImagePanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		g.drawImage(image, 0, 0, width, height, this);
 		g.dispose();
-		this.image.flush();
+		if(this.image !=null) this.image.flush();
 	}
 	
 	public void dispose(){

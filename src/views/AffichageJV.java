@@ -60,7 +60,6 @@ public class AffichageJV extends JPanel implements JoueurCardUpdateListener{
 		}
 		this.champsDeBataille.removeAll();
 		
-		
 		for(int i=0;i<champsDeBataille.size();i++){
 			this.champsDeBataille.add(new CardView(champsDeBataille.get(i), Sizes.BOT_CARD_SIZE));
 		}
